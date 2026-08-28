@@ -2,26 +2,25 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#03130f">
-<title>Megha's Mehendi — Voice Assistant Helper</title>
+<meta name="viewport"
+      content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
+
+<title>Megha's Mehendi — Voice Assistant</title>
 
 <style>
 :root{
-  --bg:#020b08;
-  --bg2:#061812;
-  --panel:rgba(5,27,21,.72);
-  --panel2:rgba(3,20,15,.82);
-  --line:rgba(50,255,210,.18);
-  --line2:rgba(229,189,120,.28);
+  --bg:#031612;
+  --bg2:#06231b;
+  --panel:rgba(4,28,22,.82);
+  --panel2:rgba(2,20,16,.88);
+  --line:rgba(43,231,193,.18);
+  --lineGold:rgba(229,189,120,.32);
   --gold:#e5bd78;
-  --gold2:#f1d69a;
-  --teal:#19e6bd;
-  --teal2:#42ffd5;
-  --pink:#ef557e;
-  --text:#f7f2ea;
-  --muted:#a9b9b3;
-  --danger:#ff647e;
+  --teal:#22e6c0;
+  --teal2:#08a98d;
+  --rose:#ed6284;
+  --text:#f8f1e6;
+  --muted:#9eb5ad;
 }
 
 *{
@@ -29,341 +28,253 @@
   -webkit-tap-highlight-color:transparent;
 }
 
-html{
-  scroll-behavior:smooth;
+html,body{
+  width:100%;
+  height:100%;
+  margin:0;
+  overflow:hidden;
 }
 
 body{
-  margin:0;
-  min-height:100vh;
+  min-height:100dvh;
+  background:
+    radial-gradient(circle at 50% 18%,rgba(17,101,78,.32),transparent 38%),
+    radial-gradient(circle at 100% 75%,rgba(237,98,132,.08),transparent 30%),
+    linear-gradient(145deg,#03120f,#06251c 52%,#02100d);
   color:var(--text);
-  font-family:
-    Inter,
-    system-ui,
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    Arial,
-    sans-serif;
-
-  background:
-    radial-gradient(circle at 15% 5%,rgba(20,120,90,.22),transparent 25%),
-    radial-gradient(circle at 88% 12%,rgba(239,85,126,.13),transparent 25%),
-    radial-gradient(circle at 50% 55%,rgba(13,91,70,.18),transparent 34%),
-    linear-gradient(145deg,#020b08,#061812 48%,#020907);
-
-  overflow-x:hidden;
+  font-family:Arial,Helvetica,sans-serif;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:
+    max(8px,env(safe-area-inset-top))
+    10px
+    max(8px,env(safe-area-inset-bottom));
 }
 
-body:before{
-  content:"";
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  opacity:.35;
-
-  background:
-    radial-gradient(circle at 20% 30%,rgba(25,230,189,.12) 0 1px,transparent 2px),
-    radial-gradient(circle at 80% 70%,rgba(239,85,126,.12) 0 1px,transparent 2px);
-
-  background-size:75px 75px,95px 95px;
-}
-
-.page{
-  width:min(1050px,100%);
-  margin:auto;
-  padding:22px 18px 34px;
+/* MAIN */
+.app{
+  width:min(720px,100%);
+  height:min(100dvh - 16px,780px);
+  min-height:0;
   position:relative;
-}
-
-/* OUTER FRAME */
-
-.shell{
-  position:relative;
-  min-height:calc(100vh - 44px);
-  border:1px solid rgba(38,255,211,.28);
-  border-radius:34px;
-  padding:28px 28px 24px;
   overflow:hidden;
 
+  border:1px solid rgba(229,189,120,.25);
+  border-radius:28px;
+
   background:
-    linear-gradient(
-      145deg,
-      rgba(7,39,30,.76),
-      rgba(2,17,13,.9)
-    );
+    radial-gradient(circle at 50% 30%,rgba(25,121,95,.12),transparent 36%),
+    rgba(3,28,22,.90);
 
   box-shadow:
-    0 0 0 1px rgba(229,189,120,.05) inset,
-    0 30px 100px rgba(0,0,0,.45),
-    0 0 100px rgba(19,230,189,.04) inset;
+    0 25px 80px rgba(0,0,0,.48),
+    inset 0 0 80px rgba(18,211,172,.035);
 }
 
-.shell:before{
+/* subtle decorative circles */
+.app:before,
+.app:after{
   content:"";
   position:absolute;
-  width:440px;
-  height:440px;
-  left:-240px;
-  top:-180px;
-  border-radius:50%;
-  border:1px solid rgba(229,189,120,.12);
-  box-shadow:
-    0 0 0 35px rgba(229,189,120,.025),
-    0 0 0 75px rgba(229,189,120,.018);
   pointer-events:none;
+  border-radius:50%;
+  border:1px solid rgba(34,230,192,.08);
 }
 
-.shell:after{
-  content:"";
-  position:absolute;
-  width:380px;
-  height:380px;
-  right:-240px;
-  bottom:-230px;
-  border-radius:50%;
-  border:1px solid rgba(239,85,126,.16);
-  box-shadow:0 0 0 28px rgba(239,85,126,.025);
-  pointer-events:none;
+.app:before{
+  width:360px;
+  height:360px;
+  left:-230px;
+  top:-190px;
+  box-shadow:0 0 0 28px rgba(229,189,120,.025);
+}
+
+.app:after{
+  width:300px;
+  height:300px;
+  right:-220px;
+  bottom:-190px;
+}
+
+/* INNER */
+.inner{
+  position:relative;
+  z-index:2;
+  width:100%;
+  height:100%;
+  padding:14px 16px 12px;
+
+  display:flex;
+  flex-direction:column;
+  gap:7px;
 }
 
 /* TOP BADGES */
-
-.topBadges{
-  position:absolute;
-  top:28px;
-  left:28px;
-  right:28px;
+.topbar{
   display:flex;
   justify-content:space-between;
-  gap:14px;
-  z-index:5;
+  gap:8px;
 }
 
 .badge{
-  min-width:190px;
-  padding:11px 15px;
+  flex:1;
+  max-width:190px;
+  min-height:32px;
+
+  display:flex;
+  align-items:center;
+  gap:7px;
+
+  padding:6px 11px;
+
   border:1px solid var(--line);
-  border-radius:22px;
+  border-radius:999px;
 
-  background:rgba(1,17,13,.58);
-  backdrop-filter:blur(14px);
-  -webkit-backdrop-filter:blur(14px);
+  background:rgba(1,22,17,.65);
 
-  box-shadow:
-    0 0 25px rgba(25,230,189,.035),
-    inset 0 0 18px rgba(255,255,255,.015);
+  font-size:10px;
+  color:#d8eee8;
 }
 
-.badge.right{
-  border-color:rgba(239,85,126,.26);
-}
-
-.badgeIcon{
-  display:inline-grid;
-  width:34px;
-  height:34px;
-  place-items:center;
-  margin-right:8px;
-  vertical-align:middle;
-
-  border-radius:50%;
-  border:1px solid rgba(25,230,189,.25);
+.badge span{
   color:var(--teal);
-  font-size:17px;
-}
-
-.badge.right .badgeIcon{
-  color:var(--pink);
-  border-color:rgba(239,85,126,.25);
-}
-
-.badge strong{
-  display:inline-block;
-  vertical-align:middle;
   font-size:13px;
-  letter-spacing:.3px;
 }
 
-.badge small{
-  display:block;
-  margin-left:45px;
-  margin-top:-4px;
-  color:var(--muted);
-  font-size:11px;
+.badge.ai span{
+  color:var(--rose);
 }
 
-/* HEADER */
-
-.header{
-  text-align:center;
-  padding-top:24px;
-  position:relative;
-  z-index:2;
-}
-
-.brandMark{
-  width:68px;
-  height:68px;
-  margin:10px auto 8px;
-  display:grid;
-  place-items:center;
-
-  color:var(--gold);
-  font-size:42px;
-
-  filter:
-    drop-shadow(0 0 12px rgba(229,189,120,.16));
-}
-
+/* BRAND */
 .brand{
+  text-align:center;
+  margin-top:1px;
+}
+
+.brandIcon{
+  color:var(--gold);
+  font-size:22px;
+  line-height:1;
+  margin-bottom:3px;
+  text-shadow:0 0 16px rgba(229,189,120,.25);
+}
+
+.brandName{
   color:var(--gold);
   font-family:Georgia,serif;
-  font-size:28px;
-  letter-spacing:4px;
+  font-size:17px;
+  letter-spacing:3px;
 }
 
 .helper{
-  margin-top:12px;
+  margin-top:3px;
   color:var(--teal);
   font-weight:800;
-  font-size:14px;
-  letter-spacing:2.2px;
+  font-size:10px;
+  letter-spacing:1.7px;
 }
 
-.title{
-  margin:28px 0 10px;
-  font-family:Georgia,serif;
-  font-size:clamp(48px,8vw,82px);
-  line-height:.98;
-  letter-spacing:-2px;
+/* TITLE */
+.heading{
+  text-align:center;
+  margin:0;
+}
 
-  background:
-    linear-gradient(
-      100deg,
-      #27e5bd 5%,
-      #dce6df 48%,
-      #f15b80 94%
-    );
+.heading h1{
+  margin:3px 0 2px;
+  font-family:Georgia,serif;
+  font-size:clamp(34px,8vw,52px);
+  line-height:1;
+
+  background:linear-gradient(
+    100deg,
+    #31e5c4 5%,
+    #f5eee3 48%,
+    #ee6d8a 95%
+  );
 
   -webkit-background-clip:text;
   background-clip:text;
   color:transparent;
-
-  filter:drop-shadow(0 0 20px rgba(25,230,189,.08));
 }
 
-.subtitle{
-  max-width:680px;
-  margin:auto;
-  color:#bdc9c4;
-  font-size:17px;
-  line-height:1.65;
+.heading p{
+  max-width:570px;
+  margin:6px auto 0;
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.45;
 }
 
-/* LANGUAGE BAR */
-
-.languageBar{
-  margin:30px auto 0;
-  width:min(800px,100%);
+/* LANGUAGE */
+.languages{
+  width:100%;
   display:grid;
   grid-template-columns:1.35fr 1fr 1fr;
+  gap:5px;
 
-  padding:7px;
+  padding:4px;
 
-  border:1px solid rgba(25,230,189,.16);
-  border-radius:27px;
+  border:1px solid rgba(34,230,192,.15);
+  border-radius:18px;
 
-  background:
-    linear-gradient(
-      110deg,
-      rgba(1,28,21,.88),
-      rgba(2,15,12,.82)
-    );
-
-  box-shadow:
-    0 15px 45px rgba(0,0,0,.22),
-    inset 0 0 25px rgba(25,230,189,.025);
+  background:rgba(1,18,14,.72);
 }
 
 .lang{
-  position:relative;
-  border:0;
-  min-height:76px;
-  padding:10px 15px;
+  min-height:48px;
+
+  border:1px solid transparent;
+  border-radius:14px;
 
   background:transparent;
-  color:#dce4df;
-  border-radius:21px;
+  color:#dce8e3;
 
   cursor:pointer;
-  text-align:left;
+  text-align:center;
 
-  transition:
-    .25s ease;
-
-  display:flex;
-  align-items:center;
-  gap:12px;
+  font-weight:700;
 }
 
-.lang:hover{
-  background:rgba(25,230,189,.06);
+.lang .main{
+  display:block;
+  font-size:13px;
+}
+
+.lang .sub{
+  display:block;
+  margin-top:2px;
+  color:#80958e;
+  font-size:9px;
+  font-weight:500;
 }
 
 .lang.active{
-  border:1px solid rgba(25,230,189,.55);
-
+  border-color:rgba(34,230,192,.55);
   background:
     linear-gradient(
-      110deg,
-      rgba(5,92,71,.35),
-      rgba(4,42,32,.5)
+      135deg,
+      rgba(12,154,126,.24),
+      rgba(10,65,53,.35)
     );
-
-  box-shadow:
-    0 0 30px rgba(25,230,189,.08),
-    inset 0 0 18px rgba(25,230,189,.04);
+  box-shadow:inset 0 0 20px rgba(34,230,192,.04);
 }
 
-.langIcon{
-  width:40px;
-  height:40px;
-  flex:0 0 40px;
-
-  display:grid;
-  place-items:center;
-
-  border-radius:50%;
-  border:1px solid rgba(229,189,120,.23);
-
-  color:var(--gold);
-  font-size:19px;
-}
-
-.lang.active .langIcon{
+.lang.active .main{
   color:var(--teal);
-  border-color:rgba(25,230,189,.35);
 }
 
-.langText strong{
-  display:block;
-  font-size:17px;
+.lang.active .sub{
+  color:#a4cfc5;
 }
 
-.langText small{
-  display:block;
-  color:var(--muted);
-  margin-top:3px;
-  font-size:12px;
-}
-
-/* VOICE AREA */
-
+/* MIC AREA */
 .voiceArea{
   position:relative;
-  margin:48px auto 0;
-  min-height:390px;
+  flex:1;
+  min-height:145px;
+  max-height:230px;
 
   display:flex;
   flex-direction:column;
@@ -373,775 +284,453 @@ body:before{
   overflow:hidden;
 }
 
-.voiceArea:before{
-  content:"";
-  position:absolute;
-  width:650px;
-  height:250px;
-  left:50%;
-  top:120px;
-  transform:translateX(-50%);
-
-  background:
-    linear-gradient(
-      90deg,
-      transparent,
-      rgba(25,230,189,.06),
-      transparent
-    );
-
-  filter:blur(22px);
-}
-
-/* WAVEFORM */
-
 .wave{
   position:absolute;
-  left:50%;
-  top:164px;
-  transform:translateX(-50%);
-
-  width:min(930px,105%);
-  height:130px;
-
+  left:0;
+  right:0;
+  top:50%;
+  height:80px;
+  transform:translateY(-50%);
   display:flex;
-  justify-content:center;
   align-items:center;
-  gap:4px;
-
-  opacity:.72;
+  justify-content:center;
+  gap:3px;
+  opacity:.62;
   pointer-events:none;
 }
 
-.bar{
+.wave i{
   width:3px;
-  height:20px;
-  border-radius:5px;
+  height:var(--h);
+  border-radius:4px;
 
   background:linear-gradient(
-    180deg,
+    to bottom,
     var(--teal),
-    rgba(25,230,189,.15)
+    rgba(34,230,192,.05)
   );
 
-  box-shadow:0 0 9px rgba(25,230,189,.35);
+  opacity:.65;
 }
 
-.bar:nth-child(n+35){
+.wave i:nth-child(n+25){
   background:linear-gradient(
-    180deg,
-    var(--pink),
-    rgba(239,85,126,.15)
+    to bottom,
+    var(--rose),
+    rgba(237,98,132,.05)
   );
-  box-shadow:0 0 9px rgba(239,85,126,.3);
-}
-
-.voiceArea.listening .bar{
-  animation:wave 900ms ease-in-out infinite alternate;
-}
-
-@keyframes wave{
-  from{
-    transform:scaleY(.35);
-  }
-  to{
-    transform:scaleY(
-      calc(.8 + var(--h))
-    );
-  }
 }
 
 /* MIC */
-
 .micWrap{
   position:relative;
-  width:290px;
-  height:290px;
+  z-index:2;
+
+  width:126px;
+  height:126px;
 
   display:grid;
   place-items:center;
-
-  z-index:2;
 }
 
 .ring{
   position:absolute;
+  inset:0;
   border-radius:50%;
-  pointer-events:none;
-}
-
-.ring.r1{
-  width:290px;
-  height:290px;
-  border:1px solid rgba(25,230,189,.22);
+  border:1px solid rgba(34,230,192,.25);
 }
 
 .ring.r2{
-  width:250px;
-  height:250px;
-  border:1px solid rgba(25,230,189,.28);
-  box-shadow:0 0 30px rgba(25,230,189,.04);
+  inset:9px;
+  border-color:rgba(229,189,120,.48);
 }
 
 .ring.r3{
-  width:220px;
-  height:220px;
-  border:1px solid rgba(229,189,120,.55);
+  inset:18px;
+  border-color:rgba(237,98,132,.25);
 }
 
-.ring.r4{
-  width:180px;
-  height:180px;
-  border:1px solid rgba(239,85,126,.22);
-  box-shadow:
-    0 0 45px rgba(239,85,126,.06),
-    0 0 45px rgba(25,230,189,.06) inset;
-}
-
-.micButton{
-  position:relative;
-  z-index:5;
-
-  width:174px;
-  height:174px;
+.mic{
+  width:78px;
+  height:78px;
 
   border-radius:50%;
 
-  border:1px solid rgba(229,189,120,.6);
+  border:1px solid rgba(229,189,120,.45);
 
   background:
     radial-gradient(
-      circle at 40% 35%,
-      rgba(25,230,189,.12),
-      rgba(0,12,9,.92) 63%
+      circle at 35% 30%,
+      rgba(38,232,194,.25),
+      rgba(3,23,18,.96) 65%
     );
 
   color:white;
-
-  cursor:pointer;
+  font-size:34px;
 
   display:grid;
   place-items:center;
 
+  cursor:pointer;
+
   box-shadow:
-    0 0 0 8px rgba(25,230,189,.035),
-    0 0 45px rgba(25,230,189,.12),
-    0 0 45px rgba(239,85,126,.08) inset;
+    0 0 30px rgba(23,220,182,.10),
+    inset 0 0 22px rgba(237,98,132,.07);
 
-  transition:.25s ease;
+  transition:.2s ease;
 }
 
-.micButton:hover{
-  transform:scale(1.025);
+.mic:active{
+  transform:scale(.95);
 }
 
-.micButton:active{
-  transform:scale(.97);
+.voiceArea.listening .ring{
+  animation:ringPulse 1.4s ease-in-out infinite;
 }
 
-.micIcon{
-  font-size:65px;
-  line-height:1;
-  filter:drop-shadow(0 0 12px rgba(255,255,255,.14));
+.voiceArea.listening .ring.r2{
+  animation-delay:.15s;
 }
 
-.voiceArea.listening .micButton{
+.voiceArea.listening .ring.r3{
+  animation-delay:.3s;
+}
+
+.voiceArea.listening .mic{
   border-color:var(--teal);
   box-shadow:
-    0 0 0 10px rgba(25,230,189,.05),
-    0 0 55px rgba(25,230,189,.22),
-    0 0 50px rgba(239,85,126,.12) inset;
-}
-
-.voiceArea.listening .r1{
-  animation:ringPulse 1.5s infinite;
-}
-
-.voiceArea.listening .r2{
-  animation:ringPulse 1.5s .25s infinite;
-}
-
-.voiceArea.listening .r4{
-  animation:ringPulse 1.5s .5s infinite;
+    0 0 0 8px rgba(34,230,192,.05),
+    0 0 38px rgba(34,230,192,.25);
 }
 
 @keyframes ringPulse{
   50%{
-    transform:scale(1.07);
-    opacity:.42;
+    transform:scale(1.08);
+    opacity:.45;
   }
 }
 
 /* STATUS */
-
 .status{
   position:relative;
-  z-index:4;
+  z-index:3;
 
-  margin-top:20px;
-
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:10px;
-
-  color:var(--teal);
-  font-size:18px;
-  font-weight:800;
   text-align:center;
+  min-height:38px;
+
+  margin-top:-3px;
+}
+
+.statusMain{
+  font-size:15px;
+  font-weight:800;
+  color:var(--teal);
 }
 
 .statusDot{
-  width:13px;
-  height:13px;
+  display:inline-block;
+  width:9px;
+  height:9px;
+  margin-right:6px;
   border-radius:50%;
   background:var(--teal);
-  box-shadow:0 0 16px rgba(25,230,189,.8);
+  box-shadow:0 0 12px var(--teal);
 }
 
-.voiceArea.listening .statusDot{
-  animation:dotPulse .8s infinite alternate;
-}
-
-@keyframes dotPulse{
-  to{
-    transform:scale(1.35);
-    opacity:.55;
-  }
-}
-
-.hint{
-  position:relative;
-  z-index:4;
-  margin-top:7px;
-  color:#aebbb5;
-  font-size:14px;
+.statusSub{
+  margin-top:3px;
+  font-size:10px;
+  color:#8ea59e;
 }
 
 /* TRANSCRIPT */
+.transcriptPanel{
+  flex:0 0 auto;
 
-.transcriptCard{
-  position:relative;
-  z-index:4;
+  border:1px solid rgba(34,230,192,.20);
+  border-radius:20px;
 
-  margin-top:4px;
-  padding:24px;
-
-  border:1px solid rgba(25,230,189,.18);
-  border-radius:27px;
+  padding:10px;
 
   background:
     linear-gradient(
       145deg,
-      rgba(4,29,22,.82),
-      rgba(2,15,11,.78)
+      rgba(3,37,28,.80),
+      rgba(1,20,16,.88)
     );
-
-  box-shadow:
-    0 20px 60px rgba(0,0,0,.25),
-    inset 0 0 30px rgba(25,230,189,.025);
 }
 
-.transcriptHeader{
+.transcriptHead{
   display:flex;
-  justify-content:space-between;
   align-items:center;
-  gap:12px;
-  margin-bottom:16px;
+  justify-content:space-between;
+  gap:8px;
+
+  margin-bottom:7px;
 }
 
 .transcriptTitle{
   color:var(--teal);
-  font-size:20px;
+  font-size:14px;
   font-weight:800;
 }
 
-.liveBadge{
-  padding:7px 13px;
-  border:1px solid rgba(25,230,189,.25);
-  border-radius:999px;
-  color:var(--teal);
-  font-size:12px;
-  letter-spacing:.5px;
-}
+.live{
+  flex:none;
 
-.liveBadge.active{
-  box-shadow:0 0 18px rgba(25,230,189,.08);
+  padding:5px 10px;
+
+  border:1px solid rgba(34,230,192,.28);
+  border-radius:999px;
+
+  color:var(--teal);
+  font-size:9px;
+  letter-spacing:.7px;
 }
 
 .transcript{
-  min-height:150px;
-  max-height:330px;
-  overflow:auto;
+  height:76px;
+  overflow-y:auto;
 
-  padding:24px;
+  padding:10px 11px;
 
-  border:1px solid rgba(255,255,255,.09);
-  border-radius:20px;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:14px;
 
-  background:rgba(0,8,6,.48);
+  background:rgba(0,10,8,.62);
 
-  color:#dbe4df;
-  font-size:18px;
-  line-height:1.65;
+  color:var(--text);
+  font-size:13px;
+  line-height:1.45;
+
   text-align:left;
 
-  white-space:pre-wrap;
-  word-break:break-word;
+  scrollbar-width:thin;
 }
 
 .transcript.placeholder{
-  color:#71827b;
-  text-align:center;
-  display:grid;
-  place-items:center;
-}
-
-.transcript::-webkit-scrollbar{
-  width:5px;
-}
-
-.transcript::-webkit-scrollbar-thumb{
-  background:rgba(25,230,189,.22);
-  border-radius:10px;
+  color:#71837e;
 }
 
 /* ACTIONS */
-
 .actions{
   display:grid;
-  grid-template-columns:.75fr 1.7fr;
-  gap:12px;
-  margin-top:14px;
+  grid-template-columns:.7fr 1.5fr;
+  gap:7px;
+  margin-top:7px;
 }
 
 .action{
-  min-height:72px;
-  border-radius:19px;
+  min-height:48px;
 
-  border:1px solid rgba(229,189,120,.22);
+  border-radius:14px;
+  border:1px solid rgba(229,189,120,.25);
 
-  color:var(--text);
   background:rgba(255,255,255,.025);
 
+  color:var(--text);
+
   cursor:pointer;
-  transition:.25s ease;
 
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:12px;
-}
-
-.action:hover{
-  transform:translateY(-2px);
-}
-
-.actionIcon{
-  font-size:25px;
-}
-
-.action strong{
-  font-size:17px;
+  font-weight:800;
+  font-size:13px;
 }
 
 .action small{
   display:block;
-  color:#9eaca6;
-  margin-top:3px;
+  margin-top:2px;
+  color:#82948f;
+  font-size:8px;
+  font-weight:500;
 }
 
 .action.send{
-  border-color:rgba(25,230,189,.4);
+  border-color:rgba(34,230,192,.38);
 
   background:
     linear-gradient(
-      105deg,
-      rgba(11,178,139,.88),
-      rgba(239,85,126,.88)
+      100deg,
+      #087e65,
+      #179e86 42%,
+      #a65368
     );
 
   box-shadow:
-    0 10px 35px rgba(25,230,189,.09),
-    0 10px 35px rgba(239,85,126,.07);
+    0 8px 25px rgba(16,172,143,.12);
 }
 
-.action.send:hover{
-  box-shadow:
-    0 12px 42px rgba(25,230,189,.16),
-    0 12px 42px rgba(239,85,126,.11);
+.action:active{
+  transform:scale(.98);
 }
 
-.action:disabled{
-  opacity:.5;
-  cursor:not-allowed;
-  transform:none;
-}
-
-/* FEATURE CARDS */
-
+/* FEATURES */
 .features{
   display:grid;
   grid-template-columns:repeat(4,1fr);
-  gap:12px;
-  margin-top:20px;
+  gap:5px;
 }
 
 .feature{
-  min-height:130px;
-  padding:22px 12px;
-
-  text-align:center;
-
-  border:1px solid rgba(25,230,189,.12);
-  border-radius:22px;
-
-  background:rgba(1,15,11,.55);
+  min-height:44px;
 
   display:flex;
   flex-direction:column;
   justify-content:center;
   align-items:center;
 
-  transition:.25s ease;
-}
+  padding:5px 3px;
 
-.feature:hover{
-  border-color:rgba(25,230,189,.27);
-  transform:translateY(-2px);
-}
+  border:1px solid rgba(34,230,192,.10);
+  border-radius:13px;
 
-.featureIcon{
-  font-size:28px;
-  margin-bottom:12px;
-}
+  background:rgba(1,18,14,.54);
 
-.feature:nth-child(1) .featureIcon,
-.feature:nth-child(2) .featureIcon,
-.feature:nth-child(4) .featureIcon{
-  color:var(--teal);
-}
-
-.feature:nth-child(3) .featureIcon{
-  color:var(--pink);
+  text-align:center;
 }
 
 .feature strong{
   color:var(--teal);
-  font-size:15px;
+  font-size:9px;
+}
+
+.feature span{
+  margin-top:2px;
+  color:#778b85;
+  font-size:7px;
 }
 
 .feature:nth-child(3) strong{
-  color:var(--pink);
+  color:var(--rose);
 }
 
-.feature small{
-  color:#94a49d;
-  margin-top:5px;
-  font-size:12px;
+.feature:nth-child(4) strong{
+  color:#9be7d8;
 }
 
-/* FOOTER NOTE */
+/* NOTE */
+.note{
+  flex:0 0 auto;
 
-.privacy{
-  width:min(680px,100%);
-  margin:20px auto 0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
 
-  padding:14px 18px;
+  min-height:25px;
+
+  padding:4px 8px;
 
   border:1px solid rgba(229,189,120,.12);
   border-radius:999px;
 
-  color:#8f9e98;
+  color:#788c85;
+  font-size:8px;
   text-align:center;
-  font-size:12px;
-
-  background:rgba(0,8,6,.32);
 }
 
-.privacy span{
-  margin-right:7px;
+.note span{
   color:var(--gold);
 }
 
-/* ERROR */
-
-.error{
-  color:var(--danger)!important;
-}
-
-.toast{
-  position:fixed;
-  left:50%;
-  bottom:24px;
-  transform:translate(-50%,20px);
-
-  max-width:min(500px,calc(100% - 30px));
-
-  padding:13px 18px;
-
-  border:1px solid rgba(25,230,189,.25);
-  border-radius:15px;
-
-  background:rgba(2,17,13,.94);
-  color:#eaf2ee;
-
-  box-shadow:0 20px 50px rgba(0,0,0,.4);
-
-  opacity:0;
-  pointer-events:none;
-
-  transition:.3s ease;
-  z-index:100;
-}
-
-.toast.show{
-  opacity:1;
-  transform:translate(-50%,0);
-}
-
-/* MOBILE */
-
-@media(max-width:760px){
-
-  .page{
-    padding:0;
+/* DESKTOP */
+@media(min-width:600px){
+  .inner{
+    padding:17px 24px 14px;
+    gap:9px;
   }
 
-  .shell{
-    min-height:100vh;
-    border-radius:0;
-    border-left:1px solid rgba(38,255,211,.2);
-    border-right:1px solid rgba(38,255,211,.2);
-    padding:22px 15px 22px;
-  }
-
-  .topBadges{
-    position:relative;
-    top:auto;
-    left:auto;
-    right:auto;
-    margin-bottom:8px;
-  }
-
-  .badge{
-    min-width:0;
-    flex:1;
-    padding:8px 10px;
-  }
-
-  .badgeIcon{
-    width:30px;
-    height:30px;
-  }
-
-  .badge strong{
-    font-size:10px;
-  }
-
-  .badge small{
-    margin-left:39px;
-    font-size:9px;
-  }
-
-  .header{
-    padding-top:0;
-  }
-
-  .brandMark{
-    width:54px;
-    height:54px;
-    font-size:34px;
-  }
-
-  .brand{
+  .brandName{
     font-size:20px;
-    letter-spacing:3px;
   }
 
-  .helper{
-    font-size:11px;
-    letter-spacing:1.7px;
+  .heading h1{
+    font-size:54px;
   }
 
-  .title{
-    margin-top:20px;
-    font-size:51px;
-    letter-spacing:-1.5px;
-  }
-
-  .subtitle{
-    font-size:14px;
-    line-height:1.55;
-    padding:0 10px;
-  }
-
-  .languageBar{
-    grid-template-columns:1.3fr 1fr 1fr;
-    padding:5px;
-    border-radius:22px;
-  }
-
-  .lang{
-    min-height:67px;
-    padding:7px 6px;
-    gap:6px;
-    justify-content:center;
-  }
-
-  .langIcon{
-    width:32px;
-    height:32px;
-    flex-basis:32px;
-    font-size:15px;
-  }
-
-  .langText strong{
-    font-size:14px;
-  }
-
-  .langText small{
-    font-size:9px;
-  }
-
-  .voiceArea{
-    min-height:350px;
-    margin-top:28px;
-  }
-
-  .micWrap{
-    width:260px;
-    height:260px;
-  }
-
-  .ring.r1{
-    width:260px;
-    height:260px;
-  }
-
-  .ring.r2{
-    width:225px;
-    height:225px;
-  }
-
-  .ring.r3{
-    width:198px;
-    height:198px;
-  }
-
-  .ring.r4{
-    width:165px;
-    height:165px;
-  }
-
-  .micButton{
-    width:145px;
-    height:145px;
-  }
-
-  .micIcon{
-    font-size:53px;
-  }
-
-  .wave{
-    top:155px;
-    height:110px;
-    gap:3px;
-    opacity:.55;
-  }
-
-  .bar{
-    width:2px;
-  }
-
-  .status{
-    margin-top:12px;
-    font-size:16px;
-  }
-
-  .hint{
-    font-size:12px;
-  }
-
-  .transcriptCard{
-    padding:16px;
-    border-radius:23px;
-  }
-
-  .transcriptTitle{
-    font-size:17px;
-  }
-
-  .transcript{
-    min-height:135px;
-    max-height:280px;
-    padding:18px;
-    font-size:16px;
-  }
-
-  .actions{
-    grid-template-columns:.7fr 1.5fr;
-  }
-
-  .action{
-    min-height:64px;
-    border-radius:17px;
-  }
-
-  .action strong{
-    font-size:14px;
-  }
-
-  .action small{
-    font-size:9px;
-  }
-
-  .features{
-    grid-template-columns:1fr 1fr;
-  }
-
-  .feature{
-    min-height:115px;
-  }
-
-  .featureIcon{
-    font-size:24px;
-  }
-
-  .feature strong{
+  .heading p{
     font-size:13px;
   }
 
-  .privacy{
-    border-radius:20px;
-    line-height:1.5;
+  .voiceArea{
+    min-height:165px;
+  }
+
+  .transcript{
+    height:82px;
+  }
+
+  .feature{
+    min-height:48px;
   }
 }
 
-@media(max-width:390px){
-
-  .title{
-    font-size:45px;
+/* SMALL PHONES */
+@media(max-height:700px){
+  .inner{
+    padding-top:8px;
+    padding-bottom:7px;
+    gap:4px;
   }
 
-  .langText small{
-    display:none;
+  .brandIcon{
+    font-size:17px;
   }
 
-  .langText strong{
+  .brandName{
+    font-size:14px;
+  }
+
+  .helper{
+    font-size:8px;
+  }
+
+  .heading h1{
+    font-size:34px;
+  }
+
+  .heading p{
+    margin-top:3px;
+    font-size:10px;
+  }
+
+  .lang{
+    min-height:40px;
+  }
+
+  .voiceArea{
+    min-height:105px;
+  }
+
+  .micWrap{
+    width:94px;
+    height:94px;
+  }
+
+  .mic{
+    width:61px;
+    height:61px;
+    font-size:27px;
+  }
+
+  .transcript{
+    height:62px;
     font-size:12px;
   }
 
-  .badge{
-    padding:7px 5px;
+  .action{
+    min-height:42px;
   }
 
-  .badge small{
+  .feature{
+    min-height:36px;
+  }
+
+  .feature strong{
+    font-size:8px;
+  }
+
+  .feature span{
     display:none;
-  }
-
-  .badgeIcon{
-    margin-right:3px;
   }
 }
 </style>
@@ -1149,1517 +738,1046 @@ body:before{
 
 <body>
 
-<div class="page">
+<div class="app">
+<div class="inner">
 
-<div class="shell">
-
-  <!-- TOP SECURITY BADGES -->
-  <div class="topBadges">
-
+  <!-- TOP -->
+  <div class="topbar">
     <div class="badge">
-      <span class="badgeIcon">♢</span>
-      <strong>Secure &amp; Private</strong>
-      <small>Your data is safe</small>
+      <span>◇</span>
+      <b>Secure &amp; Private</b>
     </div>
 
-    <div class="badge right">
-      <span class="badgeIcon">〽</span>
-      <strong>AI Powered</strong>
-      <small>High Accuracy</small>
+    <div class="badge ai">
+      <span>〽</span>
+      <b>AI Powered</b>
     </div>
-
   </div>
 
+  <!-- BRAND -->
+  <div class="brand">
+    <div class="brandIcon">♧</div>
+    <div class="brandName">MEGHA’S MEHENDI</div>
+    <div class="helper">✦ VOICE ASSISTANT HELPER ✦</div>
+  </div>
 
-  <!-- HEADER -->
-  <header class="header">
-
-    <div class="brandMark">♧</div>
-
-    <div class="brand">MEGHA’S MEHENDI</div>
-
-    <div class="helper">
-      ✦ VOICE ASSISTANT HELPER ✦
-    </div>
-
-    <h1 class="title">Voice Booking</h1>
-
-    <div class="subtitle">
+  <!-- TITLE -->
+  <div class="heading">
+    <h1>Voice Booking</h1>
+    <p>
       Speak naturally. Choose a language or use Auto Detect,
       then send the transcript back to your booking assistant.
-    </div>
-
-  </header>
-
+    </p>
+  </div>
 
   <!-- LANGUAGE -->
-  <div class="languageBar">
+  <div class="languages">
 
     <button class="lang active" data-lang="auto">
-      <span class="langIcon">✦</span>
-      <span class="langText">
-        <strong>Auto Detect</strong>
-        <small>Smart Detection</small>
-      </span>
+      <span class="main">✦ Auto Detect</span>
+      <span class="sub">Smart Detection</span>
     </button>
 
     <button class="lang" data-lang="bn-IN">
-      <span class="langIcon">অ</span>
-      <span class="langText">
-        <strong>বাংলা</strong>
-        <small>Bengali</small>
-      </span>
+      <span class="main">বাংলা</span>
+      <span class="sub">Bengali</span>
     </button>
 
     <button class="lang" data-lang="hi-IN">
-      <span class="langIcon">अ</span>
-      <span class="langText">
-        <strong>हिन्दी</strong>
-        <small>Hindi</small>
-      </span>
+      <span class="main">हिन्दी</span>
+      <span class="sub">Hindi</span>
     </button>
 
   </div>
 
-
   <!-- VOICE -->
-  <section class="voiceArea" id="voiceArea">
+  <div id="voiceArea" class="voiceArea">
 
     <div class="wave" id="wave"></div>
 
     <div class="micWrap">
-
-      <div class="ring r1"></div>
+      <div class="ring"></div>
       <div class="ring r2"></div>
       <div class="ring r3"></div>
-      <div class="ring r4"></div>
 
-      <button
-        id="mic"
-        class="micButton"
-        aria-label="Start microphone"
-      >
-        <span class="micIcon">🎙️</span>
+      <button id="mic"
+              class="mic"
+              aria-label="Start voice recognition">
+        🎙️
       </button>
-
     </div>
 
-    <div class="status" id="status">
-      <span class="statusDot"></span>
-      <span id="statusText">Ready to listen</span>
+  </div>
+
+  <!-- STATUS -->
+  <div class="status">
+    <div class="statusMain">
+      <span id="statusDot" class="statusDot"></span>
+      <span id="statusMain">Ready to listen</span>
     </div>
 
-    <div class="hint" id="hint">
-      Tap the microphone to start recording
+    <div id="statusSub" class="statusSub">
+      Tap the microphone to start
     </div>
-
-  </section>
-
+  </div>
 
   <!-- TRANSCRIPT -->
-  <section class="transcriptCard">
+  <div class="transcriptPanel">
 
-    <div class="transcriptHeader">
-
+    <div class="transcriptHead">
       <div class="transcriptTitle">
         〽 Your Spoken Booking Details
       </div>
 
-      <div class="liveBadge" id="liveBadge">
+      <div id="liveBadge" class="live">
         READY
       </div>
-
     </div>
 
-    <div
-      id="text"
-      class="transcript placeholder"
-    >
-      Your spoken booking details will appear here...
+    <div id="text" class="transcript placeholder">
+      Your spoken booking details will appear here…
     </div>
 
+    <!-- ACTIONS -->
     <div class="actions">
 
-      <button
-        id="clear"
-        class="action"
-        type="button"
-      >
-        <span class="actionIcon">♧</span>
-        <span>
-          <strong>Clear</strong>
-          <small>Reset transcript</small>
-        </span>
+      <button id="clear" class="action">
+        ⌫ &nbsp; Clear
+        <small>Reset transcript</small>
       </button>
 
-      <button
-        id="send"
-        class="action send"
-        type="button"
-        disabled
-      >
-        <span class="actionIcon">✓</span>
-        <span>
-          <strong>Use in Booking</strong>
-          <small>Send transcript to assistant</small>
-        </span>
+      <button id="send" class="action send">
+        ✓ &nbsp; Use in Booking
+        <small>Send transcript to assistant</small>
       </button>
 
     </div>
 
-  </section>
-
+  </div>
 
   <!-- FEATURES -->
-  <section class="features">
+  <div class="features">
 
     <div class="feature">
-      <div class="featureIcon">◎</div>
-      <strong>High Accuracy</strong>
-      <small>AI transcription</small>
+      <strong>◎ High Accuracy</strong>
+      <span>AI transcription</span>
     </div>
 
     <div class="feature">
-      <div class="featureIcon">◎</div>
-      <strong>Multi Language</strong>
-      <small>BN / HI / EN</small>
+      <strong>◎ Multi Language</strong>
+      <span>BN / HI / EN</span>
     </div>
 
     <div class="feature">
-      <div class="featureIcon">✦</div>
-      <strong>Smart Filter</strong>
-      <small>No repetition</small>
+      <strong>✦ Smart Filter</strong>
+      <span>No repetition</span>
     </div>
 
     <div class="feature">
-      <div class="featureIcon">♢</div>
-      <strong>Secure &amp; Private</strong>
-      <small>Protected processing</small>
+      <strong>◇ Secure &amp; Private</strong>
+      <span>Protected</span>
     </div>
 
-  </section>
+  </div>
 
-
-  <!-- PRIVACY -->
-  <div class="privacy">
+  <!-- NOTE -->
+  <div class="note">
     <span>🔒</span>
-    Microphone access is requested by this top-level HTTPS page,
-    not the Apps Script iframe.
+    Microphone access is requested by this HTTPS Voice Helper page.
   </div>
 
 </div>
 </div>
-
-<div id="toast" class="toast"></div>
 
 
 <script>
 (function(){
 
-  "use strict";
-
-  /* =========================================================
+  /* =========================================
      SESSION
-  ========================================================= */
+  ========================================= */
 
   const params = new URLSearchParams(location.search);
-
-  const session =
-    params.get("session") ||
-    "";
-
-  const opener =
-    window.opener || null;
+  const session = params.get("session") || "";
 
 
-  /* =========================================================
+  /* =========================================
      ELEMENTS
-  ========================================================= */
+  ========================================= */
 
-  const voiceArea =
-    document.getElementById("voiceArea");
+  const mic = document.getElementById("mic");
+  const voiceArea = document.getElementById("voiceArea");
 
-  const mic =
-    document.getElementById("mic");
+  const textBox = document.getElementById("text");
 
-  const statusText =
-    document.getElementById("statusText");
+  const statusMain = document.getElementById("statusMain");
+  const statusSub = document.getElementById("statusSub");
+  const statusDot = document.getElementById("statusDot");
 
-  const status =
-    document.getElementById("status");
+  const liveBadge = document.getElementById("liveBadge");
 
-  const hint =
-    document.getElementById("hint");
+  const clearBtn = document.getElementById("clear");
+  const sendBtn = document.getElementById("send");
 
-  const text =
-    document.getElementById("text");
-
-  const clear =
-    document.getElementById("clear");
-
-  const send =
-    document.getElementById("send");
-
-  const liveBadge =
-    document.getElementById("liveBadge");
-
-  const toast =
-    document.getElementById("toast");
-
-  const wave =
-    document.getElementById("wave");
-
-
-  /* =========================================================
-     WAVEFORM
-  ========================================================= */
-
-  for(let i=0;i<72;i++){
-
-    const b =
-      document.createElement("div");
-
-    b.className="bar";
-
-    const h =
-      Math.random().toFixed(2);
-
-    b.style.setProperty(
-      "--h",
-      h
-    );
-
-    b.style.height =
-      (15 + Math.random()*70) +
-      "px";
-
-    b.style.animationDelay =
-      (-Math.random()*900) +
-      "ms";
-
-    wave.appendChild(b);
-  }
-
-
-  /* =========================================================
-     STATE
-  ========================================================= */
-
-  const Speech =
+  const SpeechRecognition =
     window.SpeechRecognition ||
     window.webkitSpeechRecognition;
 
-  let mode =
-    "auto";
 
-  let rec =
-    null;
+  /* =========================================
+     STATE
+  ========================================= */
 
-  let listening =
-    false;
+  let mode = "auto";
 
-  let shouldKeepListening =
-    false;
+  let recognition = null;
 
-  let restarting =
-    false;
+  let listening = false;
+  let manuallyStopped = false;
 
-  let finalText =
-    "";
+  /*
+    Permanent transcript.
+    ONLY confirmed final speech goes here.
+  */
+  let finalTranscript = "";
 
-  let lastResultText =
-    "";
+  /*
+    Temporary interim speech.
+  */
+  let interimTranscript = "";
 
-  let silenceTimer =
-    null;
+  /*
+    Prevent Android Chrome from processing
+    the same result again after restart.
+  */
+  let processedResultKeys = new Set();
 
-  let restartTimer =
-    null;
+  /*
+    Restart counter.
+  */
+  let restartTimer = null;
+
+  /*
+    Session generation.
+    Old recognition instances cannot modify
+    the new session.
+  */
+  let recognitionGeneration = 0;
 
 
-  /* =========================================================
-     TOAST
-  ========================================================= */
+  /* =========================================
+     WAVEFORM
+  ========================================= */
 
-  function showToast(message){
+  const wave = document.getElementById("wave");
 
-    toast.textContent =
-      message;
+  for(let i=0;i<45;i++){
 
-    toast.classList.add("show");
+    const bar = document.createElement("i");
 
-    setTimeout(function(){
+    const h =
+      10 +
+      Math.round(
+        Math.abs(Math.sin(i * 1.37)) * 42
+      );
 
-      toast.classList.remove("show");
+    bar.style.setProperty("--h", h + "px");
 
-    },3000);
+    wave.appendChild(bar);
   }
 
 
-  /* =========================================================
-     TEXT NORMALIZATION
-  ========================================================= */
+  /* =========================================
+     STORAGE
+  ========================================= */
 
-  function normalizeText(value){
+  function save(obj){
 
-    return String(value || "")
+    if(!session) return;
+
+    try{
+      localStorage.setItem(
+        session,
+        JSON.stringify(obj)
+      );
+    }catch(e){}
+
+  }
+
+
+  /* =========================================
+     STATUS
+  ========================================= */
+
+  function setStatus(main,sub,live=false){
+
+    statusMain.textContent = main;
+    statusSub.textContent = sub;
+
+    liveBadge.textContent =
+      live ? "LIVE" : "READY";
+
+    if(live){
+      liveBadge.style.color = "#22e6c0";
+      liveBadge.style.borderColor =
+        "rgba(34,230,192,.45)";
+      statusDot.style.background = "#22e6c0";
+      statusDot.style.boxShadow =
+        "0 0 12px #22e6c0";
+    }else{
+      liveBadge.style.color = "#9eb5ad";
+      liveBadge.style.borderColor =
+        "rgba(34,230,192,.18)";
+      statusDot.style.background = "#22e6c0";
+      statusDot.style.boxShadow =
+        "0 0 8px rgba(34,230,192,.4)";
+    }
+
+  }
+
+
+  /* =========================================
+     NORMALIZE TEXT
+     Used only for duplicate comparison.
+     Original visible text is preserved.
+  ========================================= */
+
+  function normalize(str){
+
+    return String(str || "")
+      .toLowerCase()
+      .replace(/[।,!?;:]+/g," ")
       .replace(/\s+/g," ")
-      .trim()
-      .toLowerCase();
+      .trim();
 
   }
 
 
-  /* =========================================================
-     SMART REPETITION FILTER
+  /* =========================================
+     WORD TOKENIZATION
+  ========================================= */
+
+  function words(str){
+
+    return normalize(str)
+      .split(" ")
+      .filter(Boolean);
+
+  }
+
+
+  /* =========================================
+     OVERLAP SAFE MERGE
      
      Example:
-     "সন্ধ্যা সন্ধ্যা সন্ধ্যা সন্ধ্যা"
-     becomes:
-     "সন্ধ্যা"
-  ========================================================= */
 
-  function removeRepeatedWords(value){
+     existing:
+     "রিয়া দাসের ব্রাইডাল মেহেদি"
 
-    if(!value) return "";
+     incoming:
+     "ব্রাইডাল মেহেদি সন্ধ্যা পাঁচটায়"
 
-    let words =
-      value
-      .replace(/\s+/g," ")
-      .trim()
-      .split(" ");
+     Result:
 
-    const output = [];
+     "রিয়া দাসের ব্রাইডাল মেহেদি
+      সন্ধ্যা পাঁচটায়"
+  ========================================= */
 
-    for(let i=0;i<words.length;i++){
+  function mergeText(existing,incoming){
 
-      const current =
-        words[i];
+    existing = String(existing || "").trim();
+    incoming = String(incoming || "").trim();
 
-      const prev1 =
-        output[output.length-1];
+    if(!incoming) return existing;
+    if(!existing) return incoming;
 
-      const prev2 =
-        output[output.length-2];
+    const a = words(existing);
+    const b = words(incoming);
 
-      const prev3 =
-        output[output.length-3];
-
-      const same1 =
-        prev1 &&
-        normalizeText(prev1) ===
-        normalizeText(current);
-
-      const same2 =
-        prev2 &&
-        normalizeText(prev2) ===
-        normalizeText(current);
-
-      const same3 =
-        prev3 &&
-        normalizeText(prev3) ===
-        normalizeText(current);
-
-      if(same1){
-
-        continue;
-
-      }
-
-      if(same2 && same1){
-
-        continue;
-
-      }
-
-      if(same3 && same2 && same1){
-
-        continue;
-
-      }
-
-      output.push(current);
-    }
-
-    return output.join(" ");
-  }
-
-
-  /* =========================================================
-     PHRASE REPETITION FILTER
-  ========================================================= */
-
-  function cleanTranscript(value){
-
-    if(!value) return "";
-
-    let result =
-      removeRepeatedWords(value);
+    if(!a.length || !b.length)
+      return existing + " " + incoming;
 
     /*
-      Remove repeated short phrases.
-      Example:
-      "খড়গপুরে সন্ধ্যা খড়গপুরে সন্ধ্যা"
-      -> "খড়গপুরে সন্ধ্যা"
+      Complete duplicate.
     */
+    if(normalize(existing) === normalize(incoming))
+      return existing;
 
-    const words =
-      result.split(" ");
-
-    if(words.length >= 4){
-
-      const cleaned = [];
-
-      let i=0;
-
-      while(i<words.length){
-
-        let removed =
-          false;
-
-        for(
-          let size=Math.min(6,Math.floor(words.length/2));
-          size>=1;
-          size--
-        ){
-
-          const a =
-            words.slice(i,i+size)
-              .join(" ");
-
-          const b =
-            words.slice(i+size,i+(size*2))
-              .join(" ");
-
-          if(
-            a &&
-            b &&
-            normalizeText(a) ===
-            normalizeText(b)
-          ){
-
-            cleaned.push(a);
-
-            i += size*2;
-
-            removed =
-              true;
-
-            break;
-          }
-        }
-
-        if(!removed){
-
-          cleaned.push(words[i]);
-
-          i++;
-        }
-      }
-
-      result =
-        cleaned.join(" ");
+    /*
+      Incoming is already contained
+      inside existing.
+    */
+    if(
+      normalize(existing).includes(
+        normalize(incoming)
+      )
+    ){
+      return existing;
     }
 
-    return result.trim();
+    /*
+      Find largest suffix of existing
+      matching prefix of incoming.
+    */
+    const max = Math.min(a.length,b.length);
+
+    let overlap = 0;
+
+    for(let n=max;n>=1;n--){
+
+      const suffix =
+        a.slice(a.length-n).join(" ");
+
+      const prefix =
+        b.slice(0,n).join(" ");
+
+      if(suffix === prefix){
+        overlap = n;
+        break;
+      }
+    }
+
+    const remainder =
+      b.slice(overlap).join(" ");
+
+    if(!remainder)
+      return existing;
+
+    return (
+      existing +
+      (existing.endsWith(" ") ? "" : " ") +
+      remainder
+    ).trim();
+
   }
 
 
-  /* =========================================================
-     DISPLAY
-  ========================================================= */
+  /* =========================================
+     RENDER
+  ========================================= */
 
-  function showTranscript(value){
+  function renderTranscript(){
 
-    if(!value){
+    const combined =
+      [finalTranscript,interimTranscript]
+        .filter(Boolean)
+        .join(" ")
+        .trim();
 
-      text.textContent =
-        "Your spoken booking details will appear here...";
+    if(!combined){
 
-      text.classList.add("placeholder");
+      textBox.textContent =
+        "Your spoken booking details will appear here…";
 
-      send.disabled =
-        true;
+      textBox.classList.add("placeholder");
 
       return;
     }
 
-    text.classList.remove("placeholder");
+    textBox.classList.remove("placeholder");
+    textBox.textContent = combined;
 
-    text.textContent =
-      value;
+    /*
+      Always show latest text.
+    */
+    textBox.scrollTop =
+      textBox.scrollHeight;
 
-    send.disabled =
-      false;
-
-    setTimeout(function(){
-
-      text.scrollTop =
-        text.scrollHeight;
-
-    },20);
   }
 
 
-  /* =========================================================
-     STATUS
-  ========================================================= */
-
-  function setListeningUI(){
-
-    voiceArea.classList.add("listening");
-
-    liveBadge.textContent =
-      "● LIVE";
-
-    liveBadge.classList.add("active");
-
-    statusText.textContent =
-      "Listening…";
-
-    hint.textContent =
-      "Speak naturally — keep talking";
-
-    mic.setAttribute(
-      "aria-label",
-      "Stop microphone"
-    );
-  }
-
-
-  function setReadyUI(){
-
-    voiceArea.classList.remove("listening");
-
-    liveBadge.textContent =
-      "READY";
-
-    liveBadge.classList.remove("active");
-
-    statusText.textContent =
-      finalText
-      ? "Voice captured ✓"
-      : "Ready to listen";
-
-    hint.textContent =
-      finalText
-      ? "Review the transcript, then use it in Booking"
-      : "Tap the microphone to start recording";
-
-    mic.setAttribute(
-      "aria-label",
-      "Start microphone"
-    );
-  }
-
-
-  function setErrorUI(message){
-
-    voiceArea.classList.remove("listening");
-
-    liveBadge.textContent =
-      "ERROR";
-
-    liveBadge.classList.remove("active");
-
-    statusText.textContent =
-      message;
-
-    status.classList.add("error");
-
-    setTimeout(function(){
-      status.classList.remove("error");
-    },3500);
-  }
-
-
-  /* =========================================================
+  /* =========================================
      LANGUAGE
-  ========================================================= */
+  ========================================= */
 
   document
     .querySelectorAll(".lang")
-    .forEach(function(button){
+    .forEach(button => {
 
-      button.onclick =
-      function(){
+      button.onclick = function(){
 
         document
           .querySelectorAll(".lang")
-          .forEach(function(x){
-
-            x.classList.remove("active");
-
-          });
+          .forEach(x =>
+            x.classList.remove("active")
+          );
 
         button.classList.add("active");
 
-        mode =
-          button.dataset.lang;
+        mode = button.dataset.lang;
 
-        if(mode==="auto"){
+        if(mode === "auto"){
 
-          statusText.textContent =
-            "Auto Detect selected";
+          setStatus(
+            "Ready to listen",
+            "Auto Detect selected"
+          );
 
-          hint.textContent =
-            "Bangla / Hindi voice will be processed automatically";
+        }else if(mode === "bn-IN"){
 
-        }else if(mode==="bn-IN"){
-
-          statusText.textContent =
-            "বাংলা selected";
-
-          hint.textContent =
-            "বাংলায় স্বাভাবিকভাবে কথা বলুন";
+          setStatus(
+            "Ready to listen",
+            "বাংলা selected"
+          );
 
         }else{
 
-          statusText.textContent =
-            "हिन्दी selected";
-
-          hint.textContent =
-            "हिन्दी में स्वाभाविक रूप से बोलें";
+          setStatus(
+            "Ready to listen",
+            "हिन्दी selected"
+          );
 
         }
+
       };
+
     });
 
 
-  /* =========================================================
-     AUTO LANGUAGE STRATEGY
-     
-     Browser SpeechRecognition normally needs one language.
-     For Auto we start with Bengali because this booking
-     assistant is primarily Bengali, while Hindi can be
-     explicitly selected.
-  ========================================================= */
-
-  function getRecognitionLanguage(){
-
-    if(mode==="hi-IN")
-      return "hi-IN";
-
-    if(mode==="bn-IN")
-      return "bn-IN";
-
-    return "bn-IN";
-  }
-
-
-  /* =========================================================
-     SAVE SESSION
-  ========================================================= */
-
-  function saveSession(payload){
-
-    if(!session)
-      return;
-
-    try{
-
-      localStorage.setItem(
-        session,
-        JSON.stringify(payload)
-      );
-
-    }catch(e){}
-
-    try{
-
-      localStorage.setItem(
-        "MEGHA_VOICE_RESULT_"+session,
-        JSON.stringify(payload)
-      );
-
-    }catch(e){}
-  }
-
-
-  /* =========================================================
-     SEND TO PARENT
-  ========================================================= */
-
-  function sendToParent(payload){
-
-    let sent =
-      false;
-
-    /*
-      Cross-origin postMessage.
-    */
-
-    try{
-
-      if(opener){
-
-        opener.postMessage(
-          {
-            type:
-              "MEGHA_VOICE_BOOKING_RESULT",
-
-            session:
-              session,
-
-            text:
-              payload.text,
-
-            status:
-              payload.status
-          },
-          "*"
-        );
-
-        sent =
-          true;
-      }
-
-    }catch(e){}
-
-
-    /*
-      Also try parent if this page was embedded.
-    */
-
-    try{
-
-      if(
-        window.parent &&
-        window.parent !== window
-      ){
-
-        window.parent.postMessage(
-          {
-            type:
-              "MEGHA_VOICE_BOOKING_RESULT",
-
-            session:
-              session,
-
-            text:
-              payload.text,
-
-            status:
-              payload.status
-          },
-          "*"
-        );
-
-        sent =
-          true;
-      }
-
-    }catch(e){}
-
-    return sent;
-  }
-
-
-  /* =========================================================
-     START RECOGNITION
-  ========================================================= */
+  /* =========================================
+     CREATE RECOGNITION
+  ========================================= */
 
   function createRecognition(){
 
-    if(!Speech){
-
-      setErrorUI(
-        "Speech recognition is not supported here."
-      );
-
+    if(!SpeechRecognition)
       return null;
-    }
 
-    const r =
-      new Speech();
-
-    r.lang =
-      getRecognitionLanguage();
+    const instance = new SpeechRecognition();
 
     /*
       IMPORTANT:
-      continuous=true prevents the browser from
-      intentionally ending after one phrase.
+      continuous=true allows longer speech.
+
+      interimResults=true gives live speech.
+
+      We NEVER append interim text permanently.
     */
+    instance.continuous = true;
+    instance.interimResults = true;
+    instance.maxAlternatives = 1;
 
-    r.continuous =
-      true;
+    instance.lang =
+      mode === "auto"
+        ? "bn-IN"
+        : mode;
 
-    r.interimResults =
-      true;
+    return instance;
 
-    r.maxAlternatives =
-      3;
-
-    return r;
   }
 
 
-  /* =========================================================
+  /* =========================================
      START
-  ========================================================= */
+  ========================================= */
 
   function startListening(){
 
-    if(!Speech){
+    if(!SpeechRecognition){
 
-      setErrorUI(
-        "Speech recognition is not supported in this browser."
-      );
-
-      showToast(
-        "Chrome browser দিয়ে চেষ্টা করুন।"
+      setStatus(
+        "Browser not supported",
+        "Try Chrome on Android"
       );
 
       return;
+
     }
 
-    if(listening){
+    manuallyStopped = false;
 
-      stopListening();
+    listening = true;
 
+    recognitionGeneration++;
+
+    const myGeneration =
+      recognitionGeneration;
+
+    processedResultKeys.clear();
+
+    interimTranscript = "";
+
+    voiceArea.classList.add("listening");
+
+    mic.textContent = "■";
+
+    setStatus(
+      "Listening…",
+      "Speak naturally — keep talking",
+      true
+    );
+
+    startRecognitionInstance(myGeneration);
+
+  }
+
+
+  /* =========================================
+     START INSTANCE
+  ========================================= */
+
+  function startRecognitionInstance(generation){
+
+    if(
+      manuallyStopped ||
+      !listening ||
+      generation !== recognitionGeneration
+    ){
       return;
     }
 
-    shouldKeepListening =
-      true;
-
-    finalText =
-      "";
-
-    lastResultText =
-      "";
-
-    clearTimeout(silenceTimer);
-
-    rec =
+    recognition =
       createRecognition();
 
-    if(!rec)
+    if(!recognition)
       return;
 
-    attachRecognitionEvents(rec);
+
+    /* RESULT */
+
+    recognition.onresult =
+      function(event){
+
+        if(
+          generation !== recognitionGeneration
+        ){
+          return;
+        }
+
+        let currentInterim = "";
+
+        for(
+          let i = event.resultIndex;
+          i < event.results.length;
+          i++
+        ){
+
+          const result =
+            event.results[i];
+
+          const transcript =
+            result[0].transcript.trim();
+
+          if(!transcript)
+            continue;
+
+
+          /*
+            Create a stable key from the
+            browser result.
+          */
+          const key =
+            i +
+            "|" +
+            normalize(transcript);
+
+
+          if(result.isFinal){
+
+            /*
+              Duplicate final result guard.
+            */
+            if(processedResultKeys.has(key))
+              continue;
+
+            processedResultKeys.add(key);
+
+            /*
+              Merge safely instead of blindly
+              appending.
+            */
+            finalTranscript =
+              mergeText(
+                finalTranscript,
+                transcript
+              );
+
+            interimTranscript = "";
+
+          }else{
+
+            currentInterim +=
+              (currentInterim ? " " : "") +
+              transcript;
+
+          }
+
+        }
+
+        interimTranscript =
+          currentInterim.trim();
+
+        renderTranscript();
+
+      };
+
+
+    /* ERROR */
+
+    recognition.onerror =
+      function(event){
+
+        if(
+          generation !== recognitionGeneration
+        ){
+          return;
+        }
+
+        /*
+          These are temporary Android/browser
+          recognition interruptions.
+        */
+        const temporaryErrors = [
+          "no-speech",
+          "audio-capture",
+          "network"
+        ];
+
+        if(
+          temporaryErrors.includes(
+            event.error
+          )
+        ){
+
+          if(listening && !manuallyStopped){
+
+            setStatus(
+              "Listening…",
+              "Keeping the microphone active",
+              true
+            );
+
+            scheduleRestart(generation);
+
+          }
+
+          return;
+        }
+
+
+        if(event.error === "not-allowed"){
+
+          listening = false;
+
+          voiceArea.classList.remove(
+            "listening"
+          );
+
+          mic.textContent = "🎙️";
+
+          setStatus(
+            "Microphone permission denied",
+            "Allow microphone access and try again"
+          );
+
+          save({
+            status:"error",
+            message:"Microphone permission denied"
+          });
+
+          return;
+
+        }
+
+
+        setStatus(
+          "Voice error",
+          event.error || "Unknown error"
+        );
+
+      };
+
+
+    /* END */
+
+    recognition.onend =
+      function(){
+
+        if(
+          generation !== recognitionGeneration
+        ){
+          return;
+        }
+
+        /*
+          Android Chrome can automatically end
+          SpeechRecognition even while user is
+          still speaking.
+
+          Restart automatically.
+        */
+        if(
+          listening &&
+          !manuallyStopped
+        ){
+
+          setStatus(
+            "Listening…",
+            "Keep talking — voice helper is active",
+            true
+          );
+
+          scheduleRestart(generation);
+
+          return;
+        }
+
+
+        listening = false;
+
+        voiceArea.classList.remove(
+          "listening"
+        );
+
+        mic.textContent = "🎙️";
+
+        if(finalTranscript){
+
+          setStatus(
+            "Voice captured ✓",
+            "Tap Use in Booking"
+          );
+
+        }else{
+
+          setStatus(
+            "Ready to listen",
+            "Tap the microphone to start"
+          );
+
+        }
+
+      };
+
 
     try{
 
-      rec.start();
-
-      listening =
-        true;
-
-      setListeningUI();
+      recognition.start();
 
     }catch(error){
 
       /*
-        Sometimes Android Chrome says recognition
-        is already started. Retry once.
+        Browser may throw if start() happens
+        too quickly after previous stop().
       */
+      scheduleRestart(generation);
 
-      if(
-        error &&
-        String(error.message || "")
-          .toLowerCase()
-          .includes("already started")
-      ){
-
-        setTimeout(function(){
-
-          try{
-
-            rec.start();
-
-            listening =
-              true;
-
-            setListeningUI();
-
-          }catch(e){
-
-            setErrorUI(
-              "Could not start microphone."
-            );
-
-            shouldKeepListening =
-              false;
-          }
-
-        },300);
-
-      }else{
-
-        setErrorUI(
-          "Could not start microphone."
-        );
-
-        shouldKeepListening =
-          false;
-      }
     }
+
   }
 
 
-  /* =========================================================
-     RECOGNITION EVENTS
-  ========================================================= */
-
-  function attachRecognitionEvents(r){
-
-    r.onstart =
-    function(){
-
-      listening =
-        true;
-
-      setListeningUI();
-
-    };
-
-
-    r.onaudiostart =
-    function(){
-
-      clearTimeout(silenceTimer);
-
-    };
-
-
-    r.onresult =
-    function(event){
-
-      let interim =
-        "";
-
-      let sessionFinal =
-        "";
-
-      for(
-        let i=event.resultIndex;
-        i<event.results.length;
-        i++
-      ){
-
-        const transcript =
-          event.results[i][0].transcript;
-
-        if(
-          event.results[i].isFinal
-        ){
-
-          sessionFinal +=
-            " " + transcript;
-
-        }else{
-
-          interim +=
-            " " + transcript;
-        }
-      }
-
-
-      /*
-        Add final result only once.
-      */
-
-      if(sessionFinal.trim()){
-
-        let incoming =
-          cleanTranscript(
-            sessionFinal
-          );
-
-        if(incoming){
-
-          const incomingNormalized =
-            normalizeText(incoming);
-
-          const currentNormalized =
-            normalizeText(finalText);
-
-          /*
-            Prevent same recognition result
-            from being appended repeatedly.
-          */
-
-          if(
-            incomingNormalized !==
-            normalizeText(lastResultText)
-          ){
-
-            if(
-              !currentNormalized.includes(
-                incomingNormalized
-              )
-            ){
-
-              finalText =
-                (
-                  finalText +
-                  " " +
-                  incoming
-                ).trim();
-
-            }
-
-            lastResultText =
-              incoming;
-          }
-        }
-      }
-
-
-      /*
-        Live display.
-      */
-
-      let display =
-        finalText;
-
-      if(interim.trim()){
-
-        display =
-          (
-            finalText +
-            " " +
-            cleanTranscript(interim)
-          ).trim();
-
-      }
-
-      display =
-        cleanTranscript(display);
-
-      showTranscript(display);
-
-
-      /*
-        Keep listening after a short silence.
-        Do NOT stop the recognition here.
-      */
-
-      clearTimeout(silenceTimer);
-
-      silenceTimer =
-        setTimeout(function(){
-
-          /*
-            We intentionally do nothing.
-            Browser recognition can remain active.
-          */
-
-        },1200);
-
-    };
-
-
-    r.onerror =
-    function(event){
-
-      const error =
-        event.error || "";
-
-      if(error==="aborted"){
-
-        return;
-      }
-
-      if(error==="no-speech"){
-
-        if(shouldKeepListening){
-
-          scheduleRestart();
-
-        }
-
-        return;
-      }
-
-      if(error==="audio-capture"){
-
-        setErrorUI(
-          "Microphone is unavailable."
-        );
-
-        shouldKeepListening =
-          false;
-
-        return;
-      }
-
-      if(error==="not-allowed"){
-
-        setErrorUI(
-          "Microphone permission denied."
-        );
-
-        showToast(
-          "Chrome → Site settings → Microphone → Allow"
-        );
-
-        shouldKeepListening =
-          false;
-
-        return;
-      }
-
-      setErrorUI(
-        "Voice error: " + error
-      );
-
-      if(shouldKeepListening){
-
-        scheduleRestart();
-
-      }
-    };
-
-
-    r.onend =
-    function(){
-
-      listening =
-        false;
-
-      /*
-        Android Chrome may automatically end SpeechRecognition
-        after a short pause even with continuous=true.
-        Automatically restart while user still wants to talk.
-      */
-
-      if(shouldKeepListening){
-
-        scheduleRestart();
-
-      }else{
-
-        setReadyUI();
-
-      }
-    };
-  }
-
-
-  /* =========================================================
-     AUTO RESTART
-  ========================================================= */
-
-  function scheduleRestart(){
+  /* =========================================
+     SAFE RESTART
+  ========================================= */
+
+  function scheduleRestart(generation){
 
     if(
-      restarting ||
-      !shouldKeepListening
-    )
+      restartTimer ||
+      manuallyStopped ||
+      !listening ||
+      generation !== recognitionGeneration
+    ){
       return;
-
-    restarting =
-      true;
-
-    clearTimeout(restartTimer);
+    }
 
     restartTimer =
-      setTimeout(function(){
+      setTimeout(
+        function(){
 
-        restarting =
-          false;
+          restartTimer = null;
 
-        if(!shouldKeepListening)
-          return;
+          if(
+            !manuallyStopped &&
+            listening &&
+            generation === recognitionGeneration
+          ){
 
-        try{
+            startRecognitionInstance(
+              generation
+            );
 
-          rec =
-            createRecognition();
+          }
 
-          if(!rec)
-            return;
+        },
+        180
+      );
 
-          attachRecognitionEvents(rec);
-
-          rec.start();
-
-          listening =
-            true;
-
-          setListeningUI();
-
-        }catch(e){
-
-          /*
-            Try one more time after a little delay.
-          */
-
-          restarting =
-            false;
-
-          setTimeout(function(){
-
-            if(shouldKeepListening){
-
-              try{
-
-                rec =
-                  createRecognition();
-
-                attachRecognitionEvents(rec);
-
-                rec.start();
-
-                listening =
-                  true;
-
-                setListeningUI();
-
-              }catch(err){
-
-                setErrorUI(
-                  "Voice connection stopped. Tap microphone again."
-                );
-
-                shouldKeepListening =
-                  false;
-
-                setReadyUI();
-              }
-            }
-
-          },700);
-        }
-
-      },250);
   }
 
 
-  /* =========================================================
+  /* =========================================
      STOP
-  ========================================================= */
+  ========================================= */
 
   function stopListening(){
 
-    shouldKeepListening =
-      false;
+    manuallyStopped = true;
 
-    clearTimeout(restartTimer);
-    clearTimeout(silenceTimer);
+    listening = false;
 
-    restarting =
-      false;
+    recognitionGeneration++;
 
-    if(rec){
+    if(restartTimer){
+
+      clearTimeout(restartTimer);
+      restartTimer = null;
+
+    }
+
+    if(recognition){
 
       try{
-
-        rec.stop();
-
+        recognition.stop();
       }catch(e){}
 
     }
 
-    listening =
-      false;
+    recognition = null;
 
-    finalText =
-      cleanTranscript(finalText);
+    voiceArea.classList.remove(
+      "listening"
+    );
 
-    showTranscript(finalText);
+    mic.textContent = "🎙️";
 
-    setReadyUI();
+    interimTranscript = "";
 
-  }
+    renderTranscript();
 
+    if(finalTranscript){
 
-  /* =========================================================
-     MIC BUTTON
-  ========================================================= */
-
-  mic.onclick =
-  function(){
-
-    if(listening){
-
-      stopListening();
+      setStatus(
+        "Voice captured ✓",
+        "Tap Use in Booking"
+      );
 
     }else{
 
-      startListening();
-
-    }
-
-  };
-
-
-  /* =========================================================
-     CLEAR
-  ========================================================= */
-
-  clear.onclick =
-  function(){
-
-    shouldKeepListening =
-      false;
-
-    clearTimeout(restartTimer);
-    clearTimeout(silenceTimer);
-
-    if(rec){
-
-      try{
-
-        rec.stop();
-
-      }catch(e){}
-
-    }
-
-    listening =
-      false;
-
-    finalText =
-      "";
-
-    lastResultText =
-      "";
-
-    showTranscript("");
-
-    setReadyUI();
-
-    statusText.textContent =
-      "Ready to listen";
-
-    hint.textContent =
-      "Tap the microphone to start recording";
-
-    showToast(
-      "Transcript cleared"
-    );
-
-  };
-
-
-  /* =========================================================
-     USE IN BOOKING
-  ========================================================= */
-
-  send.onclick =
-  function(){
-
-    finalText =
-      cleanTranscript(finalText);
-
-    if(!finalText){
-
-      showToast(
-        "আগে কিছু voice input দিন।"
+      setStatus(
+        "Ready to listen",
+        "Tap the microphone to start"
       );
 
-      return;
     }
-
-    const payload = {
-
-      status:
-        "done",
-
-      text:
-        finalText,
-
-      session:
-        session,
-
-      timestamp:
-        Date.now()
-
-    };
-
-
-    /*
-      Save locally.
-    */
-
-    saveSession(payload);
-
-
-    /*
-      Send to Apps Script parent.
-    */
-
-    const posted =
-      sendToParent(payload);
-
-
-    statusText.textContent =
-      "Sent to Booking Assistant ✓";
-
-    hint.textContent =
-      "Your voice details have been sent back.";
-
-    liveBadge.textContent =
-      "SENT";
-
-
-    showToast(
-      posted
-      ? "Booking assistant-এ transcript পাঠানো হয়েছে ✓"
-      : "Transcript saved. Returning to booking…"
-    );
-
-
-    /*
-      Give parent time to receive message.
-    */
-
-    setTimeout(function(){
-
-      try{
-
-        window.close();
-
-      }catch(e){}
-
-    },700);
-
-  };
-
-
-  /* =========================================================
-     INITIAL STATE
-  ========================================================= */
-
-  if(!session){
-
-    statusText.textContent =
-      "Voice Helper ready";
-
-    hint.textContent =
-      "Open this helper from a booking to send the transcript back.";
 
   }
 
 
-  /*
-    Prevent accidental page close while recording.
-  */
+  /* =========================================
+     MICROPHONE BUTTON
+  ========================================= */
 
-  window.addEventListener(
-    "beforeunload",
+  mic.onclick =
     function(){
 
       if(listening){
 
-        shouldKeepListening =
-          false;
+        stopListening();
 
-        try{
+      }else{
 
-          if(rec)
-            rec.stop();
-
-        }catch(e){}
+        startListening();
 
       }
 
-    }
-  );
+    };
+
+
+  /* =========================================
+     CLEAR
+  ========================================= */
+
+  clearBtn.onclick =
+    function(){
+
+      stopListening();
+
+      finalTranscript = "";
+      interimTranscript = "";
+
+      processedResultKeys.clear();
+
+      renderTranscript();
+
+      setStatus(
+        "Ready to listen",
+        "Transcript cleared"
+      );
+
+    };
+
+
+  /* =========================================
+     SEND TO BOOKING
+  ========================================= */
+
+  sendBtn.onclick =
+    function(){
+
+      const transcript =
+        finalTranscript.trim();
+
+      if(!transcript){
+
+        setStatus(
+          "Nothing to send",
+          "Speak first, then use the transcript"
+        );
+
+        return;
+
+      }
+
+      /*
+        Save ONLY final transcript.
+      */
+      save({
+        status:"done",
+        text:transcript,
+        timestamp:Date.now()
+      });
+
+      setStatus(
+        "Sent to Booking ✓",
+        "You can return to the booking assistant"
+      );
+
+      /*
+        Give localStorage a moment to persist.
+      */
+      setTimeout(
+        function(){
+
+          try{
+            window.close();
+          }catch(e){}
+
+        },
+        450
+      );
+
+    };
+
+
+  /* =========================================
+     INITIAL STATE
+  ========================================= */
+
+  if(!session){
+
+    /*
+      Don't break the standalone GitHub Pages
+      page. It can still be tested directly.
+    */
+
+    setStatus(
+      "Ready to listen",
+      "Standalone Voice Helper mode"
+    );
+
+  }
 
 
 })();
