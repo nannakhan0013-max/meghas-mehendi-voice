@@ -2,1174 +2,463 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport"
-      content="width=device-width,initial-scale=1,viewport-fit=cover">
-
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Megha's Mehendi — Voice Assistant</title>
 
 <style>
-
 :root{
-  --bg:#03130f;
-  --bg2:#061d17;
-  --card:rgba(5,31,24,.78);
-  --line:rgba(41,224,190,.20);
-  --teal:#20e0bd;
-  --teal2:#0ba889;
-  --gold:#e5bd78;
-  --rose:#ef718e;
-  --text:#f7f4ec;
-  --muted:#9eaea8;
+  --bg:#070a10;
+  --bg2:#0d111a;
+  --card:rgba(16,21,31,.82);
+  --line:rgba(210,194,157,.20);
+  --cyan:#64e7e1;
+  --cyan2:#2bb8c1;
+  --champ:#e7d6b0;
+  --violet:#a68cff;
+  --text:#f5f4ef;
+  --muted:#98a2ad;
+  --soft:#cbd2d8;
 }
-
-*{
-  box-sizing:border-box;
-  -webkit-tap-highlight-color:transparent;
-}
-
-html,body{
-  margin:0;
-  width:100%;
-  min-height:100%;
-}
-
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;width:100%;min-height:100%}
 body{
   min-height:100vh;
   background:
-    radial-gradient(
-      circle at 50% 8%,
-      rgba(20,103,79,.55),
-      transparent 38%
-    ),
-    radial-gradient(
-      circle at 90% 80%,
-      rgba(142,38,75,.18),
-      transparent 30%
-    ),
-    #03130f;
-
+    radial-gradient(circle at 50% 7%,rgba(72,104,132,.26),transparent 38%),
+    radial-gradient(circle at 92% 82%,rgba(120,87,181,.12),transparent 31%),
+    #070a10;
   color:var(--text);
-  font-family:
-    Inter,
-    system-ui,
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    sans-serif;
-
+  font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
   display:flex;
   justify-content:center;
-  padding:
-    max(10px,env(safe-area-inset-top))
-    10px
-    max(10px,env(safe-area-inset-bottom));
+  padding:max(6px,env(safe-area-inset-top)) 6px max(6px,env(safe-area-inset-bottom));
 }
-
 .app{
   width:min(620px,100%);
-  min-height:calc(100vh - 20px);
-
-  border:1px solid rgba(229,189,120,.28);
-  border-radius:30px;
-
-  background:
-    linear-gradient(
-      145deg,
-      rgba(8,49,39,.94),
-      rgba(2,23,18,.97)
-    );
-
-  box-shadow:
-    0 20px 70px rgba(0,0,0,.48),
-    inset 0 0 50px rgba(20,224,189,.035);
-
+  min-height:calc(100vh - 12px);
+  border:1px solid rgba(231,214,176,.23);
+  border-radius:27px;
+  background:linear-gradient(145deg,rgba(18,25,35,.97),rgba(7,10,16,.985));
+  box-shadow:0 22px 70px rgba(0,0,0,.55),inset 0 0 55px rgba(100,231,225,.025);
   overflow:hidden;
   position:relative;
 }
-
-/* decorative glow */
-
 .app:before{
   content:"";
   position:absolute;
-  width:300px;
-  height:300px;
-  border-radius:50%;
-  border:1px solid rgba(32,224,189,.08);
-  left:-170px;
-  top:-100px;
-  box-shadow:
-    0 0 0 35px rgba(229,189,120,.025),
-    0 0 0 75px rgba(32,224,189,.018);
+  width:300px;height:300px;border-radius:50%;
+  border:1px solid rgba(100,231,225,.065);
+  left:-170px;top:-105px;
+  box-shadow:0 0 0 35px rgba(231,214,176,.018),0 0 0 75px rgba(166,140,255,.014);
   pointer-events:none;
 }
-
 .app:after{
   content:"";
   position:absolute;
-  width:240px;
-  height:240px;
-  border-radius:50%;
-  right:-150px;
-  bottom:-120px;
-  border:1px solid rgba(239,113,142,.10);
+  width:240px;height:240px;border-radius:50%;
+  right:-150px;bottom:-120px;
+  border:1px solid rgba(166,140,255,.075);
   pointer-events:none;
 }
-
-.content{
-  position:relative;
-  z-index:2;
-  padding:14px;
-}
-
-/* TOP BADGES */
+.content{position:relative;z-index:2;padding:12px}
 
 .top-badges{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:8px;
-  margin-bottom:8px;
+  display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:5px;
 }
-
 .badge{
-  height:40px;
-  border:1px solid var(--line);
-  border-radius:999px;
-
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:7px;
-
-  background:rgba(0,0,0,.16);
-  font-size:12px;
-  font-weight:800;
-  letter-spacing:.2px;
+  height:34px;border:1px solid var(--line);border-radius:999px;
+  display:flex;align-items:center;justify-content:center;gap:7px;
+  background:rgba(255,255,255,.025);
+  font-size:10px;font-weight:800;letter-spacing:.2px;
 }
+.badge:first-child{color:#dfe8e9}
+.badge:last-child{color:#d0c7ff}
 
-.badge:first-child{
-  color:#d9eee8;
-}
-
-.badge:last-child{
-  color:#f3a5b9;
-}
-
-/* BRAND */
-
-.brand{
-  text-align:center;
-  padding-top:2px;
-}
-
-.brand-symbol{
-  color:var(--gold);
-  font-size:30px;
-  line-height:1;
-  margin:4px 0 8px;
-}
-
-.brand-name{
-  color:var(--gold);
-  font-family:Georgia,serif;
-  font-size:22px;
-  letter-spacing:4px;
-}
-
-.helper{
-  color:var(--teal);
-  font-size:12px;
-  font-weight:900;
-  letter-spacing:2px;
-  margin-top:6px;
-}
+.brand{text-align:center;padding-top:1px}
+.brand-symbol{color:var(--champ);font-size:24px;line-height:1;margin:1px 0 4px}
+.brand-name{color:var(--champ);font-family:Georgia,serif;font-size:18px;letter-spacing:3.5px}
+.helper{color:var(--cyan);font-size:10px;font-weight:900;letter-spacing:2px;margin-top:4px}
 
 .title{
-  margin:10px 0 5px;
-
+  margin:7px 0 3px;
   font-family:Georgia,serif;
-  font-size:clamp(42px,10vw,62px);
+  font-size:clamp(39px,10vw,57px);
   line-height:.98;
-
-  background:
-    linear-gradient(
-      100deg,
-      #25e0c1,
-      #f7f1e8 48%,
-      #ed718d
-    );
-
-  -webkit-background-clip:text;
-  background-clip:text;
-  color:transparent;
+  background:linear-gradient(100deg,#71ebe5,#f4eee2 48%,#b5a2ff);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
 }
-
 .subtitle{
-  max-width:520px;
-  margin:0 auto;
-
-  color:#b8c7c1;
-  font-size:13px;
-  line-height:1.45;
+  max-width:520px;margin:0 auto;color:#aeb7c0;font-size:11px;line-height:1.36;
 }
-
-/* LANGUAGE */
 
 .languages{
-  margin:14px 0 10px;
-
-  display:grid;
-  grid-template-columns:1.35fr 1fr 1fr;
-
-  border:1px solid var(--line);
-  border-radius:20px;
-
-  background:rgba(0,0,0,.20);
-  padding:4px;
+  margin:9px 0 2px;
+  display:grid;grid-template-columns:1.35fr 1fr 1fr;
+  border:1px solid var(--line);border-radius:18px;
+  background:rgba(0,0,0,.20);padding:3px;
 }
-
 .lang{
-  border:0;
-  border-radius:16px;
-  background:transparent;
-  color:#e9eee9;
-
-  min-height:55px;
-  padding:6px 5px;
-
-  font-weight:800;
-  cursor:pointer;
+  border:0;border-radius:15px;background:transparent;color:#e8eaeb;
+  min-height:46px;padding:5px;font-weight:800;cursor:pointer;
 }
-
-.lang strong{
-  display:block;
-  font-size:14px;
-}
-
-.lang small{
-  display:block;
-  margin-top:2px;
-  color:#8e9d98;
-  font-size:10px;
-}
-
+.lang strong{display:block;font-size:12px}
+.lang small{display:block;margin-top:2px;color:#87919b;font-size:8px}
 .lang.active{
-  background:
-    linear-gradient(
-      135deg,
-      rgba(21,207,172,.18),
-      rgba(12,101,82,.14)
-    );
-
-  box-shadow:
-    inset 0 0 0 1px rgba(32,224,189,.45);
-
-  color:var(--teal);
+  background:linear-gradient(135deg,rgba(100,231,225,.13),rgba(166,140,255,.08));
+  box-shadow:inset 0 0 0 1px rgba(100,231,225,.38);
+  color:var(--cyan);
 }
 
-/* MIC AREA */
-
-.voice-area{
-  text-align:center;
-  padding-top:2px;
-}
-
+.voice-area{text-align:center;padding-top:0}
 .visualizer{
-  position:relative;
-  height:168px;
-
-  display:flex;
-  align-items:center;
-  justify-content:center;
-
-  overflow:hidden;
+  position:relative;height:132px;
+  display:flex;align-items:center;justify-content:center;overflow:hidden;
 }
-
 .wave{
-  position:absolute;
-  width:100%;
-  height:70px;
-  bottom:37px;
-
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:3px;
-  opacity:.82;
+  position:absolute;width:100%;height:62px;bottom:25px;
+  display:flex;align-items:center;justify-content:center;gap:3px;opacity:.55;
 }
-
 .bar{
-  width:3px;
-  height:18px;
-  border-radius:10px;
-  background:linear-gradient(
-    to top,
-    var(--teal),
-    #36cdb6
-  );
+  width:3px;height:15px;border-radius:10px;
+  background:linear-gradient(to top,var(--cyan),rgba(100,231,225,.16));
 }
-
 .bar:nth-child(n+28){
-  background:linear-gradient(
-    to top,
-    var(--rose),
-    #c56b81
-  );
+  background:linear-gradient(to top,var(--violet),rgba(166,140,255,.16));
 }
-
 .mic-wrap{
-  width:142px;
-  height:142px;
-
-  border-radius:50%;
-
-  display:grid;
-  place-items:center;
-
-  position:relative;
-  z-index:2;
-
-  background:
-    radial-gradient(
-      circle,
-      rgba(5,28,23,.98) 52%,
-      rgba(8,51,41,.85) 53%,
-      rgba(8,51,41,.35) 65%,
-      transparent 66%
-    );
-
-  border:
-    1px solid rgba(229,189,120,.65);
-
-  box-shadow:
-    0 0 0 12px rgba(32,224,189,.05),
-    0 0 0 25px rgba(32,224,189,.035),
-    0 0 45px rgba(32,224,189,.12);
-
+  width:110px;height:110px;border-radius:50%;
+  display:grid;place-items:center;position:relative;z-index:2;
+  background:radial-gradient(circle,rgba(10,15,22,.98) 52%,rgba(31,44,55,.74) 53%,rgba(31,44,55,.18) 66%,transparent 67%);
+  border:1px solid rgba(231,214,176,.55);
+  box-shadow:0 0 0 8px rgba(100,231,225,.03),0 0 0 17px rgba(166,140,255,.022),0 0 36px rgba(100,231,225,.09);
   transition:.25s;
 }
-
 .mic-wrap.live{
-  border-color:var(--teal);
-
-  box-shadow:
-    0 0 0 10px rgba(32,224,189,.08),
-    0 0 0 22px rgba(239,113,142,.05),
-    0 0 50px rgba(32,224,189,.25);
+  border-color:var(--cyan);
+  box-shadow:0 0 0 8px rgba(100,231,225,.065),0 0 0 18px rgba(166,140,255,.04),0 0 46px rgba(100,231,225,.20);
 }
-
 .mic{
-  width:88px;
-  height:88px;
-
-  border:0;
-  border-radius:50%;
-
-  display:grid;
-  place-items:center;
-
-  background:
-    radial-gradient(
-      circle at 35% 30%,
-      rgba(39,220,190,.18),
-      rgba(0,0,0,.48)
-    );
-
-  color:white;
-  font-size:38px;
-
-  cursor:pointer;
+  width:69px;height:69px;border:0;border-radius:50%;
+  display:grid;place-items:center;
+  background:radial-gradient(circle at 35% 30%,rgba(100,231,225,.14),rgba(0,0,0,.50));
+  color:white;font-size:29px;cursor:pointer;
 }
+.mic:active{transform:scale(.96)}
+.mic.live{animation:micPulse 1.25s infinite}
+@keyframes micPulse{50%{transform:scale(1.04)}}
+.visualizer.live .bar{animation:wave 650ms ease-in-out infinite alternate}
+@keyframes wave{from{transform:scaleY(.45)}to{transform:scaleY(1.9)}}
+.visualizer.live .bar:nth-child(2n){animation-delay:.12s}
+.visualizer.live .bar:nth-child(3n){animation-delay:.22s}
 
-.mic:active{
-  transform:scale(.96);
-}
-
-.mic.live{
-  animation:micPulse 1.25s infinite;
-}
-
-@keyframes micPulse{
-  50%{
-    transform:scale(1.045);
-  }
-}
-
-.visualizer.live .bar{
-  animation:wave 650ms ease-in-out infinite alternate;
-}
-
-@keyframes wave{
-  from{
-    transform:scaleY(.45);
-  }
-  to{
-    transform:scaleY(1.9);
-  }
-}
-
-.visualizer.live .bar:nth-child(2n){
-  animation-delay:.12s;
-}
-
-.visualizer.live .bar:nth-child(3n){
-  animation-delay:.22s;
-}
-
-.status{
-  color:var(--teal);
-  font-size:16px;
-  font-weight:900;
-  min-height:22px;
-}
-
+.status{color:var(--cyan);font-size:13px;font-weight:900;min-height:19px}
 .status-dot{
-  display:inline-block;
-  width:10px;
-  height:10px;
-  border-radius:50%;
-  background:var(--teal);
-  margin-right:7px;
-  box-shadow:0 0 12px var(--teal);
+  display:inline-block;width:8px;height:8px;border-radius:50%;
+  background:var(--cyan);margin-right:6px;box-shadow:0 0 10px var(--cyan);
 }
-
-.timer{
-  margin-top:3px;
-  color:#84948e;
-  font-size:11px;
-}
-
-/* TRANSCRIPT */
+.timer{margin-top:2px;color:#7f8994;font-size:10px}
 
 .transcript-card{
-  margin-top:10px;
-
-  border:1px solid rgba(32,224,189,.18);
-  border-radius:24px;
-
-  background:
-    rgba(0,18,14,.46);
-
-  padding:12px;
+  margin-top:5px;border:1px solid rgba(100,231,225,.15);
+  border-radius:21px;background:rgba(0,0,0,.25);padding:9px;
 }
-
-.transcript-head{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-
-  margin-bottom:9px;
-}
-
-.transcript-title{
-  color:var(--teal);
-  font-size:16px;
-  font-weight:900;
-}
-
+.transcript-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:7px}
+.transcript-title{color:var(--cyan);font-size:13px;font-weight:900}
 .state{
-  border:1px solid rgba(32,224,189,.28);
-  border-radius:999px;
-  padding:6px 11px;
-
-  color:#9edbd0;
-  font-size:10px;
-  font-weight:800;
+  border:1px solid rgba(100,231,225,.23);border-radius:999px;
+  padding:5px 9px;color:#a8deda;font-size:8px;font-weight:800;
 }
-
 .transcript{
-  width:100%;
-  min-height:105px;
-  max-height:125px;
-
-  overflow:auto;
-
-  border:1px solid rgba(255,255,255,.09);
-  border-radius:17px;
-
-  background:rgba(0,0,0,.25);
-
-  padding:14px;
-
-  text-align:left;
-
-  color:#eee;
-  font-size:16px;
-  line-height:1.55;
-
-  word-break:break-word;
+  width:100%;min-height:80px;max-height:105px;overflow:auto;
+  border:1px solid rgba(255,255,255,.08);border-radius:15px;
+  background:rgba(0,0,0,.24);padding:11px;text-align:left;
+  color:#eee;font-size:14px;line-height:1.5;word-break:break-word;
 }
-
-.placeholder{
-  color:#697a74;
-}
-
-/* BUTTONS */
+.placeholder{color:#68727d}
 
 .actions{
-  display:grid;
-  grid-template-columns:.75fr 1.65fr;
-  gap:9px;
-
-  margin-top:9px;
+  display:grid;grid-template-columns:.72fr 1.65fr;gap:8px;margin-top:8px;
 }
-
 .action{
-  min-height:58px;
-
-  border-radius:17px;
-  border:1px solid rgba(229,189,120,.25);
-
-  color:white;
-  background:rgba(255,255,255,.035);
-
-  font-weight:900;
-  font-size:14px;
-
-  cursor:pointer;
+  min-height:47px;border-radius:15px;border:1px solid rgba(231,214,176,.22);
+  color:white;background:rgba(255,255,255,.035);
+  font-weight:900;font-size:12px;cursor:pointer;
 }
-
 .action small{
-  display:block;
-  margin-top:3px;
-  color:#899993;
-  font-size:9px;
-  font-weight:500;
+  display:block;margin-top:2px;color:#828d98;font-size:8px;font-weight:500;
 }
-
 .send{
-  border-color:rgba(32,224,189,.4);
-
-  background:
-    linear-gradient(
-      110deg,
-      #08a984,
-      #1bbda5 45%,
-      #c96880
-    );
-
-  box-shadow:
-    0 8px 25px rgba(17,190,159,.16);
+  border-color:rgba(100,231,225,.35);
+  background:linear-gradient(105deg,#168f98,#3bbdc0 50%,#7562bb);
+  box-shadow:0 7px 22px rgba(44,180,190,.12);
 }
-
-.action:disabled{
-  opacity:.45;
-  cursor:not-allowed;
-}
-
-/* FEATURES */
+.action:disabled{opacity:.42;cursor:not-allowed}
 
 .features{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:7px;
-
-  margin-top:9px;
+  display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-top:6px;
 }
-
 .feature{
-  min-height:68px;
-
-  border:1px solid rgba(32,224,189,.12);
-  border-radius:16px;
-
-  background:rgba(0,0,0,.15);
-
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-
-  text-align:center;
-  padding:7px 3px;
+  min-height:53px;border:1px solid rgba(100,231,225,.09);border-radius:14px;
+  background:rgba(0,0,0,.14);display:flex;flex-direction:column;
+  justify-content:center;align-items:center;text-align:center;padding:5px 2px;
 }
-
-.feature-icon{
-  font-size:15px;
-  color:var(--teal);
-}
-
-.feature:nth-child(3) .feature-icon{
-  color:var(--rose);
-}
-
-.feature-title{
-  margin-top:4px;
-  color:var(--teal);
-  font-size:10px;
-  font-weight:900;
-}
-
-.feature small{
-  color:#71817c;
-  font-size:8px;
-  margin-top:2px;
-}
-
-/* NOTE */
+.feature-icon{font-size:13px;color:var(--cyan)}
+.feature:nth-child(3) .feature-icon{color:var(--violet)}
+.feature-title{margin-top:3px;color:#cfe8e7;font-size:8px;font-weight:900}
+.feature small{color:#68737e;font-size:7px;margin-top:2px}
 
 .note{
-  margin:8px auto 0;
-
-  max-width:480px;
-
-  text-align:center;
-
-  color:#75837e;
-  font-size:9px;
-  line-height:1.35;
+  margin:5px auto 0;max-width:480px;text-align:center;
+  color:#68727c;font-size:8px;line-height:1.25;
 }
-
-/* MOBILE */
 
 @media(max-width:430px){
-
-  body{
-    padding:
-      max(5px,env(safe-area-inset-top))
-      5px
-      max(5px,env(safe-area-inset-bottom));
-  }
-
-  .app{
-    min-height:calc(100vh - 10px);
-    border-radius:24px;
-  }
-
-  .content{
-    padding:9px;
-  }
-
-  .top-badges{
-    margin-bottom:4px;
-  }
-
-  .badge{
-    height:34px;
-    font-size:10px;
-  }
-
-  .brand-symbol{
-    font-size:24px;
-    margin:2px 0 5px;
-  }
-
-  .brand-name{
-    font-size:17px;
-    letter-spacing:3px;
-  }
-
-  .helper{
-    font-size:10px;
-    margin-top:4px;
-  }
-
-  .title{
-    font-size:43px;
-    margin:7px 0 4px;
-  }
-
-  .subtitle{
-    font-size:11px;
-    line-height:1.35;
-  }
-
-  .languages{
-    margin:10px 0 4px;
-  }
-
-  .lang{
-    min-height:47px;
-  }
-
-  .lang strong{
-    font-size:12px;
-  }
-
-  .lang small{
-    font-size:8px;
-  }
-
-  .visualizer{
-    height:145px;
-  }
-
-  .mic-wrap{
-    width:122px;
-    height:122px;
-  }
-
-  .mic{
-    width:76px;
-    height:76px;
-    font-size:32px;
-  }
-
-  .wave{
-    bottom:31px;
-  }
-
-  .status{
-    font-size:14px;
-  }
-
-  .transcript-card{
-    margin-top:7px;
-    padding:9px;
-    border-radius:20px;
-  }
-
-  .transcript-title{
-    font-size:14px;
-  }
-
-  .state{
-    padding:5px 9px;
-    font-size:9px;
-  }
-
-  .transcript{
-    min-height:88px;
-    max-height:105px;
-    padding:11px;
-    font-size:14px;
-  }
-
-  .action{
-    min-height:52px;
-    font-size:13px;
-  }
-
-  .features{
-    gap:5px;
-  }
-
-  .feature{
-    min-height:58px;
-  }
-
-  .feature-title{
-    font-size:8px;
-  }
-
-  .feature small{
-    font-size:7px;
-  }
-
-  .note{
-    font-size:8px;
-  }
+  body{padding:max(3px,env(safe-area-inset-top)) 3px max(3px,env(safe-area-inset-bottom))}
+  .app{min-height:calc(100vh - 6px);border-radius:22px}
+  .content{padding:7px}
+  .badge{height:31px;font-size:9px}
+  .brand-symbol{font-size:20px;margin:1px 0 3px}
+  .brand-name{font-size:16px;letter-spacing:3px}
+  .helper{font-size:8px;margin-top:3px}
+  .title{font-size:39px;margin:5px 0 3px}
+  .subtitle{font-size:9.5px;line-height:1.32}
+  .languages{margin:7px 0 1px}
+  .lang{min-height:41px}
+  .lang strong{font-size:10.5px}
+  .lang small{font-size:7px}
+  .visualizer{height:126px}
+  .mic-wrap{width:104px;height:104px}
+  .mic{width:66px;height:66px;font-size:27px}
+  .wave{bottom:23px}
+  .status{font-size:12.5px}
+  .transcript-card{margin-top:4px;padding:8px}
+  .transcript-title{font-size:12.5px}
+  .state{padding:4px 8px;font-size:8px}
+  .transcript{min-height:73px;max-height:94px;padding:10px;font-size:13px}
+  .action{min-height:45px;font-size:11px}
+  .features{gap:4px}
+  .feature{min-height:50px}
+  .feature-title{font-size:7px}
+  .feature small{font-size:6.5px}
+  .note{font-size:7px}
 }
-
 </style>
 </head>
 
 <body>
-
 <div class="app">
-
 <div class="content">
 
-  <div class="top-badges">
-    <div class="badge">◇ &nbsp; Secure &amp; Private</div>
-    <div class="badge">⌁ &nbsp; AI Powered</div>
+<div class="top-badges">
+  <div class="badge">◇ &nbsp; Secure &amp; Private</div>
+  <div class="badge">⌁ &nbsp; AI Powered</div>
+</div>
+
+<header class="brand">
+  <div class="brand-symbol">♧</div>
+  <div class="brand-name">MEGHA’S MEHENDI</div>
+  <div class="helper">✦ VOICE ASSISTANT HELPER ✦</div>
+  <h1 class="title">Voice Booking</h1>
+  <p class="subtitle">
+    Speak naturally. Choose a language or use Auto Detect,
+    then send the transcript back to your booking assistant.
+  </p>
+</header>
+
+<div class="languages">
+  <button class="lang active" data-lang="auto">
+    <strong>✦ Auto Detect</strong><small>Smart Detection</small>
+  </button>
+  <button class="lang" data-lang="bn-IN">
+    <strong>বাংলা</strong><small>Bengali</small>
+  </button>
+  <button class="lang" data-lang="hi-IN">
+    <strong>हिन्दी</strong><small>Hindi</small>
+  </button>
+</div>
+
+<section class="voice-area">
+  <div id="visualizer" class="visualizer">
+    <div id="wave" class="wave"></div>
+    <div id="micWrap" class="mic-wrap">
+      <button id="mic" class="mic" aria-label="Start recording">🎙️</button>
+    </div>
   </div>
 
-  <header class="brand">
-
-    <div class="brand-symbol">♧</div>
-
-    <div class="brand-name">
-      MEGHA’S MEHENDI
-    </div>
-
-    <div class="helper">
-      ✦ VOICE ASSISTANT HELPER ✦
-    </div>
-
-    <h1 class="title">
-      Voice Booking
-    </h1>
-
-    <p class="subtitle">
-      Speak naturally. Choose a language or use Auto Detect,
-      then send the transcript back to your booking assistant.
-    </p>
-
-  </header>
-
-
-  <div class="languages">
-
-    <button class="lang active" data-lang="auto">
-      <strong>✦ Auto Detect</strong>
-      <small>Smart Detection</small>
-    </button>
-
-    <button class="lang" data-lang="bn-IN">
-      <strong>বাংলা</strong>
-      <small>Bengali</small>
-    </button>
-
-    <button class="lang" data-lang="hi-IN">
-      <strong>हिन्दी</strong>
-      <small>Hindi</small>
-    </button>
-
+  <div id="status" class="status">
+    <span class="status-dot"></span>Ready to listen
   </div>
 
+  <div id="timer" class="timer">
+    Tap the microphone to start
+  </div>
+</section>
 
-  <section class="voice-area">
-
-    <div id="visualizer" class="visualizer">
-
-      <div id="wave" class="wave"></div>
-
-      <div id="micWrap" class="mic-wrap">
-
-        <button
-          id="mic"
-          class="mic"
-          aria-label="Start recording">
-
-          🎙️
-
-        </button>
-
-      </div>
-
-    </div>
-
-    <div id="status" class="status">
-
-      <span class="status-dot"></span>
-      Ready to listen
-
-    </div>
-
-    <div id="timer" class="timer">
-      Tap the microphone to start
-    </div>
-
-  </section>
-
-
-  <section class="transcript-card">
-
-    <div class="transcript-head">
-
-      <div class="transcript-title">
-        〽 Your Spoken Booking Details
-      </div>
-
-      <div id="state" class="state">
-        READY
-      </div>
-
-    </div>
-
-    <div id="transcript" class="transcript">
-
-      <span class="placeholder">
-        Your spoken booking details will appear here…
-      </span>
-
-    </div>
-
-    <div class="actions">
-
-      <button id="clear" class="action">
-        ⌫ &nbsp; Clear
-        <small>Reset transcript</small>
-      </button>
-
-      <button
-        id="send"
-        class="action send"
-        disabled>
-
-        ✓ &nbsp; Use in Booking
-
-        <small>
-          Send transcript to assistant
-        </small>
-
-      </button>
-
-    </div>
-
-  </section>
-
-
-  <section class="features">
-
-    <div class="feature">
-      <div class="feature-icon">◎</div>
-      <div class="feature-title">High Accuracy</div>
-      <small>AI transcription</small>
-    </div>
-
-    <div class="feature">
-      <div class="feature-icon">◎</div>
-      <div class="feature-title">Multi Language</div>
-      <small>BN / HI / EN</small>
-    </div>
-
-    <div class="feature">
-      <div class="feature-icon">✦</div>
-      <div class="feature-title">Smart Filter</div>
-      <small>No repetition</small>
-    </div>
-
-    <div class="feature">
-      <div class="feature-icon">◇</div>
-      <div class="feature-title">Secure</div>
-      <small>Protected</small>
-    </div>
-
-  </section>
-
-
-  <div class="note">
-    🔒 Microphone access is requested by this HTTPS page.
-    Your Gemini API key remains safely inside Apps Script.
+<section class="transcript-card">
+  <div class="transcript-head">
+    <div class="transcript-title">〽 Your Spoken Booking Details</div>
+    <div id="state" class="state">READY</div>
   </div>
 
+  <div id="transcript" class="transcript">
+    <span class="placeholder">
+      Your spoken booking details will appear here…
+    </span>
+  </div>
+
+  <div class="actions">
+    <button id="clear" class="action">
+      ⌫ &nbsp; Clear
+      <small>Reset transcript</small>
+    </button>
+
+    <button id="send" class="action send" disabled>
+      ✓ &nbsp; Use in Booking
+      <small>Send transcript to assistant</small>
+    </button>
+  </div>
+</section>
+
+<section class="features">
+  <div class="feature">
+    <div class="feature-icon">◎</div>
+    <div class="feature-title">High Accuracy</div>
+    <small>AI transcription</small>
+  </div>
+  <div class="feature">
+    <div class="feature-icon">◎</div>
+    <div class="feature-title">Multi Language</div>
+    <small>BN / HI / EN</small>
+  </div>
+  <div class="feature">
+    <div class="feature-icon">✦</div>
+    <div class="feature-title">Smart Filter</div>
+    <small>No repetition</small>
+  </div>
+  <div class="feature">
+    <div class="feature-icon">◇</div>
+    <div class="feature-title">Secure</div>
+    <small>Protected</small>
+  </div>
+</section>
+
+<div class="note">
+  🔒 Microphone access is requested by this HTTPS page.
+  Your Gemini API key remains safely inside Apps Script.
 </div>
 
 </div>
-
+</div>
 
 <script>
-
 (function(){
 
   const APPS_SCRIPT_URL =
     'https://script.google.com/macros/s/AKfycbzeL5qodNLayTYXtmWqa8xxDv06Om30K7VUs25JXsRrQBtzD-E4rAKg1P-KFf4_DCDS/exec';
 
-
-  const params =
-    new URLSearchParams(location.search);
+  const params = new URLSearchParams(location.search);
 
   const session =
     params.get('session') ||
-    ('voice_' +
-     Date.now() +
-     '_' +
-     Math.random()
-       .toString(36)
-       .slice(2,9));
+    ('voice_' + Date.now() + '_' +
+      Math.random().toString(36).slice(2,9));
 
-
-  const mic =
-    document.getElementById('mic');
-
-  const micWrap =
-    document.getElementById('micWrap');
-
-  const visualizer =
-    document.getElementById('visualizer');
-
-  const status =
-    document.getElementById('status');
-
-  const timer =
-    document.getElementById('timer');
-
-  const transcript =
-    document.getElementById('transcript');
-
-  const state =
-    document.getElementById('state');
-
-  const clear =
-    document.getElementById('clear');
-
-  const send =
-    document.getElementById('send');
-
-  const wave =
-    document.getElementById('wave');
-
+  const mic = document.getElementById('mic');
+  const micWrap = document.getElementById('micWrap');
+  const visualizer = document.getElementById('visualizer');
+  const status = document.getElementById('status');
+  const timer = document.getElementById('timer');
+  const transcript = document.getElementById('transcript');
+  const state = document.getElementById('state');
+  const clear = document.getElementById('clear');
+  const send = document.getElementById('send');
+  const wave = document.getElementById('wave');
 
   let selectedLanguage = 'auto';
-
   let mediaStream = null;
   let recorder = null;
-
   let chunks = [];
-
   let recording = false;
-
   let seconds = 0;
-
   let timerInterval = null;
-
   let finalTranscript = '';
-
   let polling = false;
-
   let pollTimer = null;
 
-
-  /*
-   * Create waveform bars.
-   */
-
   for(let i=0;i<44;i++){
-
-    const bar =
-      document.createElement('div');
-
+    const bar = document.createElement('div');
     bar.className = 'bar';
-
-    const h =
-      12 +
-      Math.round(
-        Math.random() * 42
-      );
-
     bar.style.height =
-      h + 'px';
-
+      (12 + Math.round(Math.random()*42)) + 'px';
     wave.appendChild(bar);
   }
 
+  document.querySelectorAll('.lang').forEach(function(button){
+    button.addEventListener('click',function(){
+      if(recording) return;
 
-  /*
-   * Language selector.
-   */
+      document.querySelectorAll('.lang')
+        .forEach(function(x){
+          x.classList.remove('active');
+        });
 
-  document
-    .querySelectorAll('.lang')
-    .forEach(function(button){
-
-      button.addEventListener(
-        'click',
-        function(){
-
-          document
-            .querySelectorAll('.lang')
-            .forEach(function(x){
-              x.classList.remove(
-                'active'
-              );
-            });
-
-          button.classList.add(
-            'active'
-          );
-
-          selectedLanguage =
-            button.dataset.lang;
-
-        }
-      );
-
+      button.classList.add('active');
+      selectedLanguage = button.dataset.lang;
     });
+  });
 
-
-  function setStatus(
-    title,
-    sub,
-    stateText
-  ){
-
+  function setStatus(title, sub, stateText){
     status.innerHTML =
-      '<span class="status-dot"></span>' +
-      title;
+      '<span class="status-dot"></span>' + title;
 
-    timer.textContent =
-      sub || '';
-
-    state.textContent =
-      stateText || 'READY';
+    timer.textContent = sub || '';
+    state.textContent = stateText || 'READY';
   }
-
 
   function startTimer(){
-
     seconds = 0;
+    timer.textContent = '00:00';
 
-    timer.textContent =
-      '00:00';
+    timerInterval = setInterval(function(){
+      seconds++;
 
-    timerInterval =
-      setInterval(function(){
+      timer.textContent =
+        String(Math.floor(seconds/60)).padStart(2,'0') +
+        ':' +
+        String(seconds%60).padStart(2,'0');
 
-        seconds++;
-
-        const m =
-          String(
-            Math.floor(seconds / 60)
-          ).padStart(2,'0');
-
-        const s =
-          String(
-            seconds % 60
-          ).padStart(2,'0');
-
-        timer.textContent =
-          m + ':' + s;
-
-      },1000);
+    },1000);
   }
 
-
   function stopTimer(){
-
     if(timerInterval){
-
-      clearInterval(
-        timerInterval
-      );
-
+      clearInterval(timerInterval);
       timerInterval = null;
     }
   }
 
-
-  /*
-   * Find the best microphone recording format
-   * supported by the phone.
-   */
-
   function getMimeType(){
 
     const types = [
-
       'audio/webm;codecs=opus',
-
       'audio/webm',
-
       'audio/mp4',
-
       'audio/ogg;codecs=opus'
-
     ];
 
-    for(
-      let i=0;
-      i<types.length;
-      i++
-    ){
+    for(let i=0;i<types.length;i++){
 
       if(
         window.MediaRecorder &&
-        MediaRecorder.isTypeSupported(
-          types[i]
-        )
+        MediaRecorder.isTypeSupported &&
+        MediaRecorder.isTypeSupported(types[i])
       ){
-
         return types[i];
-
       }
-
     }
 
     return '';
   }
-
 
   async function startRecording(){
 
@@ -1177,141 +466,97 @@ body{
       !navigator.mediaDevices ||
       !navigator.mediaDevices.getUserMedia
     ){
-
       setStatus(
         'Microphone unavailable',
-        'This browser does not support microphone recording.',
+        'Use Chrome on HTTPS.',
         'ERROR'
       );
-
       return;
-
     }
-
 
     try{
 
       mediaStream =
-        await navigator.mediaDevices
-          .getUserMedia({
-            audio:{
-              echoCancellation:true,
-              noiseSuppression:true,
-              autoGainControl:true,
-              channelCount:1
-            }
-          });
+        await navigator.mediaDevices.getUserMedia({
+          audio:{
+            echoCancellation:true,
+            noiseSuppression:true,
+            autoGainControl:true,
+            channelCount:1
+          }
+        });
 
-
-      const mimeType =
-        getMimeType();
-
+      const mimeType = getMimeType();
 
       recorder =
         mimeType
           ? new MediaRecorder(
               mediaStream,
-              {
-                mimeType:mimeType
-              }
+              {mimeType:mimeType}
             )
-          : new MediaRecorder(
-              mediaStream
-            );
-
+          : new MediaRecorder(mediaStream);
 
       chunks = [];
 
-      recorder.ondataavailable =
-        function(event){
+      recorder.ondataavailable = function(event){
+        if(event.data && event.data.size > 0){
+          chunks.push(event.data);
+        }
+      };
 
-          if(
-            event.data &&
-            event.data.size > 0
-          ){
+      recorder.onstop = async function(){
 
-            chunks.push(
-              event.data
-            );
+        stopTimer();
 
-          }
+        if(mediaStream){
+          mediaStream.getTracks().forEach(function(track){
+            track.stop();
+          });
+        }
 
-        };
+        mediaStream = null;
 
+        const actualMime =
+          recorder.mimeType ||
+          mimeType ||
+          'audio/webm';
 
-      recorder.onstop =
-        async function(){
+        const blob =
+          new Blob(chunks,{type:actualMime});
 
-          stopTimer();
+        chunks = [];
 
-          if(mediaStream){
+        if(blob.size < 1000){
 
-            mediaStream
-              .getTracks()
-              .forEach(function(track){
-                track.stop();
-              });
-
-          }
-
-          mediaStream = null;
-
-          const actualMime =
-            recorder.mimeType ||
-            mimeType ||
-            'audio/webm';
-
-          const blob =
-            new Blob(
-              chunks,
-              {
-                type:actualMime
-              }
-            );
-
-          chunks = [];
-
-          if(blob.size < 1000){
-
-            setStatus(
-              'No speech captured',
-              'Tap the microphone and try again.',
-              'READY'
-            );
-
-            resetMic();
-
-            return;
-
-          }
-
-          await sendAudioToGemini(
-            blob,
-            actualMime
+          setStatus(
+            'No speech captured',
+            'Tap the microphone and try again.',
+            'READY'
           );
 
-        };
+          resetMic();
+          return;
+        }
 
+        await sendAudioToGemini(
+          blob,
+          actualMime
+        );
+      };
 
-      recorder.start(
-        250
-      );
+      /*
+       * Small timeslice gives the browser
+       * frequent data chunks without changing
+       * the final recording quality.
+       */
+      recorder.start(250);
 
       recording = true;
 
-      micWrap.classList.add(
-        'live'
-      );
-
-      mic.classList.add(
-        'live'
-      );
-
+      micWrap.classList.add('live');
+      mic.classList.add('live');
       mic.textContent = '■';
-
-      visualizer.classList.add(
-        'live'
-      );
+      visualizer.classList.add('live');
 
       setStatus(
         'Listening…',
@@ -1332,11 +577,8 @@ body{
       );
 
       resetMic();
-
     }
-
   }
-
 
   function stopRecording(){
 
@@ -1344,126 +586,72 @@ body{
       recorder &&
       recorder.state !== 'inactive'
     ){
-
       recorder.stop();
-
     }
 
     recording = false;
-
     stopTimer();
 
-    mic.textContent =
-      '⏳';
-
+    mic.textContent = '⏳';
     mic.disabled = true;
 
-    visualizer.classList.remove(
-      'live'
-    );
+    visualizer.classList.remove('live');
 
     setStatus(
       'Processing recording…',
       'Sending audio to Gemini AI',
       'PROCESSING'
     );
-
   }
-
 
   function resetMic(){
 
     recording = false;
-
     mic.disabled = false;
 
-    mic.classList.remove(
-      'live'
-    );
+    mic.classList.remove('live');
+    micWrap.classList.remove('live');
+    visualizer.classList.remove('live');
 
-    micWrap.classList.remove(
-      'live'
-    );
-
-    visualizer.classList.remove(
-      'live'
-    );
-
-    mic.textContent =
-      '🎙️';
-
+    mic.textContent = '🎙️';
   }
 
+  mic.addEventListener('click',function(){
 
-  mic.addEventListener(
-    'click',
-    function(){
-
-      if(recording){
-
-        stopRecording();
-
-      }else{
-
-        startRecording();
-
-      }
-
+    if(recording){
+      stopRecording();
+    }else{
+      startRecording();
     }
-  );
 
-
-  /*
-   * Convert Blob -> Base64.
-   */
+  });
 
   function blobToBase64(blob){
 
-    return new Promise(
-      function(resolve,reject){
+    return new Promise(function(resolve,reject){
 
-        const reader =
-          new FileReader();
+      const reader = new FileReader();
 
-        reader.onload =
-          function(){
+      reader.onload = function(){
 
-            const result =
-              reader.result;
+        const result =
+          String(reader.result || '');
 
-            const comma =
-              result.indexOf(',');
+        const comma =
+          result.indexOf(',');
 
-            resolve(
-              result.slice(
-                comma + 1
-              )
-            );
-
-          };
-
-        reader.onerror =
-          reject;
-
-        reader.readAsDataURL(
-          blob
+        resolve(
+          result.slice(
+            comma + 1
+          )
         );
+      };
 
-      }
-    );
+      reader.onerror = reject;
 
+      reader.readAsDataURL(blob);
+    });
   }
-
-
-  /*
-   * Send audio to Apps Script.
-   *
-   * no-cors is intentional.
-   * Apps Script ContentService redirects
-   * its response to googleusercontent.
-   * We don't need the POST response because
-   * the frontend polls the session through JSONP.
-   */
 
   async function sendAudioToGemini(
     blob,
@@ -1473,53 +661,43 @@ body{
     try{
 
       const base64 =
-        await blobToBase64(
-          blob
-        );
-
+        await blobToBase64(blob);
 
       const body =
         new URLSearchParams();
 
-      body.append(
-        'session',
-        session
-      );
-
-      body.append(
-        'language',
-        selectedLanguage
-      );
-
+      body.append('session',session);
+      body.append('language',selectedLanguage);
       body.append(
         'mimeType',
         mimeType.split(';')[0]
       );
-
-      body.append(
-        'audio',
-        base64
-      );
-
+      body.append('audio',base64);
 
       setStatus(
         'Gemini is processing…',
-        'Please wait for the complete transcript',
+        'AI is preparing your transcript',
         'AI'
       );
 
-
-      await fetch(
+      /*
+       * Fire-and-poll:
+       * we don't wait for the POST response.
+       * The Apps Script writes the session result,
+       * and JSONP polling reads it independently.
+       */
+      fetch(
         APPS_SCRIPT_URL,
         {
           method:'POST',
           mode:'no-cors',
           body:body
         }
-      );
+      ).catch(function(error){
+        console.warn('POST warning:',error);
+      });
 
-
-      pollResult();
+      startPolling();
 
     }catch(error){
 
@@ -1532,17 +710,10 @@ body{
       );
 
       resetMic();
-
     }
-
   }
 
-
-  /*
-   * JSONP polling.
-   */
-
-  function pollResult(){
+  function startPolling(){
 
     if(polling){
       return;
@@ -1564,135 +735,94 @@ body{
           .toString(36)
           .slice(2,7);
 
-
       window[callbackName] =
         function(result){
 
           try{
-
-            handleResult(
-              result
-            );
-
+            handleResult(result);
           }finally{
-
             cleanup();
-
           }
-
         };
 
-
       const script =
-        document.createElement(
-          'script'
-        );
+        document.createElement('script');
 
       const url =
         APPS_SCRIPT_URL +
         '?session=' +
-        encodeURIComponent(
-          session
-        ) +
+        encodeURIComponent(session) +
         '&callback=' +
-        encodeURIComponent(
-          callbackName
-        ) +
+        encodeURIComponent(callbackName) +
         '&_=' +
         Date.now();
 
-
       script.src = url;
 
-      script.onerror =
-        function(){
+      script.onerror = function(){
 
-          cleanup();
+        cleanup();
 
-          if(
-            attempts < 90
-          ){
+        if(attempts < 150){
 
-            pollTimer =
-              setTimeout(
-                check,
-                1200
-              );
-
-          }else{
-
-            polling = false;
-
-            setStatus(
-              'Connection timeout',
-              'Please try the recording again.',
-              'ERROR'
+          pollTimer =
+            setTimeout(
+              check,
+              650
             );
 
-            resetMic();
+        }else{
 
-          }
+          polling = false;
 
-        };
+          setStatus(
+            'Connection timeout',
+            'Please try the recording again.',
+            'ERROR'
+          );
 
+          resetMic();
+        }
+      };
 
       function cleanup(){
 
         if(script.parentNode){
-          script.parentNode.removeChild(
-            script
-          );
+          script.parentNode.removeChild(script);
         }
 
         try{
           delete window[callbackName];
         }catch(e){}
-
       }
 
-
-      document.body.appendChild(
-        script
-      );
-
+      document.body.appendChild(script);
     }
 
     check();
-
   }
 
-
-  function handleResult(
-    result
-  ){
+  function handleResult(result){
 
     if(!result){
       return;
     }
 
-
-    if(result.status === 'processing'){
+    if(
+      result.status === 'processing' ||
+      result.status === 'waiting'
+    ){
 
       setStatus(
-        'Gemini is listening…',
+        'Gemini is processing…',
         result.message ||
-          'Analyzing your complete recording',
+          'Preparing your transcript',
         'AI'
       );
 
       pollAgain();
-
       return;
     }
-
-
-    if(result.status === 'waiting'){
-
-      pollAgain();
-
-      return;
-    }
-
 
     if(result.status === 'done'){
 
@@ -1705,10 +835,9 @@ body{
         finalTranscript ||
         'No transcript returned.';
 
-      transcript
-        .classList.remove(
-          'placeholder'
-        );
+      transcript.classList.remove(
+        'placeholder'
+      );
 
       send.disabled =
         !finalTranscript;
@@ -1722,11 +851,8 @@ body{
       );
 
       resetMic();
-
       return;
-
     }
-
 
     if(result.status === 'error'){
 
@@ -1740,144 +866,114 @@ body{
       );
 
       resetMic();
-
     }
-
   }
 
-
   function pollAgain(){
+
+    if(pollTimer){
+      clearTimeout(pollTimer);
+    }
 
     pollTimer =
       setTimeout(
         function(){
 
           polling = false;
-
-          pollResult();
+          startPolling();
 
         },
-        1200
+        650
       );
-
   }
 
+  clear.addEventListener('click',function(){
 
-  /*
-   * Clear.
-   */
+    if(recording){
+      stopRecording();
+      return;
+    }
 
-  clear.addEventListener(
-    'click',
-    function(){
+    finalTranscript = '';
 
-      if(recording){
+    transcript.innerHTML =
+      '<span class="placeholder">' +
+      'Your spoken booking details will appear here…' +
+      '</span>';
 
-        stopRecording();
+    send.disabled = true;
 
-        return;
+    setStatus(
+      'Ready to listen',
+      'Tap the microphone to start',
+      'READY'
+    );
 
-      }
+    resetMic();
+  });
 
-      finalTranscript = '';
+  send.addEventListener('click',function(){
 
-      transcript.innerHTML =
-        '<span class="placeholder">' +
-        'Your spoken booking details will appear here…' +
-        '</span>';
-
-      send.disabled = true;
+    if(!finalTranscript){
 
       setStatus(
-        'Ready to listen',
-        'Tap the microphone to start',
+        'Nothing to send',
+        'Record your booking details first.',
         'READY'
       );
 
-      resetMic();
-
+      return;
     }
-  );
 
+    setStatus(
+      'Sending to booking assistant…',
+      'Please wait',
+      'SENDING'
+    );
 
-  /*
-   * Use in Booking.
-   *
-   * Save the final transcript in the same
-   * VOICE_<session> system used by the
-   * existing booking assistant.
-   */
+    try{
 
-  send.addEventListener(
-    'click',
-    function(){
+      localStorage.setItem(
+        'VOICE_BOOKING_' + session,
+        JSON.stringify({
+          status:'done',
+          text:finalTranscript
+        })
+      );
 
-      if(!finalTranscript){
+    }catch(e){}
 
-        setStatus(
-          'Nothing to send',
-          'Record your booking details first.',
-          'READY'
+    try{
+
+      if(window.opener){
+
+        window.opener.postMessage(
+          {
+            type:'MEGHA_VOICE_BOOKING',
+            session:session,
+            text:finalTranscript
+          },
+          '*'
         );
-
-        return;
 
       }
 
+    }catch(e){}
 
-      setStatus(
-        'Sending to booking assistant…',
-        'Please wait',
-        'SENDING'
-      );
+    setStatus(
+      'Sent ✓',
+      'Returning to booking assistant…',
+      'DONE'
+    );
 
-
-      /*
-       * The backend already contains the
-       * Gemini result in VOICE_<session>.
-       *
-       * We simply mark the frontend action
-       * and return to the opener when possible.
-       */
+    setTimeout(function(){
 
       try{
-
-        localStorage.setItem(
-          'VOICE_BOOKING_' + session,
-          JSON.stringify({
-            status:'done',
-            text:finalTranscript
-          })
-        );
-
+        window.close();
       }catch(e){}
 
-
-      setStatus(
-        'Sent ✓',
-        'Returning to booking assistant…',
-        'DONE'
-      );
-
-
-      setTimeout(
-        function(){
-
-          try{
-            window.close();
-          }catch(e){}
-
-        },
-        500
-      );
-
-    }
-  );
-
-
-  /*
-   * Initial state.
-   */
+    },500);
+  });
 
   setStatus(
     'Ready to listen',
@@ -1885,9 +981,7 @@ body{
     'READY'
   );
 
-
 })();
-
 </script>
 
 </body>
