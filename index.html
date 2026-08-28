@@ -20,8 +20,7 @@
 body{
   margin:0;
   min-height:100vh;
-  background:
-    radial-gradient(circle at 50% 10%,#164e3d,#071e17 55%);
+  background:radial-gradient(circle at 50% 10%,#164e3d,#071e17 55%);
   font-family:Arial,sans-serif;
   color:var(--text);
   display:grid;
@@ -121,7 +120,9 @@ body{
   border-radius:16px;
   background:rgba(0,0,0,.12);
   min-height:90px;
-  line-height:1.5;
+  max-height:430px;
+  overflow:auto;
+  line-height:1.6;
   color:var(--text);
   white-space:pre-wrap;
   word-break:break-word;
@@ -217,39 +218,23 @@ body{
     window.webkitSpeechRecognition;
 
   let mode = "auto";
-
   let rec = null;
 
-  /*
-   * User intentionally wants microphone active.
-   * This stays TRUE even when Chrome fires onend.
-   */
   let shouldListen = false;
-
-  /*
-   * Prevent multiple recognition instances.
-   */
   let starting = false;
 
-  /*
-   * Final transcript is kept permanently during this session.
-   */
   let finalText = "";
-
-  /*
-   * Current temporary/interim speech.
-   */
   let interimText = "";
 
-  /*
-   * Small counter to prevent endless rapid restarts.
-   */
   let restartTimer = null;
 
-  /*
-   * Save transcript for the parent booking application.
-   */
+
+  /* =========================================================
+     STORAGE
+     ========================================================= */
+
   function save(obj){
+
     if(!session) return;
 
     try{
@@ -261,117 +246,494 @@ body{
   }
 
 
-  /*
-   * Language buttons
-   */
-  document.querySelectorAll(".lang").forEach(function(btn){
+  /* =========================================================
+     TEXT NORMALIZATION
+     ========================================================= */
 
-    btn.onclick = function(){
+  function normalizeSpaces(str){
 
-      document.querySelectorAll(".lang")
-        .forEach(function(x){
-          x.classList.remove("active");
-        });
-
-      btn.classList.add("active");
-
-      mode = btn.dataset.lang;
-
-      if(mode === "auto"){
-        status.textContent =
-          "Auto Detect selected";
-      }
-      else if(mode === "bn-IN"){
-        status.textContent =
-          "বাংলা selected";
-      }
-      else{
-        status.textContent =
-          "हिन्दी selected";
-      }
-
-      /*
-       * If currently listening, restart with
-       * the newly selected language.
-       */
-      if(shouldListen){
-        stopRecognitionOnly();
-
-        setTimeout(function(){
-          if(shouldListen){
-            startRecognition();
-          }
-        },250);
-      }
-    };
-
-  });
-
-
-  /*
-   * Determine recognition language.
-   *
-   * Browser SpeechRecognition does not provide reliable
-   * automatic Bengali/Hindi language detection.
-   *
-   * Auto therefore starts with Bengali, while the user
-   * can explicitly select Hindi when needed.
-   */
-  function getLanguage(){
-
-    if(mode === "hi-IN"){
-      return "hi-IN";
-    }
-
-    /*
-     * Bengali is the default for Auto because the booking
-     * assistant is primarily being used with Bengali/Banglish.
-     */
-    return "bn-IN";
+    return String(str || "")
+      .replace(/\s+/g," ")
+      .trim();
   }
 
 
   /*
-   * Update visible transcript.
+   * Remove immediately repeated words.
+   *
+   * Example:
+   * "সন্ধ্যা সন্ধ্যা সন্ধ্যা পাঁচটায়"
+   *
+   * becomes:
+   * "সন্ধ্যা পাঁচটায়"
+   *
+   * This works for Bengali, Hindi and English because
+   * comparison is Unicode based.
    */
+  function removeRepeatedWords(str){
+
+    const words = normalizeSpaces(str).split(" ");
+
+    if(!words.length) return "";
+
+    const result = [];
+
+    for(let i=0;i<words.length;i++){
+
+      const current = words[i];
+
+      /*
+       * Exact immediate duplicate.
+       */
+      if(
+        result.length &&
+        result[result.length - 1] === current
+      ){
+        continue;
+      }
+
+      /*
+       * Case-insensitive duplicate for English/Banglish.
+       */
+      if(
+        result.length &&
+        result[result.length - 1].toLocaleLowerCase() ===
+        current.toLocaleLowerCase()
+      ){
+        continue;
+      }
+
+      result.push(current);
+    }
+
+    return result.join(" ");
+  }
+
+
+  /*
+   * Remove a phrase if the same phrase has been repeated
+   * several times consecutively.
+   *
+   * Example:
+   * "সন্ধ্যা পাঁচটায় খড়গপুরে সন্ধ্যা পাঁচটায় খড়গপুরে"
+   *
+   * becomes:
+   * "সন্ধ্যা পাঁচটায় খড়গপুরে"
+   */
+  function removeRepeatedPhrases(str){
+
+    let words = normalizeSpaces(str).split(" ");
+
+    if(words.length < 4){
+      return words.join(" ");
+    }
+
+    let changed = true;
+
+    /*
+     * Continue until no obvious repeated block remains.
+     */
+    while(changed){
+
+      changed = false;
+
+      const maxPhrase =
+        Math.min(12, Math.floor(words.length / 2));
+
+      for(
+        let size = maxPhrase;
+        size >= 2;
+        size--
+      ){
+
+        const a =
+          words.slice(
+            words.length - size * 2,
+            words.length - size
+          );
+
+        const b =
+          words.slice(
+            words.length - size
+          );
+
+        if(
+          a.length === size &&
+          b.length === size &&
+          a.every(function(word,index){
+
+            return word.toLocaleLowerCase() ===
+                   b[index].toLocaleLowerCase();
+
+          })
+        ){
+
+          words =
+            words.slice(
+              0,
+              words.length - size
+            );
+
+          changed = true;
+          break;
+        }
+      }
+    }
+
+    return words.join(" ");
+  }
+
+
+  /*
+   * Clean recognition output safely.
+   *
+   * We deliberately do NOT aggressively change words,
+   * because customer names, locations and amounts are
+   * important in booking data.
+   */
+  function cleanSpeech(str){
+
+    let result =
+      normalizeSpaces(str);
+
+    result =
+      removeRepeatedWords(result);
+
+    result =
+      removeRepeatedPhrases(result);
+
+    result =
+      removeRepeatedWords(result);
+
+    return normalizeSpaces(result);
+  }
+
+
+  /* =========================================================
+     OVERLAP PROTECTION
+     ========================================================= */
+
+  /*
+   * Find how many words at the END of existing text
+   * are repeated at the BEGINNING of new text.
+   *
+   * This is especially important after Chrome automatically
+   * restarts SpeechRecognition.
+   *
+   * Example:
+   *
+   * OLD:
+   * "রিয়া দাসের সন্ধ্যা পাঁচটায়"
+   *
+   * NEW:
+   * "সন্ধ্যা পাঁচটায় খড়গপুরে"
+   *
+   * Result:
+   * "খড়গপুরে"
+   */
+  function removeOverlap(oldText,newText){
+
+    const oldWords =
+      normalizeSpaces(oldText).split(" ");
+
+    const newWords =
+      normalizeSpaces(newText).split(" ");
+
+    if(
+      !oldWords.length ||
+      !newWords.length
+    ){
+      return newText;
+    }
+
+    const max =
+      Math.min(
+        15,
+        oldWords.length,
+        newWords.length
+      );
+
+    let overlap = 0;
+
+    for(let size=max;size>=1;size--){
+
+      const oldPart =
+        oldWords.slice(
+          oldWords.length - size
+        );
+
+      const newPart =
+        newWords.slice(
+          0,
+          size
+        );
+
+      let same = true;
+
+      for(let i=0;i<size;i++){
+
+        if(
+          oldPart[i].toLocaleLowerCase() !==
+          newPart[i].toLocaleLowerCase()
+        ){
+          same = false;
+          break;
+        }
+      }
+
+      if(same){
+
+        overlap = size;
+        break;
+      }
+    }
+
+    if(overlap > 0){
+
+      return newWords
+        .slice(overlap)
+        .join(" ");
+    }
+
+    return newText;
+  }
+
+
+  /*
+   * Add a newly finalized recognition result to the
+   * permanent transcript without duplicating it.
+   */
+  function appendFinal(newText){
+
+    newText =
+      cleanSpeech(newText);
+
+    if(!newText){
+      return;
+    }
+
+
+    /*
+     * If the entire new phrase is already present at
+     * the end of finalText, don't append it.
+     */
+    const cleanedOld =
+      cleanSpeech(finalText);
+
+
+    if(!cleanedOld){
+
+      finalText = newText;
+      return;
+    }
+
+
+    /*
+     * Remove overlap between the previous recognition
+     * session and this new recognition session.
+     */
+    let addition =
+      removeOverlap(
+        cleanedOld,
+        newText
+      );
+
+
+    addition =
+      cleanSpeech(addition);
+
+
+    /*
+     * Nothing new after overlap removal.
+     */
+    if(!addition){
+      return;
+    }
+
+
+    /*
+     * Final safety:
+     * If the new addition itself is already the same as
+     * the ending of finalText, don't add it again.
+     */
+    const oldWords =
+      cleanedOld.split(" ");
+
+    const addWords =
+      addition.split(" ");
+
+    const max =
+      Math.min(
+        addWords.length,
+        oldWords.length,
+        15
+      );
+
+    for(
+      let size=max;
+      size>=1;
+      size--
+    ){
+
+      const oldEnd =
+        oldWords.slice(
+          oldWords.length - size
+        ).join(" ").toLocaleLowerCase();
+
+      const addStart =
+        addWords.slice(
+          0,
+          size
+        ).join(" ").toLocaleLowerCase();
+
+      if(oldEnd === addStart){
+
+        addition =
+          addWords
+            .slice(size)
+            .join(" ");
+
+        break;
+      }
+    }
+
+
+    addition =
+      cleanSpeech(addition);
+
+
+    if(!addition){
+      return;
+    }
+
+
+    finalText =
+      cleanSpeech(
+        cleanedOld + " " + addition
+      );
+  }
+
+
+  /* =========================================================
+     RENDER
+     ========================================================= */
+
   function renderText(){
 
     const combined =
-      (finalText + " " + interimText)
-        .trim();
+      cleanSpeech(
+        finalText + " " + interimText
+      );
 
     if(combined){
+
       text.textContent = combined;
-    }
-    else{
+
+    }else{
+
       text.textContent =
         "Your spoken booking details will appear here…";
     }
   }
 
 
-  /*
-   * Stop ONLY the current browser recognition instance.
-   *
-   * IMPORTANT:
-   * This does NOT turn shouldListen off.
-   *
-   * Therefore Chrome's onend can safely restart it.
-   */
+  /* =========================================================
+     LANGUAGE
+     ========================================================= */
+
+  document.querySelectorAll(".lang")
+    .forEach(function(btn){
+
+      btn.onclick = function(){
+
+        document.querySelectorAll(".lang")
+          .forEach(function(x){
+            x.classList.remove("active");
+          });
+
+        btn.classList.add("active");
+
+        mode = btn.dataset.lang;
+
+
+        if(mode === "auto"){
+
+          status.textContent =
+            "Auto Detect selected";
+
+        }else if(mode === "bn-IN"){
+
+          status.textContent =
+            "বাংলা selected";
+
+        }else{
+
+          status.textContent =
+            "हिन्दी selected";
+        }
+
+
+        /*
+         * If user changes language while listening,
+         * restart recognition safely.
+         */
+        if(shouldListen){
+
+          stopRecognitionOnly();
+
+          setTimeout(function(){
+
+            if(shouldListen){
+              startRecognition();
+            }
+
+          },300);
+        }
+
+      };
+
+    });
+
+
+  function getLanguage(){
+
+    /*
+     * Explicit Hindi.
+     */
+    if(mode === "hi-IN"){
+      return "hi-IN";
+    }
+
+    /*
+     * Bengali is default.
+     */
+    return "bn-IN";
+  }
+
+
+  /* =========================================================
+     RECOGNITION STOP
+     ========================================================= */
+
   function stopRecognitionOnly(){
 
     if(restartTimer){
+
       clearTimeout(restartTimer);
       restartTimer = null;
     }
 
+
     if(rec){
 
       try{
+
         rec.onend = null;
         rec.onerror = null;
         rec.onresult = null;
+
         rec.stop();
+
       }catch(e){}
 
       rec = null;
@@ -381,17 +743,17 @@ body{
   }
 
 
-  /*
-   * Fully stop microphone because USER pressed the button.
-   */
   function stopUser(){
 
     shouldListen = false;
 
     stopRecognitionOnly();
 
+    interimText = "";
+
     mic.classList.remove("live");
     mic.textContent = "🎙️";
+
 
     if(finalText.trim()){
 
@@ -403,12 +765,16 @@ body{
       status.textContent =
         "Tap the microphone to speak";
     }
+
+
+    renderText();
   }
 
 
-  /*
-   * Start a fresh SpeechRecognition session.
-   */
+  /* =========================================================
+     START RECOGNITION
+     ========================================================= */
+
   function startRecognition(){
 
     if(!Speech){
@@ -419,67 +785,81 @@ body{
       return;
     }
 
-    if(!shouldListen) return;
 
-    if(starting) return;
+    if(!shouldListen){
+      return;
+    }
+
+
+    if(starting){
+      return;
+    }
+
 
     starting = true;
 
-    /*
-     * Always create a new recognition object after onend.
-     */
+
     const current =
       new Speech();
 
     rec = current;
 
-    current.lang = getLanguage();
+
+    current.lang =
+      getLanguage();
+
 
     /*
-     * VERY IMPORTANT:
-     * continuous=true allows long speech.
+     * IMPORTANT:
+     * Keep recognition continuous.
      */
     current.continuous = true;
 
-    /*
-     * Keep temporary words visible.
-     */
     current.interimResults = true;
 
     current.maxAlternatives = 1;
 
 
+    /* =====================================================
+       START
+       ===================================================== */
+
     current.onstart = function(){
 
       starting = false;
 
-      if(!shouldListen) return;
+      if(!shouldListen){
+        return;
+      }
+
 
       mic.classList.add("live");
       mic.textContent = "■";
 
-      if(mode === "hi-IN"){
-        status.textContent =
-          "Listening in Hindi…";
-      }
-      else if(mode === "bn-IN"){
-        status.textContent =
-          "বাংলায় শুনছি…";
-      }
-      else{
-        status.textContent =
-          "Listening…";
-      }
+      status.textContent =
+        mode === "hi-IN"
+          ? "Listening in Hindi…"
+          : mode === "bn-IN"
+            ? "বাংলায় শুনছি…"
+            : "Listening…";
     };
 
+
+    /* =====================================================
+       RESULT
+       ===================================================== */
 
     current.onresult = function(event){
 
       let newFinal = "";
       let newInterim = "";
 
+
       /*
-       * Only process results from resultIndex onward.
+       * Only process results from resultIndex.
+       *
+       * This prevents us from processing old recognition
+       * results again.
        */
       for(
         let i = event.resultIndex;
@@ -493,78 +873,88 @@ body{
         const transcript =
           result[0].transcript;
 
+
         if(result.isFinal){
 
-          newFinal += transcript + " ";
+          newFinal +=
+            transcript + " ";
 
         }else{
 
-          newInterim += transcript + " ";
+          newInterim +=
+            transcript + " ";
         }
       }
 
 
-      /*
-       * Permanently store final results.
-       */
+      /* -----------------------------------------------
+         FINAL RESULT
+         ----------------------------------------------- */
+
       if(newFinal.trim()){
 
-        finalText =
-          (finalText + " " + newFinal)
-            .replace(/\s+/g," ")
-            .trim();
+        appendFinal(newFinal);
+
+        interimText = "";
+
       }
 
 
-      /*
-       * Interim text is temporary only.
-       */
-      interimText =
-        newInterim
-          .replace(/\s+/g," ")
-          .trim();
+      /* -----------------------------------------------
+         INTERIM RESULT
+         ----------------------------------------------- */
+
+      if(newInterim.trim()){
+
+        interimText =
+          cleanSpeech(newInterim);
+
+      }else{
+
+        interimText = "";
+      }
 
 
       renderText();
 
 
-      if(finalText){
-
-        status.textContent =
-          shouldListen
-            ? "Listening…"
-            : "Voice captured ✓ Tap Use in Booking";
-      }
-
       /*
-       * Continuously save the latest transcript.
-       * This protects the transcript even if Chrome
-       * unexpectedly ends recognition.
+       * Save continuously.
        */
       save({
         status:"listening",
         text:finalText,
         interim:interimText
       });
+
     };
 
 
+    /* =====================================================
+       ERROR
+       ===================================================== */
+
     current.onerror = function(event){
 
-      /*
-       * These errors can happen normally on Chrome Android.
-       *
-       * Do NOT immediately kill the whole voice session.
-       */
-      const error = event.error;
+      const error =
+        event.error;
 
+
+      /*
+       * These are normally recoverable.
+       */
       if(error === "aborted"){
         return;
       }
 
 
-      if(error === "not-allowed" ||
-         error === "service-not-allowed"){
+      /*
+       * Permission error is genuinely fatal.
+       */
+      if(
+        error === "not-allowed" ||
+        error === "service-not-allowed"
+      ){
 
         shouldListen = false;
 
@@ -584,9 +974,10 @@ body{
 
 
       /*
-       * no-speech is NOT treated as a fatal error.
+       * Chrome Android frequently produces no-speech
+       * when there is a short pause.
        *
-       * Chrome often gives this when the user pauses.
+       * DO NOT clear the transcript.
        */
       if(error === "no-speech"){
 
@@ -598,26 +989,31 @@ body{
 
 
       /*
-       * Network/service errors may also recover by
-       * restarting recognition.
+       * Other temporary errors.
        */
       status.textContent =
         "Listening…";
     };
 
 
+    /* =====================================================
+       END
+       ===================================================== */
+
     current.onend = function(){
 
       starting = false;
 
+
       /*
-       * If USER stopped the microphone,
-       * do not restart.
+       * User deliberately stopped it.
        */
       if(!shouldListen){
 
         mic.classList.remove("live");
         mic.textContent = "🎙️";
+
+        interimText = "";
 
         if(finalText.trim()){
 
@@ -630,15 +1026,20 @@ body{
             "Tap the microphone to speak";
         }
 
+        renderText();
+
         return;
       }
 
 
       /*
-       * Chrome Android can stop SpeechRecognition
-       * automatically even with continuous=true.
+       * Chrome ended recognition automatically.
        *
-       * Restart automatically.
+       * IMPORTANT:
+       * Do NOT clear finalText.
+       *
+       * Start a new recognition session and continue
+       * from the existing transcript.
        */
       mic.classList.add("live");
       mic.textContent = "■";
@@ -647,24 +1048,29 @@ body{
         "Listening…";
 
 
-      /*
-       * Small delay prevents rapid restart loops.
-       */
       if(restartTimer){
         clearTimeout(restartTimer);
       }
 
-      restartTimer = setTimeout(function(){
 
-        restartTimer = null;
+      restartTimer =
+        setTimeout(function(){
 
-        if(shouldListen){
-          startRecognition();
-        }
+          restartTimer = null;
 
-      },350);
+          if(shouldListen){
+
+            startRecognition();
+          }
+
+        },400);
+
     };
 
+
+    /* =====================================================
+       START
+       ===================================================== */
 
     try{
 
@@ -674,9 +1080,12 @@ body{
 
       starting = false;
 
+
       /*
-       * Sometimes Chrome says recognition is already started.
-       * Let onend/retry handle it instead of killing session.
+       * Chrome can occasionally report that recognition
+       * is already running.
+       *
+       * Retry without destroying transcript.
        */
       if(shouldListen){
 
@@ -684,30 +1093,32 @@ body{
           clearTimeout(restartTimer);
         }
 
-        restartTimer = setTimeout(function(){
 
-          restartTimer = null;
+        restartTimer =
+          setTimeout(function(){
 
-          if(shouldListen){
-            startRecognition();
-          }
+            restartTimer = null;
 
-        },700);
+            if(shouldListen){
+              startRecognition();
+            }
 
+          },800);
       }
+
     }
 
   }
 
 
-  /*
-   * Main microphone button.
-   */
+  /* =========================================================
+     MICROPHONE BUTTON
+     ========================================================= */
+
   mic.onclick = function(){
 
     /*
-     * If already listening,
-     * this is the USER stop command.
+     * Already listening → USER wants to stop.
      */
     if(shouldListen){
 
@@ -717,18 +1128,12 @@ body{
 
 
     /*
-     * Start a NEW voice session.
+     * Start new session.
      */
     shouldListen = true;
 
-    /*
-     * Keep previous final text if user had already
-     * captured something.
-     *
-     * This means accidental recognition restart
-     * won't erase previous speech.
-     */
     interimText = "";
+
 
     mic.classList.add("live");
     mic.textContent = "■";
@@ -736,13 +1141,15 @@ body{
     status.textContent =
       "Starting microphone…";
 
+
     startRecognition();
   };
 
 
-  /*
-   * Clear transcript.
-   */
+  /* =========================================================
+     CLEAR
+     ========================================================= */
+
   clear.onclick = function(){
 
     shouldListen = false;
@@ -760,25 +1167,25 @@ body{
 
     status.textContent = "Ready";
 
+
     save({
       status:"cleared",
       text:""
     });
+
   };
 
 
-  /*
-   * Send transcript back to booking assistant.
-   */
+  /* =========================================================
+     USE IN BOOKING
+     ========================================================= */
+
   send.onclick = function(){
 
-    /*
-     * If there is interim speech, combine it too.
-     */
     const output =
-      (finalText + " " + interimText)
-        .replace(/\s+/g," ")
-        .trim();
+      cleanSpeech(
+        finalText + " " + interimText
+      );
 
 
     if(!output){
@@ -791,7 +1198,7 @@ body{
 
 
     /*
-     * Stop listening before sending.
+     * Stop voice before sending.
      */
     shouldListen = false;
 
@@ -800,20 +1207,19 @@ body{
     finalText = output;
     interimText = "";
 
-    text.textContent = finalText;
+    renderText();
+
 
     save({
       status:"done",
       text:finalText
     });
 
+
     status.textContent =
       "Sent back to booking assistant ✓";
 
 
-    /*
-     * Give localStorage a moment to save.
-     */
     setTimeout(function(){
 
       try{
@@ -821,13 +1227,14 @@ body{
       }catch(e){}
 
     },500);
+
   };
 
 
-  /*
-   * If the page wasn't opened from the booking assistant,
-   * show the warning.
-   */
+  /* =========================================================
+     INITIAL STATE
+     ========================================================= */
+
   if(!session){
 
     status.textContent =
