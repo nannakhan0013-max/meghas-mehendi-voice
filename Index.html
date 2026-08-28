@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Megha's Mehendi — Voice Booking</title>
+<style>
+:root{--bg:#071e17;--card:#0e3026;--gold:#e5bd78;--text:#f8f1e6;--muted:#b9c8bf;--rose:#b86e79}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(circle at 50% 10%,#164e3d,#071e17 55%);font-family:Arial,sans-serif;color:var(--text);display:grid;place-items:center;padding:20px}
+.card{width:min(560px,100%);padding:28px;border:1px solid rgba(229,189,120,.25);border-radius:28px;background:rgba(14,48,38,.94);box-shadow:0 25px 70px rgba(0,0,0,.35);text-align:center}
+.logo{font-size:13px;letter-spacing:3px;color:var(--gold);font-weight:800}.title{font:36px Georgia,serif;margin:8px 0}.sub{color:var(--muted);font-size:13px;line-height:1.5}
+.langs{display:flex;gap:7px;justify-content:center;margin:20px 0}.lang{border:1px solid rgba(229,189,120,.25);background:rgba(255,255,255,.04);color:var(--text);border-radius:999px;padding:9px 13px;font-weight:700}.lang.active{background:rgba(229,189,120,.14);border-color:var(--gold);color:var(--gold)}
+.mic{width:118px;height:118px;border-radius:50%;border:1px solid rgba(229,189,120,.45);background:linear-gradient(145deg,#0f7358,#7b4b56);color:white;font-size:44px;margin:8px auto 16px;display:grid;place-items:center;cursor:pointer;box-shadow:0 12px 35px rgba(0,0,0,.25)}
+.mic.live{animation:pulse 1.1s ease-in-out infinite}@keyframes pulse{50%{transform:scale(1.045);box-shadow:0 0 0 14px rgba(229,189,120,.08)}}
+.status{min-height:22px;color:var(--gold);font-weight:800}.text{margin-top:14px;padding:14px;text-align:left;border:1px solid rgba(229,189,120,.18);border-radius:16px;background:rgba(0,0,0,.12);min-height:90px;line-height:1.5;color:var(--text)}
+.actions{display:flex;gap:8px;margin-top:12px}.actions button{flex:1;border:1px solid rgba(229,189,120,.25);border-radius:13px;padding:11px;background:rgba(255,255,255,.04);color:var(--text);font-weight:800}.actions .send{background:linear-gradient(110deg,#087b61,#7b4b56)}
+.note{margin-top:14px;color:var(--muted);font-size:11px}
+</style>
+</head>
+<body>
+<div class="card">
+ <div class="logo">MEGHA’S MEHENDI</div>
+ <div class="title">Voice Booking</div>
+ <div class="sub">Speak naturally. Choose a language or use Auto Detect, then send the transcript back to your booking assistant.</div>
+ <div class="langs">
+  <button class="lang active" data-lang="auto">Auto</button>
+  <button class="lang" data-lang="bn-IN">বাংলা</button>
+  <button class="lang" data-lang="hi-IN">हिन्दी</button>
+ </div>
+ <button id="mic" class="mic" aria-label="Start microphone">🎙️</button>
+ <div id="status" class="status">Tap the microphone to speak</div>
+ <div id="text" class="text">Your spoken booking details will appear here…</div>
+ <div class="actions"><button id="clear">Clear</button><button id="send" class="send">✓ Use in Booking</button></div>
+ <div class="note">Microphone access is requested by this top-level HTTPS page, not the Apps Script iframe.</div>
+</div>
+<script>
+(function(){
+ const params=new URLSearchParams(location.search), session=params.get("session")||"";
+ const mic=document.getElementById("mic"),status=document.getElementById("status"),text=document.getElementById("text");
+ const clear=document.getElementById("clear"),send=document.getElementById("send");
+ const Speech=window.SpeechRecognition||window.webkitSpeechRecognition;
+ let mode="auto",rec=null,finalText="",running=false;
+ function save(obj){if(session){try{localStorage.setItem(session,JSON.stringify(obj))}catch(e){}}}
+ document.querySelectorAll(".lang").forEach(b=>b.onclick=function(){document.querySelectorAll(".lang").forEach(x=>x.classList.remove("active"));b.classList.add("active");mode=b.dataset.lang;status.textContent=mode==="auto"?"Auto Detect selected":(mode==="bn-IN"?"বাংলা selected":"हिन्दी selected")});
+ function reset(){running=false;mic.classList.remove("live");mic.textContent="🎙️";status.textContent="Tap the microphone to speak";if(rec){try{rec.stop()}catch(e){}}}
+ function start(){
+   if(!Speech){status.textContent="Speech recognition is not supported in this browser.";return;}
+   if(running){try{rec.stop()}catch(e){};reset();return;}
+   rec=new Speech(); rec.lang=mode==="auto"?"bn-IN":mode; rec.interimResults=true; rec.continuous=false; rec.maxAlternatives=1;
+   finalText=""; running=true; mic.classList.add("live"); mic.textContent="■"; status.textContent="Listening…";
+   rec.onresult=function(e){let s="";for(let i=0;i<e.results.length;i++)s+=e.results[i][0].transcript+" ";finalText=s.trim();text.textContent=finalText||"Listening…"};
+   rec.onerror=function(e){status.textContent=e.error==="not-allowed"?"Microphone permission was denied. Please allow microphone for this Voice Helper page.":"Voice error: "+e.error;save({status:"error",message:status.textContent});reset()};
+   rec.onend=function(){if(finalText){text.textContent=finalText;status.textContent="Voice captured ✓ Tap Use in Booking";}else if(running){status.textContent="No speech detected. Tap the microphone and try again."}running=false;mic.classList.remove("live");mic.textContent="🎙️"};
+   try{rec.start()}catch(e){status.textContent="Could not start microphone.";save({status:"error",message:status.textContent});reset()}
+ }
+ mic.onclick=start;
+ clear.onclick=function(){finalText="";text.textContent="Your spoken booking details will appear here…";status.textContent="Ready"};
+ send.onclick=function(){if(!finalText){status.textContent="Speak first, then use the transcript.";return}save({status:"done",text:finalText});status.textContent="Sent back to booking assistant ✓";setTimeout(function(){window.close()},350)};
+ if(!session)status.textContent="No booking session was supplied.";
+})();
+</script>
+</body>
+</html>
