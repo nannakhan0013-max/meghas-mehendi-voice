@@ -3,24 +3,23 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport"
-      content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
+      content="width=device-width,initial-scale=1,viewport-fit=cover">
 
 <title>Megha's Mehendi — Voice Assistant</title>
 
 <style>
+
 :root{
-  --bg:#031612;
-  --bg2:#06231b;
-  --panel:rgba(4,28,22,.82);
-  --panel2:rgba(2,20,16,.88);
-  --line:rgba(43,231,193,.18);
-  --lineGold:rgba(229,189,120,.32);
+  --bg:#03130f;
+  --bg2:#061d17;
+  --card:rgba(5,31,24,.78);
+  --line:rgba(41,224,190,.20);
+  --teal:#20e0bd;
+  --teal2:#0ba889;
   --gold:#e5bd78;
-  --teal:#22e6c0;
-  --teal2:#08a98d;
-  --rose:#ed6284;
-  --text:#f8f1e6;
-  --muted:#9eb5ad;
+  --rose:#ef718e;
+  --text:#f7f4ec;
+  --muted:#9eaea8;
 }
 
 *{
@@ -29,255 +28,257 @@
 }
 
 html,body{
-  width:100%;
-  height:100%;
   margin:0;
-  overflow:hidden;
+  width:100%;
+  min-height:100%;
 }
 
 body{
-  min-height:100dvh;
+  min-height:100vh;
   background:
-    radial-gradient(circle at 50% 18%,rgba(17,101,78,.32),transparent 38%),
-    radial-gradient(circle at 100% 75%,rgba(237,98,132,.08),transparent 30%),
-    linear-gradient(145deg,#03120f,#06251c 52%,#02100d);
+    radial-gradient(
+      circle at 50% 8%,
+      rgba(20,103,79,.55),
+      transparent 38%
+    ),
+    radial-gradient(
+      circle at 90% 80%,
+      rgba(142,38,75,.18),
+      transparent 30%
+    ),
+    #03130f;
+
   color:var(--text);
-  font-family:Arial,Helvetica,sans-serif;
+  font-family:
+    Inter,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+
   display:flex;
   justify-content:center;
-  align-items:center;
   padding:
-    max(8px,env(safe-area-inset-top))
+    max(10px,env(safe-area-inset-top))
     10px
-    max(8px,env(safe-area-inset-bottom));
+    max(10px,env(safe-area-inset-bottom));
 }
 
-/* MAIN */
 .app{
-  width:min(720px,100%);
-  height:min(100dvh - 16px,780px);
-  min-height:0;
-  position:relative;
-  overflow:hidden;
+  width:min(620px,100%);
+  min-height:calc(100vh - 20px);
 
-  border:1px solid rgba(229,189,120,.25);
-  border-radius:28px;
+  border:1px solid rgba(229,189,120,.28);
+  border-radius:30px;
 
   background:
-    radial-gradient(circle at 50% 30%,rgba(25,121,95,.12),transparent 36%),
-    rgba(3,28,22,.90);
+    linear-gradient(
+      145deg,
+      rgba(8,49,39,.94),
+      rgba(2,23,18,.97)
+    );
 
   box-shadow:
-    0 25px 80px rgba(0,0,0,.48),
-    inset 0 0 80px rgba(18,211,172,.035);
+    0 20px 70px rgba(0,0,0,.48),
+    inset 0 0 50px rgba(20,224,189,.035);
+
+  overflow:hidden;
+  position:relative;
 }
 
-/* subtle decorative circles */
-.app:before,
+/* decorative glow */
+
+.app:before{
+  content:"";
+  position:absolute;
+  width:300px;
+  height:300px;
+  border-radius:50%;
+  border:1px solid rgba(32,224,189,.08);
+  left:-170px;
+  top:-100px;
+  box-shadow:
+    0 0 0 35px rgba(229,189,120,.025),
+    0 0 0 75px rgba(32,224,189,.018);
+  pointer-events:none;
+}
+
 .app:after{
   content:"";
   position:absolute;
-  pointer-events:none;
+  width:240px;
+  height:240px;
   border-radius:50%;
-  border:1px solid rgba(34,230,192,.08);
+  right:-150px;
+  bottom:-120px;
+  border:1px solid rgba(239,113,142,.10);
+  pointer-events:none;
 }
 
-.app:before{
-  width:360px;
-  height:360px;
-  left:-230px;
-  top:-190px;
-  box-shadow:0 0 0 28px rgba(229,189,120,.025);
-}
-
-.app:after{
-  width:300px;
-  height:300px;
-  right:-220px;
-  bottom:-190px;
-}
-
-/* INNER */
-.inner{
+.content{
   position:relative;
   z-index:2;
-  width:100%;
-  height:100%;
-  padding:14px 16px 12px;
-
-  display:flex;
-  flex-direction:column;
-  gap:7px;
+  padding:14px;
 }
 
 /* TOP BADGES */
-.topbar{
-  display:flex;
-  justify-content:space-between;
+
+.top-badges{
+  display:grid;
+  grid-template-columns:1fr 1fr;
   gap:8px;
+  margin-bottom:8px;
 }
 
 .badge{
-  flex:1;
-  max-width:190px;
-  min-height:32px;
-
-  display:flex;
-  align-items:center;
-  gap:7px;
-
-  padding:6px 11px;
-
+  height:40px;
   border:1px solid var(--line);
   border-radius:999px;
 
-  background:rgba(1,22,17,.65);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
 
-  font-size:10px;
-  color:#d8eee8;
+  background:rgba(0,0,0,.16);
+  font-size:12px;
+  font-weight:800;
+  letter-spacing:.2px;
 }
 
-.badge span{
-  color:var(--teal);
-  font-size:13px;
+.badge:first-child{
+  color:#d9eee8;
 }
 
-.badge.ai span{
-  color:var(--rose);
+.badge:last-child{
+  color:#f3a5b9;
 }
 
 /* BRAND */
+
 .brand{
   text-align:center;
-  margin-top:1px;
+  padding-top:2px;
 }
 
-.brandIcon{
+.brand-symbol{
   color:var(--gold);
-  font-size:22px;
+  font-size:30px;
   line-height:1;
-  margin-bottom:3px;
-  text-shadow:0 0 16px rgba(229,189,120,.25);
+  margin:4px 0 8px;
 }
 
-.brandName{
+.brand-name{
   color:var(--gold);
   font-family:Georgia,serif;
-  font-size:17px;
-  letter-spacing:3px;
+  font-size:22px;
+  letter-spacing:4px;
 }
 
 .helper{
-  margin-top:3px;
   color:var(--teal);
-  font-weight:800;
-  font-size:10px;
-  letter-spacing:1.7px;
+  font-size:12px;
+  font-weight:900;
+  letter-spacing:2px;
+  margin-top:6px;
 }
 
-/* TITLE */
-.heading{
-  text-align:center;
-  margin:0;
-}
+.title{
+  margin:10px 0 5px;
 
-.heading h1{
-  margin:3px 0 2px;
   font-family:Georgia,serif;
-  font-size:clamp(34px,8vw,52px);
-  line-height:1;
+  font-size:clamp(42px,10vw,62px);
+  line-height:.98;
 
-  background:linear-gradient(
-    100deg,
-    #31e5c4 5%,
-    #f5eee3 48%,
-    #ee6d8a 95%
-  );
+  background:
+    linear-gradient(
+      100deg,
+      #25e0c1,
+      #f7f1e8 48%,
+      #ed718d
+    );
 
   -webkit-background-clip:text;
   background-clip:text;
   color:transparent;
 }
 
-.heading p{
-  max-width:570px;
-  margin:6px auto 0;
-  color:var(--muted);
-  font-size:12px;
+.subtitle{
+  max-width:520px;
+  margin:0 auto;
+
+  color:#b8c7c1;
+  font-size:13px;
   line-height:1.45;
 }
 
 /* LANGUAGE */
+
 .languages{
-  width:100%;
+  margin:14px 0 10px;
+
   display:grid;
   grid-template-columns:1.35fr 1fr 1fr;
-  gap:5px;
 
+  border:1px solid var(--line);
+  border-radius:20px;
+
+  background:rgba(0,0,0,.20);
   padding:4px;
-
-  border:1px solid rgba(34,230,192,.15);
-  border-radius:18px;
-
-  background:rgba(1,18,14,.72);
 }
 
 .lang{
-  min-height:48px;
-
-  border:1px solid transparent;
-  border-radius:14px;
-
+  border:0;
+  border-radius:16px;
   background:transparent;
-  color:#dce8e3;
+  color:#e9eee9;
 
+  min-height:55px;
+  padding:6px 5px;
+
+  font-weight:800;
   cursor:pointer;
-  text-align:center;
-
-  font-weight:700;
 }
 
-.lang .main{
+.lang strong{
   display:block;
-  font-size:13px;
+  font-size:14px;
 }
 
-.lang .sub{
+.lang small{
   display:block;
   margin-top:2px;
-  color:#80958e;
-  font-size:9px;
-  font-weight:500;
+  color:#8e9d98;
+  font-size:10px;
 }
 
 .lang.active{
-  border-color:rgba(34,230,192,.55);
   background:
     linear-gradient(
       135deg,
-      rgba(12,154,126,.24),
-      rgba(10,65,53,.35)
+      rgba(21,207,172,.18),
+      rgba(12,101,82,.14)
     );
-  box-shadow:inset 0 0 20px rgba(34,230,192,.04);
-}
 
-.lang.active .main{
+  box-shadow:
+    inset 0 0 0 1px rgba(32,224,189,.45);
+
   color:var(--teal);
 }
 
-.lang.active .sub{
-  color:#a4cfc5;
+/* MIC AREA */
+
+.voice-area{
+  text-align:center;
+  padding-top:2px;
 }
 
-/* MIC AREA */
-.voiceArea{
+.visualizer{
   position:relative;
-  flex:1;
-  min-height:145px;
-  max-height:230px;
+  height:168px;
 
   display:flex;
-  flex-direction:column;
   align-items:center;
   justify-content:center;
 
@@ -286,559 +287,595 @@ body{
 
 .wave{
   position:absolute;
-  left:0;
-  right:0;
-  top:50%;
-  height:80px;
-  transform:translateY(-50%);
+  width:100%;
+  height:70px;
+  bottom:37px;
+
   display:flex;
   align-items:center;
   justify-content:center;
   gap:3px;
-  opacity:.62;
-  pointer-events:none;
+  opacity:.82;
 }
 
-.wave i{
+.bar{
   width:3px;
-  height:var(--h);
-  border-radius:4px;
-
+  height:18px;
+  border-radius:10px;
   background:linear-gradient(
-    to bottom,
+    to top,
     var(--teal),
-    rgba(34,230,192,.05)
+    #36cdb6
   );
-
-  opacity:.65;
 }
 
-.wave i:nth-child(n+25){
+.bar:nth-child(n+28){
   background:linear-gradient(
-    to bottom,
+    to top,
     var(--rose),
-    rgba(237,98,132,.05)
+    #c56b81
   );
 }
 
-/* MIC */
-.micWrap{
-  position:relative;
-  z-index:2;
+.mic-wrap{
+  width:142px;
+  height:142px;
 
-  width:126px;
-  height:126px;
+  border-radius:50%;
 
   display:grid;
   place-items:center;
+
+  position:relative;
+  z-index:2;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(5,28,23,.98) 52%,
+      rgba(8,51,41,.85) 53%,
+      rgba(8,51,41,.35) 65%,
+      transparent 66%
+    );
+
+  border:
+    1px solid rgba(229,189,120,.65);
+
+  box-shadow:
+    0 0 0 12px rgba(32,224,189,.05),
+    0 0 0 25px rgba(32,224,189,.035),
+    0 0 45px rgba(32,224,189,.12);
+
+  transition:.25s;
 }
 
-.ring{
-  position:absolute;
-  inset:0;
-  border-radius:50%;
-  border:1px solid rgba(34,230,192,.25);
-}
+.mic-wrap.live{
+  border-color:var(--teal);
 
-.ring.r2{
-  inset:9px;
-  border-color:rgba(229,189,120,.48);
-}
-
-.ring.r3{
-  inset:18px;
-  border-color:rgba(237,98,132,.25);
+  box-shadow:
+    0 0 0 10px rgba(32,224,189,.08),
+    0 0 0 22px rgba(239,113,142,.05),
+    0 0 50px rgba(32,224,189,.25);
 }
 
 .mic{
-  width:78px;
-  height:78px;
+  width:88px;
+  height:88px;
 
+  border:0;
   border-radius:50%;
 
-  border:1px solid rgba(229,189,120,.45);
+  display:grid;
+  place-items:center;
 
   background:
     radial-gradient(
       circle at 35% 30%,
-      rgba(38,232,194,.25),
-      rgba(3,23,18,.96) 65%
+      rgba(39,220,190,.18),
+      rgba(0,0,0,.48)
     );
 
   color:white;
-  font-size:34px;
-
-  display:grid;
-  place-items:center;
+  font-size:38px;
 
   cursor:pointer;
-
-  box-shadow:
-    0 0 30px rgba(23,220,182,.10),
-    inset 0 0 22px rgba(237,98,132,.07);
-
-  transition:.2s ease;
 }
 
 .mic:active{
-  transform:scale(.95);
+  transform:scale(.96);
 }
 
-.voiceArea.listening .ring{
-  animation:ringPulse 1.4s ease-in-out infinite;
+.mic.live{
+  animation:micPulse 1.25s infinite;
 }
 
-.voiceArea.listening .ring.r2{
-  animation-delay:.15s;
-}
-
-.voiceArea.listening .ring.r3{
-  animation-delay:.3s;
-}
-
-.voiceArea.listening .mic{
-  border-color:var(--teal);
-  box-shadow:
-    0 0 0 8px rgba(34,230,192,.05),
-    0 0 38px rgba(34,230,192,.25);
-}
-
-@keyframes ringPulse{
+@keyframes micPulse{
   50%{
-    transform:scale(1.08);
-    opacity:.45;
+    transform:scale(1.045);
   }
 }
 
-/* STATUS */
+.visualizer.live .bar{
+  animation:wave 650ms ease-in-out infinite alternate;
+}
+
+@keyframes wave{
+  from{
+    transform:scaleY(.45);
+  }
+  to{
+    transform:scaleY(1.9);
+  }
+}
+
+.visualizer.live .bar:nth-child(2n){
+  animation-delay:.12s;
+}
+
+.visualizer.live .bar:nth-child(3n){
+  animation-delay:.22s;
+}
+
 .status{
-  position:relative;
-  z-index:3;
-
-  text-align:center;
-  min-height:38px;
-
-  margin-top:-3px;
-}
-
-.statusMain{
-  font-size:15px;
-  font-weight:800;
   color:var(--teal);
+  font-size:16px;
+  font-weight:900;
+  min-height:22px;
 }
 
-.statusDot{
+.status-dot{
   display:inline-block;
-  width:9px;
-  height:9px;
-  margin-right:6px;
+  width:10px;
+  height:10px;
   border-radius:50%;
   background:var(--teal);
+  margin-right:7px;
   box-shadow:0 0 12px var(--teal);
 }
 
-.statusSub{
+.timer{
   margin-top:3px;
-  font-size:10px;
-  color:#8ea59e;
+  color:#84948e;
+  font-size:11px;
 }
 
 /* TRANSCRIPT */
-.transcriptPanel{
-  flex:0 0 auto;
 
-  border:1px solid rgba(34,230,192,.20);
-  border-radius:20px;
+.transcript-card{
+  margin-top:10px;
 
-  padding:10px;
+  border:1px solid rgba(32,224,189,.18);
+  border-radius:24px;
 
   background:
-    linear-gradient(
-      145deg,
-      rgba(3,37,28,.80),
-      rgba(1,20,16,.88)
-    );
+    rgba(0,18,14,.46);
+
+  padding:12px;
 }
 
-.transcriptHead{
+.transcript-head{
   display:flex;
   align-items:center;
   justify-content:space-between;
-  gap:8px;
 
-  margin-bottom:7px;
+  margin-bottom:9px;
 }
 
-.transcriptTitle{
+.transcript-title{
   color:var(--teal);
-  font-size:14px;
-  font-weight:800;
+  font-size:16px;
+  font-weight:900;
 }
 
-.live{
-  flex:none;
-
-  padding:5px 10px;
-
-  border:1px solid rgba(34,230,192,.28);
+.state{
+  border:1px solid rgba(32,224,189,.28);
   border-radius:999px;
+  padding:6px 11px;
 
-  color:var(--teal);
-  font-size:9px;
-  letter-spacing:.7px;
+  color:#9edbd0;
+  font-size:10px;
+  font-weight:800;
 }
 
 .transcript{
-  height:76px;
-  overflow-y:auto;
+  width:100%;
+  min-height:105px;
+  max-height:125px;
 
-  padding:10px 11px;
+  overflow:auto;
 
-  border:1px solid rgba(255,255,255,.08);
-  border-radius:14px;
+  border:1px solid rgba(255,255,255,.09);
+  border-radius:17px;
 
-  background:rgba(0,10,8,.62);
+  background:rgba(0,0,0,.25);
 
-  color:var(--text);
-  font-size:13px;
-  line-height:1.45;
+  padding:14px;
 
   text-align:left;
 
-  scrollbar-width:thin;
+  color:#eee;
+  font-size:16px;
+  line-height:1.55;
+
+  word-break:break-word;
 }
 
-.transcript.placeholder{
-  color:#71837e;
+.placeholder{
+  color:#697a74;
 }
 
-/* ACTIONS */
+/* BUTTONS */
+
 .actions{
   display:grid;
-  grid-template-columns:.7fr 1.5fr;
-  gap:7px;
-  margin-top:7px;
+  grid-template-columns:.75fr 1.65fr;
+  gap:9px;
+
+  margin-top:9px;
 }
 
 .action{
-  min-height:48px;
+  min-height:58px;
 
-  border-radius:14px;
+  border-radius:17px;
   border:1px solid rgba(229,189,120,.25);
 
-  background:rgba(255,255,255,.025);
+  color:white;
+  background:rgba(255,255,255,.035);
 
-  color:var(--text);
+  font-weight:900;
+  font-size:14px;
 
   cursor:pointer;
-
-  font-weight:800;
-  font-size:13px;
 }
 
 .action small{
   display:block;
-  margin-top:2px;
-  color:#82948f;
-  font-size:8px;
+  margin-top:3px;
+  color:#899993;
+  font-size:9px;
   font-weight:500;
 }
 
-.action.send{
-  border-color:rgba(34,230,192,.38);
+.send{
+  border-color:rgba(32,224,189,.4);
 
   background:
     linear-gradient(
-      100deg,
-      #087e65,
-      #179e86 42%,
-      #a65368
+      110deg,
+      #08a984,
+      #1bbda5 45%,
+      #c96880
     );
 
   box-shadow:
-    0 8px 25px rgba(16,172,143,.12);
+    0 8px 25px rgba(17,190,159,.16);
 }
 
-.action:active{
-  transform:scale(.98);
+.action:disabled{
+  opacity:.45;
+  cursor:not-allowed;
 }
 
 /* FEATURES */
+
 .features{
   display:grid;
   grid-template-columns:repeat(4,1fr);
-  gap:5px;
+  gap:7px;
+
+  margin-top:9px;
 }
 
 .feature{
-  min-height:44px;
+  min-height:68px;
+
+  border:1px solid rgba(32,224,189,.12);
+  border-radius:16px;
+
+  background:rgba(0,0,0,.15);
 
   display:flex;
   flex-direction:column;
   justify-content:center;
   align-items:center;
 
-  padding:5px 3px;
-
-  border:1px solid rgba(34,230,192,.10);
-  border-radius:13px;
-
-  background:rgba(1,18,14,.54);
-
   text-align:center;
+  padding:7px 3px;
 }
 
-.feature strong{
+.feature-icon{
+  font-size:15px;
   color:var(--teal);
-  font-size:9px;
 }
 
-.feature span{
-  margin-top:2px;
-  color:#778b85;
-  font-size:7px;
-}
-
-.feature:nth-child(3) strong{
+.feature:nth-child(3) .feature-icon{
   color:var(--rose);
 }
 
-.feature:nth-child(4) strong{
-  color:#9be7d8;
+.feature-title{
+  margin-top:4px;
+  color:var(--teal);
+  font-size:10px;
+  font-weight:900;
+}
+
+.feature small{
+  color:#71817c;
+  font-size:8px;
+  margin-top:2px;
 }
 
 /* NOTE */
+
 .note{
-  flex:0 0 auto;
+  margin:8px auto 0;
 
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:6px;
+  max-width:480px;
 
-  min-height:25px;
-
-  padding:4px 8px;
-
-  border:1px solid rgba(229,189,120,.12);
-  border-radius:999px;
-
-  color:#788c85;
-  font-size:8px;
   text-align:center;
+
+  color:#75837e;
+  font-size:9px;
+  line-height:1.35;
 }
 
-.note span{
-  color:var(--gold);
-}
+/* MOBILE */
 
-/* DESKTOP */
-@media(min-width:600px){
-  .inner{
-    padding:17px 24px 14px;
-    gap:9px;
+@media(max-width:430px){
+
+  body{
+    padding:
+      max(5px,env(safe-area-inset-top))
+      5px
+      max(5px,env(safe-area-inset-bottom));
   }
 
-  .brandName{
-    font-size:20px;
+  .app{
+    min-height:calc(100vh - 10px);
+    border-radius:24px;
   }
 
-  .heading h1{
-    font-size:54px;
+  .content{
+    padding:9px;
   }
 
-  .heading p{
-    font-size:13px;
+  .top-badges{
+    margin-bottom:4px;
   }
 
-  .voiceArea{
-    min-height:165px;
-  }
-
-  .transcript{
-    height:82px;
-  }
-
-  .feature{
-    min-height:48px;
-  }
-}
-
-/* SMALL PHONES */
-@media(max-height:700px){
-  .inner{
-    padding-top:8px;
-    padding-bottom:7px;
-    gap:4px;
-  }
-
-  .brandIcon{
-    font-size:17px;
-  }
-
-  .brandName{
-    font-size:14px;
-  }
-
-  .helper{
-    font-size:8px;
-  }
-
-  .heading h1{
-    font-size:34px;
-  }
-
-  .heading p{
-    margin-top:3px;
+  .badge{
+    height:34px;
     font-size:10px;
   }
 
+  .brand-symbol{
+    font-size:24px;
+    margin:2px 0 5px;
+  }
+
+  .brand-name{
+    font-size:17px;
+    letter-spacing:3px;
+  }
+
+  .helper{
+    font-size:10px;
+    margin-top:4px;
+  }
+
+  .title{
+    font-size:43px;
+    margin:7px 0 4px;
+  }
+
+  .subtitle{
+    font-size:11px;
+    line-height:1.35;
+  }
+
+  .languages{
+    margin:10px 0 4px;
+  }
+
   .lang{
-    min-height:40px;
+    min-height:47px;
   }
 
-  .voiceArea{
-    min-height:105px;
-  }
-
-  .micWrap{
-    width:94px;
-    height:94px;
-  }
-
-  .mic{
-    width:61px;
-    height:61px;
-    font-size:27px;
-  }
-
-  .transcript{
-    height:62px;
+  .lang strong{
     font-size:12px;
   }
 
-  .action{
-    min-height:42px;
-  }
-
-  .feature{
-    min-height:36px;
-  }
-
-  .feature strong{
+  .lang small{
     font-size:8px;
   }
 
-  .feature span{
-    display:none;
+  .visualizer{
+    height:145px;
+  }
+
+  .mic-wrap{
+    width:122px;
+    height:122px;
+  }
+
+  .mic{
+    width:76px;
+    height:76px;
+    font-size:32px;
+  }
+
+  .wave{
+    bottom:31px;
+  }
+
+  .status{
+    font-size:14px;
+  }
+
+  .transcript-card{
+    margin-top:7px;
+    padding:9px;
+    border-radius:20px;
+  }
+
+  .transcript-title{
+    font-size:14px;
+  }
+
+  .state{
+    padding:5px 9px;
+    font-size:9px;
+  }
+
+  .transcript{
+    min-height:88px;
+    max-height:105px;
+    padding:11px;
+    font-size:14px;
+  }
+
+  .action{
+    min-height:52px;
+    font-size:13px;
+  }
+
+  .features{
+    gap:5px;
+  }
+
+  .feature{
+    min-height:58px;
+  }
+
+  .feature-title{
+    font-size:8px;
+  }
+
+  .feature small{
+    font-size:7px;
+  }
+
+  .note{
+    font-size:8px;
   }
 }
+
 </style>
 </head>
 
 <body>
 
 <div class="app">
-<div class="inner">
 
-  <!-- TOP -->
-  <div class="topbar">
-    <div class="badge">
-      <span>◇</span>
-      <b>Secure &amp; Private</b>
-    </div>
+<div class="content">
 
-    <div class="badge ai">
-      <span>〽</span>
-      <b>AI Powered</b>
-    </div>
+  <div class="top-badges">
+    <div class="badge">◇ &nbsp; Secure &amp; Private</div>
+    <div class="badge">⌁ &nbsp; AI Powered</div>
   </div>
 
-  <!-- BRAND -->
-  <div class="brand">
-    <div class="brandIcon">♧</div>
-    <div class="brandName">MEGHA’S MEHENDI</div>
-    <div class="helper">✦ VOICE ASSISTANT HELPER ✦</div>
-  </div>
+  <header class="brand">
 
-  <!-- TITLE -->
-  <div class="heading">
-    <h1>Voice Booking</h1>
-    <p>
+    <div class="brand-symbol">♧</div>
+
+    <div class="brand-name">
+      MEGHA’S MEHENDI
+    </div>
+
+    <div class="helper">
+      ✦ VOICE ASSISTANT HELPER ✦
+    </div>
+
+    <h1 class="title">
+      Voice Booking
+    </h1>
+
+    <p class="subtitle">
       Speak naturally. Choose a language or use Auto Detect,
       then send the transcript back to your booking assistant.
     </p>
-  </div>
 
-  <!-- LANGUAGE -->
+  </header>
+
+
   <div class="languages">
 
     <button class="lang active" data-lang="auto">
-      <span class="main">✦ Auto Detect</span>
-      <span class="sub">Smart Detection</span>
+      <strong>✦ Auto Detect</strong>
+      <small>Smart Detection</small>
     </button>
 
     <button class="lang" data-lang="bn-IN">
-      <span class="main">বাংলা</span>
-      <span class="sub">Bengali</span>
+      <strong>বাংলা</strong>
+      <small>Bengali</small>
     </button>
 
     <button class="lang" data-lang="hi-IN">
-      <span class="main">हिन्दी</span>
-      <span class="sub">Hindi</span>
+      <strong>हिन्दी</strong>
+      <small>Hindi</small>
     </button>
 
   </div>
 
-  <!-- VOICE -->
-  <div id="voiceArea" class="voiceArea">
 
-    <div class="wave" id="wave"></div>
+  <section class="voice-area">
 
-    <div class="micWrap">
-      <div class="ring"></div>
-      <div class="ring r2"></div>
-      <div class="ring r3"></div>
+    <div id="visualizer" class="visualizer">
 
-      <button id="mic"
-              class="mic"
-              aria-label="Start voice recognition">
-        🎙️
-      </button>
+      <div id="wave" class="wave"></div>
+
+      <div id="micWrap" class="mic-wrap">
+
+        <button
+          id="mic"
+          class="mic"
+          aria-label="Start recording">
+
+          🎙️
+
+        </button>
+
+      </div>
+
     </div>
 
-  </div>
+    <div id="status" class="status">
 
-  <!-- STATUS -->
-  <div class="status">
-    <div class="statusMain">
-      <span id="statusDot" class="statusDot"></span>
-      <span id="statusMain">Ready to listen</span>
+      <span class="status-dot"></span>
+      Ready to listen
+
     </div>
 
-    <div id="statusSub" class="statusSub">
+    <div id="timer" class="timer">
       Tap the microphone to start
     </div>
-  </div>
 
-  <!-- TRANSCRIPT -->
-  <div class="transcriptPanel">
+  </section>
 
-    <div class="transcriptHead">
-      <div class="transcriptTitle">
+
+  <section class="transcript-card">
+
+    <div class="transcript-head">
+
+      <div class="transcript-title">
         〽 Your Spoken Booking Details
       </div>
 
-      <div id="liveBadge" class="live">
+      <div id="state" class="state">
         READY
       </div>
+
     </div>
 
-    <div id="text" class="transcript placeholder">
-      Your spoken booking details will appear here…
+    <div id="transcript" class="transcript">
+
+      <span class="placeholder">
+        Your spoken booking details will appear here…
+      </span>
+
     </div>
 
-    <!-- ACTIONS -->
     <div class="actions">
 
       <button id="clear" class="action">
@@ -846,907 +883,983 @@ body{
         <small>Reset transcript</small>
       </button>
 
-      <button id="send" class="action send">
+      <button
+        id="send"
+        class="action send"
+        disabled>
+
         ✓ &nbsp; Use in Booking
-        <small>Send transcript to assistant</small>
+
+        <small>
+          Send transcript to assistant
+        </small>
+
       </button>
 
     </div>
 
-  </div>
+  </section>
 
-  <!-- FEATURES -->
-  <div class="features">
+
+  <section class="features">
 
     <div class="feature">
-      <strong>◎ High Accuracy</strong>
-      <span>AI transcription</span>
+      <div class="feature-icon">◎</div>
+      <div class="feature-title">High Accuracy</div>
+      <small>AI transcription</small>
     </div>
 
     <div class="feature">
-      <strong>◎ Multi Language</strong>
-      <span>BN / HI / EN</span>
+      <div class="feature-icon">◎</div>
+      <div class="feature-title">Multi Language</div>
+      <small>BN / HI / EN</small>
     </div>
 
     <div class="feature">
-      <strong>✦ Smart Filter</strong>
-      <span>No repetition</span>
+      <div class="feature-icon">✦</div>
+      <div class="feature-title">Smart Filter</div>
+      <small>No repetition</small>
     </div>
 
     <div class="feature">
-      <strong>◇ Secure &amp; Private</strong>
-      <span>Protected</span>
+      <div class="feature-icon">◇</div>
+      <div class="feature-title">Secure</div>
+      <small>Protected</small>
     </div>
 
-  </div>
+  </section>
 
-  <!-- NOTE -->
+
   <div class="note">
-    <span>🔒</span>
-    Microphone access is requested by this HTTPS Voice Helper page.
+    🔒 Microphone access is requested by this HTTPS page.
+    Your Gemini API key remains safely inside Apps Script.
   </div>
 
 </div>
+
 </div>
 
 
 <script>
+
 (function(){
 
-  /* =========================================
-     SESSION
-  ========================================= */
-
-  const params = new URLSearchParams(location.search);
-  const session = params.get("session") || "";
+  const APPS_SCRIPT_URL =
+    'https://script.google.com/macros/s/AKfycbzeL5qodNLayTYXtmWqa8xxDv06Om30K7VUs25JXsRrQBtzD-E4rAKg1P-KFf4_DCDS/exec';
 
 
-  /* =========================================
-     ELEMENTS
-  ========================================= */
+  const params =
+    new URLSearchParams(location.search);
 
-  const mic = document.getElementById("mic");
-  const voiceArea = document.getElementById("voiceArea");
-
-  const textBox = document.getElementById("text");
-
-  const statusMain = document.getElementById("statusMain");
-  const statusSub = document.getElementById("statusSub");
-  const statusDot = document.getElementById("statusDot");
-
-  const liveBadge = document.getElementById("liveBadge");
-
-  const clearBtn = document.getElementById("clear");
-  const sendBtn = document.getElementById("send");
-
-  const SpeechRecognition =
-    window.SpeechRecognition ||
-    window.webkitSpeechRecognition;
+  const session =
+    params.get('session') ||
+    ('voice_' +
+     Date.now() +
+     '_' +
+     Math.random()
+       .toString(36)
+       .slice(2,9));
 
 
-  /* =========================================
-     STATE
-  ========================================= */
+  const mic =
+    document.getElementById('mic');
 
-  let mode = "auto";
+  const micWrap =
+    document.getElementById('micWrap');
 
-  let recognition = null;
+  const visualizer =
+    document.getElementById('visualizer');
 
-  let listening = false;
-  let manuallyStopped = false;
+  const status =
+    document.getElementById('status');
+
+  const timer =
+    document.getElementById('timer');
+
+  const transcript =
+    document.getElementById('transcript');
+
+  const state =
+    document.getElementById('state');
+
+  const clear =
+    document.getElementById('clear');
+
+  const send =
+    document.getElementById('send');
+
+  const wave =
+    document.getElementById('wave');
+
+
+  let selectedLanguage = 'auto';
+
+  let mediaStream = null;
+  let recorder = null;
+
+  let chunks = [];
+
+  let recording = false;
+
+  let seconds = 0;
+
+  let timerInterval = null;
+
+  let finalTranscript = '';
+
+  let polling = false;
+
+  let pollTimer = null;
+
 
   /*
-    Permanent transcript.
-    ONLY confirmed final speech goes here.
-  */
-  let finalTranscript = "";
+   * Create waveform bars.
+   */
 
-  /*
-    Temporary interim speech.
-  */
-  let interimTranscript = "";
+  for(let i=0;i<44;i++){
 
-  /*
-    Prevent Android Chrome from processing
-    the same result again after restart.
-  */
-  let processedResultKeys = new Set();
+    const bar =
+      document.createElement('div');
 
-  /*
-    Restart counter.
-  */
-  let restartTimer = null;
-
-  /*
-    Session generation.
-    Old recognition instances cannot modify
-    the new session.
-  */
-  let recognitionGeneration = 0;
-
-
-  /* =========================================
-     WAVEFORM
-  ========================================= */
-
-  const wave = document.getElementById("wave");
-
-  for(let i=0;i<45;i++){
-
-    const bar = document.createElement("i");
+    bar.className = 'bar';
 
     const h =
-      10 +
+      12 +
       Math.round(
-        Math.abs(Math.sin(i * 1.37)) * 42
+        Math.random() * 42
       );
 
-    bar.style.setProperty("--h", h + "px");
+    bar.style.height =
+      h + 'px';
 
     wave.appendChild(bar);
   }
 
 
-  /* =========================================
-     STORAGE
-  ========================================= */
-
-  function save(obj){
-
-    if(!session) return;
-
-    try{
-      localStorage.setItem(
-        session,
-        JSON.stringify(obj)
-      );
-    }catch(e){}
-
-  }
-
-
-  /* =========================================
-     STATUS
-  ========================================= */
-
-  function setStatus(main,sub,live=false){
-
-    statusMain.textContent = main;
-    statusSub.textContent = sub;
-
-    liveBadge.textContent =
-      live ? "LIVE" : "READY";
-
-    if(live){
-      liveBadge.style.color = "#22e6c0";
-      liveBadge.style.borderColor =
-        "rgba(34,230,192,.45)";
-      statusDot.style.background = "#22e6c0";
-      statusDot.style.boxShadow =
-        "0 0 12px #22e6c0";
-    }else{
-      liveBadge.style.color = "#9eb5ad";
-      liveBadge.style.borderColor =
-        "rgba(34,230,192,.18)";
-      statusDot.style.background = "#22e6c0";
-      statusDot.style.boxShadow =
-        "0 0 8px rgba(34,230,192,.4)";
-    }
-
-  }
-
-
-  /* =========================================
-     NORMALIZE TEXT
-     Used only for duplicate comparison.
-     Original visible text is preserved.
-  ========================================= */
-
-  function normalize(str){
-
-    return String(str || "")
-      .toLowerCase()
-      .replace(/[।,!?;:]+/g," ")
-      .replace(/\s+/g," ")
-      .trim();
-
-  }
-
-
-  /* =========================================
-     WORD TOKENIZATION
-  ========================================= */
-
-  function words(str){
-
-    return normalize(str)
-      .split(" ")
-      .filter(Boolean);
-
-  }
-
-
-  /* =========================================
-     OVERLAP SAFE MERGE
-     
-     Example:
-
-     existing:
-     "রিয়া দাসের ব্রাইডাল মেহেদি"
-
-     incoming:
-     "ব্রাইডাল মেহেদি সন্ধ্যা পাঁচটায়"
-
-     Result:
-
-     "রিয়া দাসের ব্রাইডাল মেহেদি
-      সন্ধ্যা পাঁচটায়"
-  ========================================= */
-
-  function mergeText(existing,incoming){
-
-    existing = String(existing || "").trim();
-    incoming = String(incoming || "").trim();
-
-    if(!incoming) return existing;
-    if(!existing) return incoming;
-
-    const a = words(existing);
-    const b = words(incoming);
-
-    if(!a.length || !b.length)
-      return existing + " " + incoming;
-
-    /*
-      Complete duplicate.
-    */
-    if(normalize(existing) === normalize(incoming))
-      return existing;
-
-    /*
-      Incoming is already contained
-      inside existing.
-    */
-    if(
-      normalize(existing).includes(
-        normalize(incoming)
-      )
-    ){
-      return existing;
-    }
-
-    /*
-      Find largest suffix of existing
-      matching prefix of incoming.
-    */
-    const max = Math.min(a.length,b.length);
-
-    let overlap = 0;
-
-    for(let n=max;n>=1;n--){
-
-      const suffix =
-        a.slice(a.length-n).join(" ");
-
-      const prefix =
-        b.slice(0,n).join(" ");
-
-      if(suffix === prefix){
-        overlap = n;
-        break;
-      }
-    }
-
-    const remainder =
-      b.slice(overlap).join(" ");
-
-    if(!remainder)
-      return existing;
-
-    return (
-      existing +
-      (existing.endsWith(" ") ? "" : " ") +
-      remainder
-    ).trim();
-
-  }
-
-
-  /* =========================================
-     RENDER
-  ========================================= */
-
-  function renderTranscript(){
-
-    const combined =
-      [finalTranscript,interimTranscript]
-        .filter(Boolean)
-        .join(" ")
-        .trim();
-
-    if(!combined){
-
-      textBox.textContent =
-        "Your spoken booking details will appear here…";
-
-      textBox.classList.add("placeholder");
-
-      return;
-    }
-
-    textBox.classList.remove("placeholder");
-    textBox.textContent = combined;
-
-    /*
-      Always show latest text.
-    */
-    textBox.scrollTop =
-      textBox.scrollHeight;
-
-  }
-
-
-  /* =========================================
-     LANGUAGE
-  ========================================= */
+  /*
+   * Language selector.
+   */
 
   document
-    .querySelectorAll(".lang")
-    .forEach(button => {
+    .querySelectorAll('.lang')
+    .forEach(function(button){
 
-      button.onclick = function(){
+      button.addEventListener(
+        'click',
+        function(){
 
-        document
-          .querySelectorAll(".lang")
-          .forEach(x =>
-            x.classList.remove("active")
+          document
+            .querySelectorAll('.lang')
+            .forEach(function(x){
+              x.classList.remove(
+                'active'
+              );
+            });
+
+          button.classList.add(
+            'active'
           );
 
-        button.classList.add("active");
-
-        mode = button.dataset.lang;
-
-        if(mode === "auto"){
-
-          setStatus(
-            "Ready to listen",
-            "Auto Detect selected"
-          );
-
-        }else if(mode === "bn-IN"){
-
-          setStatus(
-            "Ready to listen",
-            "বাংলা selected"
-          );
-
-        }else{
-
-          setStatus(
-            "Ready to listen",
-            "हिन्दी selected"
-          );
+          selectedLanguage =
+            button.dataset.lang;
 
         }
-
-      };
+      );
 
     });
 
 
-  /* =========================================
-     CREATE RECOGNITION
-  ========================================= */
+  function setStatus(
+    title,
+    sub,
+    stateText
+  ){
 
-  function createRecognition(){
+    status.innerHTML =
+      '<span class="status-dot"></span>' +
+      title;
 
-    if(!SpeechRecognition)
-      return null;
+    timer.textContent =
+      sub || '';
 
-    const instance = new SpeechRecognition();
-
-    /*
-      IMPORTANT:
-      continuous=true allows longer speech.
-
-      interimResults=true gives live speech.
-
-      We NEVER append interim text permanently.
-    */
-    instance.continuous = true;
-    instance.interimResults = true;
-    instance.maxAlternatives = 1;
-
-    instance.lang =
-      mode === "auto"
-        ? "bn-IN"
-        : mode;
-
-    return instance;
-
+    state.textContent =
+      stateText || 'READY';
   }
 
 
-  /* =========================================
-     START
-  ========================================= */
+  function startTimer(){
 
-  function startListening(){
+    seconds = 0;
 
-    if(!SpeechRecognition){
+    timer.textContent =
+      '00:00';
+
+    timerInterval =
+      setInterval(function(){
+
+        seconds++;
+
+        const m =
+          String(
+            Math.floor(seconds / 60)
+          ).padStart(2,'0');
+
+        const s =
+          String(
+            seconds % 60
+          ).padStart(2,'0');
+
+        timer.textContent =
+          m + ':' + s;
+
+      },1000);
+  }
+
+
+  function stopTimer(){
+
+    if(timerInterval){
+
+      clearInterval(
+        timerInterval
+      );
+
+      timerInterval = null;
+    }
+  }
+
+
+  /*
+   * Find the best microphone recording format
+   * supported by the phone.
+   */
+
+  function getMimeType(){
+
+    const types = [
+
+      'audio/webm;codecs=opus',
+
+      'audio/webm',
+
+      'audio/mp4',
+
+      'audio/ogg;codecs=opus'
+
+    ];
+
+    for(
+      let i=0;
+      i<types.length;
+      i++
+    ){
+
+      if(
+        window.MediaRecorder &&
+        MediaRecorder.isTypeSupported(
+          types[i]
+        )
+      ){
+
+        return types[i];
+
+      }
+
+    }
+
+    return '';
+  }
+
+
+  async function startRecording(){
+
+    if(
+      !navigator.mediaDevices ||
+      !navigator.mediaDevices.getUserMedia
+    ){
 
       setStatus(
-        "Browser not supported",
-        "Try Chrome on Android"
+        'Microphone unavailable',
+        'This browser does not support microphone recording.',
+        'ERROR'
       );
 
       return;
 
     }
-
-    manuallyStopped = false;
-
-    listening = true;
-
-    recognitionGeneration++;
-
-    const myGeneration =
-      recognitionGeneration;
-
-    processedResultKeys.clear();
-
-    interimTranscript = "";
-
-    voiceArea.classList.add("listening");
-
-    mic.textContent = "■";
-
-    setStatus(
-      "Listening…",
-      "Speak naturally — keep talking",
-      true
-    );
-
-    startRecognitionInstance(myGeneration);
-
-  }
-
-
-  /* =========================================
-     START INSTANCE
-  ========================================= */
-
-  function startRecognitionInstance(generation){
-
-    if(
-      manuallyStopped ||
-      !listening ||
-      generation !== recognitionGeneration
-    ){
-      return;
-    }
-
-    recognition =
-      createRecognition();
-
-    if(!recognition)
-      return;
-
-
-    /* RESULT */
-
-    recognition.onresult =
-      function(event){
-
-        if(
-          generation !== recognitionGeneration
-        ){
-          return;
-        }
-
-        let currentInterim = "";
-
-        for(
-          let i = event.resultIndex;
-          i < event.results.length;
-          i++
-        ){
-
-          const result =
-            event.results[i];
-
-          const transcript =
-            result[0].transcript.trim();
-
-          if(!transcript)
-            continue;
-
-
-          /*
-            Create a stable key from the
-            browser result.
-          */
-          const key =
-            i +
-            "|" +
-            normalize(transcript);
-
-
-          if(result.isFinal){
-
-            /*
-              Duplicate final result guard.
-            */
-            if(processedResultKeys.has(key))
-              continue;
-
-            processedResultKeys.add(key);
-
-            /*
-              Merge safely instead of blindly
-              appending.
-            */
-            finalTranscript =
-              mergeText(
-                finalTranscript,
-                transcript
-              );
-
-            interimTranscript = "";
-
-          }else{
-
-            currentInterim +=
-              (currentInterim ? " " : "") +
-              transcript;
-
-          }
-
-        }
-
-        interimTranscript =
-          currentInterim.trim();
-
-        renderTranscript();
-
-      };
-
-
-    /* ERROR */
-
-    recognition.onerror =
-      function(event){
-
-        if(
-          generation !== recognitionGeneration
-        ){
-          return;
-        }
-
-        /*
-          These are temporary Android/browser
-          recognition interruptions.
-        */
-        const temporaryErrors = [
-          "no-speech",
-          "audio-capture",
-          "network"
-        ];
-
-        if(
-          temporaryErrors.includes(
-            event.error
-          )
-        ){
-
-          if(listening && !manuallyStopped){
-
-            setStatus(
-              "Listening…",
-              "Keeping the microphone active",
-              true
-            );
-
-            scheduleRestart(generation);
-
-          }
-
-          return;
-        }
-
-
-        if(event.error === "not-allowed"){
-
-          listening = false;
-
-          voiceArea.classList.remove(
-            "listening"
-          );
-
-          mic.textContent = "🎙️";
-
-          setStatus(
-            "Microphone permission denied",
-            "Allow microphone access and try again"
-          );
-
-          save({
-            status:"error",
-            message:"Microphone permission denied"
-          });
-
-          return;
-
-        }
-
-
-        setStatus(
-          "Voice error",
-          event.error || "Unknown error"
-        );
-
-      };
-
-
-    /* END */
-
-    recognition.onend =
-      function(){
-
-        if(
-          generation !== recognitionGeneration
-        ){
-          return;
-        }
-
-        /*
-          Android Chrome can automatically end
-          SpeechRecognition even while user is
-          still speaking.
-
-          Restart automatically.
-        */
-        if(
-          listening &&
-          !manuallyStopped
-        ){
-
-          setStatus(
-            "Listening…",
-            "Keep talking — voice helper is active",
-            true
-          );
-
-          scheduleRestart(generation);
-
-          return;
-        }
-
-
-        listening = false;
-
-        voiceArea.classList.remove(
-          "listening"
-        );
-
-        mic.textContent = "🎙️";
-
-        if(finalTranscript){
-
-          setStatus(
-            "Voice captured ✓",
-            "Tap Use in Booking"
-          );
-
-        }else{
-
-          setStatus(
-            "Ready to listen",
-            "Tap the microphone to start"
-          );
-
-        }
-
-      };
 
 
     try{
 
-      recognition.start();
-
-    }catch(error){
-
-      /*
-        Browser may throw if start() happens
-        too quickly after previous stop().
-      */
-      scheduleRestart(generation);
-
-    }
-
-  }
+      mediaStream =
+        await navigator.mediaDevices
+          .getUserMedia({
+            audio:{
+              echoCancellation:true,
+              noiseSuppression:true,
+              autoGainControl:true,
+              channelCount:1
+            }
+          });
 
 
-  /* =========================================
-     SAFE RESTART
-  ========================================= */
+      const mimeType =
+        getMimeType();
 
-  function scheduleRestart(generation){
 
-    if(
-      restartTimer ||
-      manuallyStopped ||
-      !listening ||
-      generation !== recognitionGeneration
-    ){
-      return;
-    }
+      recorder =
+        mimeType
+          ? new MediaRecorder(
+              mediaStream,
+              {
+                mimeType:mimeType
+              }
+            )
+          : new MediaRecorder(
+              mediaStream
+            );
 
-    restartTimer =
-      setTimeout(
-        function(){
 
-          restartTimer = null;
+      chunks = [];
+
+      recorder.ondataavailable =
+        function(event){
 
           if(
-            !manuallyStopped &&
-            listening &&
-            generation === recognitionGeneration
+            event.data &&
+            event.data.size > 0
           ){
 
-            startRecognitionInstance(
-              generation
+            chunks.push(
+              event.data
             );
 
           }
 
-        },
-        180
+        };
+
+
+      recorder.onstop =
+        async function(){
+
+          stopTimer();
+
+          if(mediaStream){
+
+            mediaStream
+              .getTracks()
+              .forEach(function(track){
+                track.stop();
+              });
+
+          }
+
+          mediaStream = null;
+
+          const actualMime =
+            recorder.mimeType ||
+            mimeType ||
+            'audio/webm';
+
+          const blob =
+            new Blob(
+              chunks,
+              {
+                type:actualMime
+              }
+            );
+
+          chunks = [];
+
+          if(blob.size < 1000){
+
+            setStatus(
+              'No speech captured',
+              'Tap the microphone and try again.',
+              'READY'
+            );
+
+            resetMic();
+
+            return;
+
+          }
+
+          await sendAudioToGemini(
+            blob,
+            actualMime
+          );
+
+        };
+
+
+      recorder.start(
+        250
       );
+
+      recording = true;
+
+      micWrap.classList.add(
+        'live'
+      );
+
+      mic.classList.add(
+        'live'
+      );
+
+      mic.textContent = '■';
+
+      visualizer.classList.add(
+        'live'
+      );
+
+      setStatus(
+        'Listening…',
+        'Speak naturally — keep talking',
+        'LIVE'
+      );
+
+      startTimer();
+
+    }catch(error){
+
+      console.error(error);
+
+      setStatus(
+        'Microphone permission needed',
+        'Allow microphone access and try again.',
+        'ERROR'
+      );
+
+      resetMic();
+
+    }
 
   }
 
 
-  /* =========================================
-     STOP
-  ========================================= */
+  function stopRecording(){
 
-  function stopListening(){
+    if(
+      recorder &&
+      recorder.state !== 'inactive'
+    ){
 
-    manuallyStopped = true;
-
-    listening = false;
-
-    recognitionGeneration++;
-
-    if(restartTimer){
-
-      clearTimeout(restartTimer);
-      restartTimer = null;
+      recorder.stop();
 
     }
 
-    if(recognition){
+    recording = false;
 
-      try{
-        recognition.stop();
-      }catch(e){}
+    stopTimer();
 
-    }
+    mic.textContent =
+      '⏳';
 
-    recognition = null;
+    mic.disabled = true;
 
-    voiceArea.classList.remove(
-      "listening"
+    visualizer.classList.remove(
+      'live'
     );
 
-    mic.textContent = "🎙️";
-
-    interimTranscript = "";
-
-    renderTranscript();
-
-    if(finalTranscript){
-
-      setStatus(
-        "Voice captured ✓",
-        "Tap Use in Booking"
-      );
-
-    }else{
-
-      setStatus(
-        "Ready to listen",
-        "Tap the microphone to start"
-      );
-
-    }
+    setStatus(
+      'Processing recording…',
+      'Sending audio to Gemini AI',
+      'PROCESSING'
+    );
 
   }
 
 
-  /* =========================================
-     MICROPHONE BUTTON
-  ========================================= */
+  function resetMic(){
 
-  mic.onclick =
+    recording = false;
+
+    mic.disabled = false;
+
+    mic.classList.remove(
+      'live'
+    );
+
+    micWrap.classList.remove(
+      'live'
+    );
+
+    visualizer.classList.remove(
+      'live'
+    );
+
+    mic.textContent =
+      '🎙️';
+
+  }
+
+
+  mic.addEventListener(
+    'click',
     function(){
 
-      if(listening){
+      if(recording){
 
-        stopListening();
+        stopRecording();
 
       }else{
 
-        startListening();
+        startRecording();
 
       }
 
-    };
+    }
+  );
 
 
-  /* =========================================
-     CLEAR
-  ========================================= */
+  /*
+   * Convert Blob -> Base64.
+   */
 
-  clearBtn.onclick =
-    function(){
+  function blobToBase64(blob){
 
-      stopListening();
+    return new Promise(
+      function(resolve,reject){
 
-      finalTranscript = "";
-      interimTranscript = "";
+        const reader =
+          new FileReader();
 
-      processedResultKeys.clear();
+        reader.onload =
+          function(){
 
-      renderTranscript();
+            const result =
+              reader.result;
 
-      setStatus(
-        "Ready to listen",
-        "Transcript cleared"
+            const comma =
+              result.indexOf(',');
+
+            resolve(
+              result.slice(
+                comma + 1
+              )
+            );
+
+          };
+
+        reader.onerror =
+          reject;
+
+        reader.readAsDataURL(
+          blob
+        );
+
+      }
+    );
+
+  }
+
+
+  /*
+   * Send audio to Apps Script.
+   *
+   * no-cors is intentional.
+   * Apps Script ContentService redirects
+   * its response to googleusercontent.
+   * We don't need the POST response because
+   * the frontend polls the session through JSONP.
+   */
+
+  async function sendAudioToGemini(
+    blob,
+    mimeType
+  ){
+
+    try{
+
+      const base64 =
+        await blobToBase64(
+          blob
+        );
+
+
+      const body =
+        new URLSearchParams();
+
+      body.append(
+        'session',
+        session
       );
 
-    };
+      body.append(
+        'language',
+        selectedLanguage
+      );
+
+      body.append(
+        'mimeType',
+        mimeType.split(';')[0]
+      );
+
+      body.append(
+        'audio',
+        base64
+      );
 
 
-  /* =========================================
-     SEND TO BOOKING
-  ========================================= */
+      setStatus(
+        'Gemini is processing…',
+        'Please wait for the complete transcript',
+        'AI'
+      );
 
-  sendBtn.onclick =
+
+      await fetch(
+        APPS_SCRIPT_URL,
+        {
+          method:'POST',
+          mode:'no-cors',
+          body:body
+        }
+      );
+
+
+      pollResult();
+
+    }catch(error){
+
+      console.error(error);
+
+      setStatus(
+        'Upload failed',
+        'Please try recording again.',
+        'ERROR'
+      );
+
+      resetMic();
+
+    }
+
+  }
+
+
+  /*
+   * JSONP polling.
+   */
+
+  function pollResult(){
+
+    if(polling){
+      return;
+    }
+
+    polling = true;
+
+    let attempts = 0;
+
+    function check(){
+
+      attempts++;
+
+      const callbackName =
+        'voiceCallback_' +
+        Date.now() +
+        '_' +
+        Math.random()
+          .toString(36)
+          .slice(2,7);
+
+
+      window[callbackName] =
+        function(result){
+
+          try{
+
+            handleResult(
+              result
+            );
+
+          }finally{
+
+            cleanup();
+
+          }
+
+        };
+
+
+      const script =
+        document.createElement(
+          'script'
+        );
+
+      const url =
+        APPS_SCRIPT_URL +
+        '?session=' +
+        encodeURIComponent(
+          session
+        ) +
+        '&callback=' +
+        encodeURIComponent(
+          callbackName
+        ) +
+        '&_=' +
+        Date.now();
+
+
+      script.src = url;
+
+      script.onerror =
+        function(){
+
+          cleanup();
+
+          if(
+            attempts < 90
+          ){
+
+            pollTimer =
+              setTimeout(
+                check,
+                1200
+              );
+
+          }else{
+
+            polling = false;
+
+            setStatus(
+              'Connection timeout',
+              'Please try the recording again.',
+              'ERROR'
+            );
+
+            resetMic();
+
+          }
+
+        };
+
+
+      function cleanup(){
+
+        if(script.parentNode){
+          script.parentNode.removeChild(
+            script
+          );
+        }
+
+        try{
+          delete window[callbackName];
+        }catch(e){}
+
+      }
+
+
+      document.body.appendChild(
+        script
+      );
+
+    }
+
+    check();
+
+  }
+
+
+  function handleResult(
+    result
+  ){
+
+    if(!result){
+      return;
+    }
+
+
+    if(result.status === 'processing'){
+
+      setStatus(
+        'Gemini is listening…',
+        result.message ||
+          'Analyzing your complete recording',
+        'AI'
+      );
+
+      pollAgain();
+
+      return;
+    }
+
+
+    if(result.status === 'waiting'){
+
+      pollAgain();
+
+      return;
+    }
+
+
+    if(result.status === 'done'){
+
+      finalTranscript =
+        String(
+          result.text || ''
+        ).trim();
+
+      transcript.textContent =
+        finalTranscript ||
+        'No transcript returned.';
+
+      transcript
+        .classList.remove(
+          'placeholder'
+        );
+
+      send.disabled =
+        !finalTranscript;
+
+      polling = false;
+
+      setStatus(
+        'Voice captured ✓',
+        'Transcript ready — review it before booking',
+        'READY'
+      );
+
+      resetMic();
+
+      return;
+
+    }
+
+
+    if(result.status === 'error'){
+
+      polling = false;
+
+      setStatus(
+        'Transcription error',
+        result.message ||
+          'Gemini could not process the audio.',
+        'ERROR'
+      );
+
+      resetMic();
+
+    }
+
+  }
+
+
+  function pollAgain(){
+
+    pollTimer =
+      setTimeout(
+        function(){
+
+          polling = false;
+
+          pollResult();
+
+        },
+        1200
+      );
+
+  }
+
+
+  /*
+   * Clear.
+   */
+
+  clear.addEventListener(
+    'click',
     function(){
 
-      const transcript =
-        finalTranscript.trim();
+      if(recording){
 
-      if(!transcript){
+        stopRecording();
+
+        return;
+
+      }
+
+      finalTranscript = '';
+
+      transcript.innerHTML =
+        '<span class="placeholder">' +
+        'Your spoken booking details will appear here…' +
+        '</span>';
+
+      send.disabled = true;
+
+      setStatus(
+        'Ready to listen',
+        'Tap the microphone to start',
+        'READY'
+      );
+
+      resetMic();
+
+    }
+  );
+
+
+  /*
+   * Use in Booking.
+   *
+   * Save the final transcript in the same
+   * VOICE_<session> system used by the
+   * existing booking assistant.
+   */
+
+  send.addEventListener(
+    'click',
+    function(){
+
+      if(!finalTranscript){
 
         setStatus(
-          "Nothing to send",
-          "Speak first, then use the transcript"
+          'Nothing to send',
+          'Record your booking details first.',
+          'READY'
         );
 
         return;
 
       }
 
-      /*
-        Save ONLY final transcript.
-      */
-      save({
-        status:"done",
-        text:transcript,
-        timestamp:Date.now()
-      });
 
       setStatus(
-        "Sent to Booking ✓",
-        "You can return to the booking assistant"
+        'Sending to booking assistant…',
+        'Please wait',
+        'SENDING'
       );
 
+
       /*
-        Give localStorage a moment to persist.
-      */
+       * The backend already contains the
+       * Gemini result in VOICE_<session>.
+       *
+       * We simply mark the frontend action
+       * and return to the opener when possible.
+       */
+
+      try{
+
+        localStorage.setItem(
+          'VOICE_BOOKING_' + session,
+          JSON.stringify({
+            status:'done',
+            text:finalTranscript
+          })
+        );
+
+      }catch(e){}
+
+
+      setStatus(
+        'Sent ✓',
+        'Returning to booking assistant…',
+        'DONE'
+      );
+
+
       setTimeout(
         function(){
 
@@ -1755,32 +1868,26 @@ body{
           }catch(e){}
 
         },
-        450
+        500
       );
 
-    };
+    }
+  );
 
 
-  /* =========================================
-     INITIAL STATE
-  ========================================= */
+  /*
+   * Initial state.
+   */
 
-  if(!session){
-
-    /*
-      Don't break the standalone GitHub Pages
-      page. It can still be tested directly.
-    */
-
-    setStatus(
-      "Ready to listen",
-      "Standalone Voice Helper mode"
-    );
-
-  }
+  setStatus(
+    'Ready to listen',
+    'Tap the microphone to start',
+    'READY'
+  );
 
 
 })();
+
 </script>
 
 </body>
