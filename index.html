@@ -3,421 +3,134 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Megha's Mehendi — Voice Assistant</title>
+<meta name="theme-color" content="#080d17">
+<title>Megha's Mehendi — Live Voice Booking</title>
 <style>
-:root{
-  --bg:#070b14;--panel:#0d1420;--panel2:#0a111b;
-  --line:rgba(180,196,220,.16);--ice:#8fe7ff;--blue:#54b9ff;
-  --silver:#eef3f8;--champ:#d9c28f;--violet:#a993ff;
-  --rose:#e68aa8;--muted:#8f9bab;--ok:#55e1bd
-}
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{margin:0;min-height:100%;background:var(--bg)}
-body{
-  min-height:100vh;padding:max(5px,env(safe-area-inset-top)) 6px max(5px,env(safe-area-inset-bottom));
-  color:var(--silver);font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;
-  display:flex;justify-content:center
-}
-.app{
-  width:min(620px,100%);min-height:calc(100vh - 10px);position:relative;overflow:hidden;
-  border:1px solid rgba(217,194,143,.30);border-radius:26px;
-  background:
-    radial-gradient(circle at 50% 8%,rgba(65,118,164,.18),transparent 32%),
-    radial-gradient(circle at 100% 85%,rgba(130,91,190,.10),transparent 28%),
-    linear-gradient(145deg,#101a29,#070d16 70%);
-  box-shadow:0 20px 65px rgba(0,0,0,.5),inset 0 0 60px rgba(120,170,220,.025)
-}
-.app:before,.app:after{content:"";position:absolute;border-radius:50%;pointer-events:none}
-.app:before{width:320px;height:320px;left:-230px;top:-120px;border:1px solid rgba(143,231,255,.08);box-shadow:0 0 0 35px rgba(217,194,143,.025),0 0 0 75px rgba(143,231,255,.018)}
-.app:after{width:230px;height:230px;right:-145px;bottom:-120px;border:1px solid rgba(169,147,255,.10)}
-.content{position:relative;z-index:2;padding:10px}
-.top{display:grid;grid-template-columns:1fr 1fr;gap:7px}
-.badge{height:34px;border:1px solid var(--line);border-radius:999px;background:rgba(4,9,15,.48);display:flex;align-items:center;justify-content:center;gap:6px;font-size:10px;font-weight:800}
-.badge:first-child{color:#dbe7f1}.badge:last-child{color:#d5caff}
-.brand{text-align:center}
-.symbol{font-size:24px;color:var(--champ);line-height:1;margin:3px 0 3px}
-.name{font:700 17px Georgia,serif;letter-spacing:3px;color:var(--champ)}
-.helper{margin-top:3px;color:var(--ice);font-size:9px;font-weight:900;letter-spacing:1.8px}
-h1{
-  margin:6px 0 3px;font:700 clamp(40px,10vw,58px)/.98 Georgia,serif;
-  background:linear-gradient(100deg,var(--ice),#f7f5f0 48%,var(--violet));
-  -webkit-background-clip:text;background-clip:text;color:transparent
-}
-.sub{margin:0 auto;color:#aeb8c4;font-size:11px;line-height:1.35;max-width:500px}
-.langs{display:grid;grid-template-columns:1.35fr 1fr 1fr;gap:3px;margin:9px 0 2px;padding:3px;border:1px solid var(--line);border-radius:18px;background:rgba(2,7,12,.45)}
-.lang{border:0;border-radius:14px;background:transparent;color:#e7edf3;min-height:47px;font-weight:800}
-.lang strong{display:block;font-size:12px}.lang small{display:block;margin-top:2px;font-size:8px;color:#7f8b99}
-.lang.active{color:var(--ice);background:linear-gradient(135deg,rgba(84,185,255,.12),rgba(169,147,255,.07));box-shadow:inset 0 0 0 1px rgba(143,231,255,.35)}
-.voice{text-align:center}
-.visualizer{height:151px;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden}
-.wave{position:absolute;width:100%;height:65px;bottom:27px;display:flex;align-items:center;justify-content:center;gap:3px;opacity:.72}
-.bar{width:3px;border-radius:8px;background:linear-gradient(to top,var(--ice),var(--blue));transition:.2s}
-.bar:nth-child(n+28){background:linear-gradient(to top,var(--violet),var(--rose))}
-.visualizer.live .bar{animation:wave .65s ease-in-out infinite alternate}
-.visualizer.live .bar:nth-child(2n){animation-delay:.12s}.visualizer.live .bar:nth-child(3n){animation-delay:.22s}
-@keyframes wave{from{transform:scaleY(.4)}to{transform:scaleY(1.8)}}
-.mic-wrap{
-  width:116px;height:116px;border-radius:50%;position:relative;z-index:2;display:grid;place-items:center;
-  background:radial-gradient(circle,rgba(10,19,29,.98) 51%,rgba(30,55,78,.55) 52%,transparent 67%);
-  border:1px solid rgba(217,194,143,.62);box-shadow:0 0 0 10px rgba(143,231,255,.035),0 0 0 20px rgba(143,231,255,.025),0 0 35px rgba(84,185,255,.10)
-}
-.mic-wrap.live{border-color:var(--ice);box-shadow:0 0 0 9px rgba(84,185,255,.08),0 0 0 20px rgba(169,147,255,.05),0 0 42px rgba(84,185,255,.24)}
-.mic{width:72px;height:72px;border:0;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 35% 25%,rgba(143,231,255,.16),rgba(0,0,0,.58));color:#fff;font-size:31px}
-.mic.live{animation:pulse 1.2s infinite}@keyframes pulse{50%{transform:scale(1.045)}}
-.status{color:var(--ice);font-size:15px;font-weight:900;min-height:20px}
-.dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--ok);margin-right:6px;box-shadow:0 0 10px var(--ok)}
-.timer{margin-top:2px;color:#7e8a98;font-size:10px;min-height:14px}
-.cancel-record{
-  margin-top:4px;padding:5px 12px;border-radius:999px;
-  border:1px solid rgba(230,138,168,.30);background:rgba(230,138,168,.06);
-  color:#e9a0b5;font-size:9px;font-weight:800
-}
-.card{margin-top:7px;border:1px solid rgba(143,231,255,.16);border-radius:21px;background:rgba(2,8,14,.48);padding:9px}
-.head{display:flex;align-items:center;justify-content:space-between;margin-bottom:7px}
-.cardtitle{color:var(--ice);font-size:14px;font-weight:900}
-.state{border:1px solid rgba(143,231,255,.25);border-radius:999px;padding:5px 9px;color:#a9c5d8;font-size:9px;font-weight:800}
-.transcript{min-height:86px;max-height:100px;overflow:auto;border:1px solid rgba(255,255,255,.08);border-radius:15px;background:rgba(0,0,0,.28);padding:11px;text-align:left;color:#edf1f5;font-size:14px;line-height:1.5;word-break:break-word}
-.placeholder{color:#697583}
-.actions{display:grid;grid-template-columns:.72fr 1.55fr;gap:7px;margin-top:7px}
-.action{min-height:50px;border-radius:15px;border:1px solid rgba(217,194,143,.25);background:rgba(255,255,255,.025);color:#f1f4f7;font-weight:900;font-size:13px}
-.action small{display:block;margin-top:2px;color:#7f8995;font-size:8px;font-weight:500}
-.send{border-color:rgba(84,185,255,.35);background:linear-gradient(110deg,#157b91,#357fb2 48%,#7866a9);box-shadow:0 7px 20px rgba(62,135,183,.13)}
-.action:disabled{opacity:.38}
-.features{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-top:7px}
-.feature{min-height:56px;border:1px solid rgba(143,231,255,.10);border-radius:14px;background:rgba(0,0,0,.14);display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:5px 2px}
-.fi{font-size:13px;color:var(--ice)}.feature:nth-child(3) .fi{color:var(--violet)}
-.ft{margin-top:3px;color:#c9e9f3;font-size:8px;font-weight:900}.feature small{color:#6e7a88;font-size:7px;margin-top:1px}
-.note{margin:6px auto 0;text-align:center;color:#687582;font-size:8px;line-height:1.3;max-width:490px}
-@media(max-width:430px){
-  .content{padding:8px}.badge{height:32px;font-size:9px}
-  .symbol{font-size:21px}.name{font-size:16px}.helper{font-size:8px}
-  h1{font-size:40px;margin:5px 0 3px}.sub{font-size:10px}
-  .langs{margin:8px 0 1px}.lang{min-height:44px}.lang strong{font-size:11px}
-  .visualizer{height:135px}.mic-wrap{width:105px;height:105px}.mic{width:66px;height:66px;font-size:28px}.wave{bottom:23px}
-  .status{font-size:14px}.card{padding:8px}.cardtitle{font-size:13px}.transcript{min-height:78px;max-height:96px;font-size:13px;padding:10px}
-  .action{min-height:48px;font-size:12px}.features{gap:4px}.feature{min-height:52px}.ft{font-size:7px}.feature small{font-size:6px}.note{font-size:7px}
-}
+:root{--bg:#070b14;--panel:#0e1521;--line:rgba(185,202,224,.17);--ice:#8fe7ff;--blue:#55b9ff;--silver:#f0f3f7;--champ:#dcc596;--violet:#aa96ff;--rose:#e58ca8;--muted:#8d99a8;--ok:#58e2bd;--danger:#ff8298}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}html,body{margin:0;min-height:100%;background:var(--bg)}
+body{min-height:100vh;padding:max(5px,env(safe-area-inset-top)) 6px max(5px,env(safe-area-inset-bottom));color:var(--silver);font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;display:flex;justify-content:center}
+.app{width:min(620px,100%);min-height:calc(100vh - 10px);position:relative;overflow:hidden;border:1px solid rgba(220,197,150,.30);border-radius:26px;background:radial-gradient(circle at 50% 7%,rgba(70,122,170,.19),transparent 33%),radial-gradient(circle at 100% 84%,rgba(126,89,187,.10),transparent 28%),linear-gradient(145deg,#101a29,#070d16 72%);box-shadow:0 20px 65px rgba(0,0,0,.52),inset 0 0 60px rgba(130,180,220,.025)}
+.app:before,.app:after{content:"";position:absolute;border-radius:50%;pointer-events:none}.app:before{width:320px;height:320px;left:-230px;top:-120px;border:1px solid rgba(143,231,255,.08);box-shadow:0 0 0 35px rgba(220,197,150,.025),0 0 0 75px rgba(143,231,255,.018)}.app:after{width:230px;height:230px;right:-145px;bottom:-120px;border:1px solid rgba(170,150,255,.10)}
+.content{position:relative;z-index:2;padding:10px}.top{display:grid;grid-template-columns:1fr 1fr;gap:7px}.badge{height:34px;border:1px solid var(--line);border-radius:999px;background:rgba(4,9,15,.48);display:flex;align-items:center;justify-content:center;gap:6px;font-size:10px;font-weight:800}.badge:first-child{color:#dbe7f1}.badge:last-child{color:#d6ccff}
+.brand{text-align:center}.symbol{font-size:23px;color:var(--champ);line-height:1;margin:3px 0}.name{font:700 17px Georgia,serif;letter-spacing:3px;color:var(--champ)}.helper{margin-top:3px;color:var(--ice);font-size:9px;font-weight:900;letter-spacing:1.8px}
+h1{margin:6px 0 3px;font:700 clamp(40px,10vw,58px)/.98 Georgia,serif;background:linear-gradient(100deg,var(--ice),#f7f5f0 48%,var(--violet));-webkit-background-clip:text;background-clip:text;color:transparent}.sub{margin:0 auto;color:#aeb8c4;font-size:11px;line-height:1.35;max-width:500px}
+.langs{display:grid;grid-template-columns:1.35fr 1fr 1fr;gap:3px;margin:9px 0 2px;padding:3px;border:1px solid var(--line);border-radius:18px;background:rgba(2,7,12,.45)}.lang{border:0;border-radius:14px;background:transparent;color:#e7edf3;min-height:45px;font-weight:800;cursor:pointer}.lang strong{display:block;font-size:12px}.lang small{display:block;margin-top:2px;font-size:8px;color:#7f8b99}.lang.active{color:var(--ice);background:linear-gradient(135deg,rgba(84,185,255,.12),rgba(169,147,255,.07));box-shadow:inset 0 0 0 1px rgba(143,231,255,.35)}
+.voice{text-align:center}.visualizer{height:148px;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden}.wave{position:absolute;width:100%;height:65px;bottom:26px;display:flex;align-items:center;justify-content:center;gap:3px;opacity:.72}.bar{width:3px;border-radius:8px;background:linear-gradient(to top,var(--ice),var(--blue))}.bar:nth-child(n+28){background:linear-gradient(to top,var(--violet),var(--rose))}.visualizer.live .bar{animation:wave .65s ease-in-out infinite alternate}.visualizer.live .bar:nth-child(2n){animation-delay:.12s}.visualizer.live .bar:nth-child(3n){animation-delay:.22s}@keyframes wave{from{transform:scaleY(.4)}to{transform:scaleY(1.8)}}
+.mic-wrap{width:116px;height:116px;border-radius:50%;position:relative;z-index:2;display:grid;place-items:center;background:radial-gradient(circle,rgba(10,19,29,.98) 51%,rgba(30,55,78,.55) 52%,transparent 67%);border:1px solid rgba(220,197,150,.62);box-shadow:0 0 0 10px rgba(143,231,255,.035),0 0 0 20px rgba(143,231,255,.025),0 0 35px rgba(84,185,255,.10)}.mic-wrap.live{border-color:var(--ice);box-shadow:0 0 0 9px rgba(84,185,255,.08),0 0 0 20px rgba(169,147,255,.05),0 0 42px rgba(84,185,255,.24)}
+.mic{width:72px;height:72px;border:0;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 35% 25%,rgba(143,231,255,.16),rgba(0,0,0,.58));color:#fff;font-size:31px;cursor:pointer}.mic:active{transform:scale(.96)}.mic.live{animation:pulse 1.2s infinite}@keyframes pulse{50%{transform:scale(1.045)}}
+.status{color:var(--ice);font-size:15px;font-weight:900;min-height:20px}.dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--ok);margin-right:6px;box-shadow:0 0 10px var(--ok)}.timer{margin-top:2px;color:#7e8a98;font-size:10px;min-height:14px}
+.cancel{display:none;margin:6px auto 0;border:1px solid rgba(255,130,152,.28);background:rgba(255,130,152,.07);color:#ff9aae;border-radius:999px;padding:6px 13px;font-size:10px;font-weight:900}.cancel.show{display:inline-block}
+.card{margin-top:7px;border:1px solid rgba(143,231,255,.16);border-radius:21px;background:rgba(2,8,14,.48);padding:9px}.head{display:flex;align-items:center;justify-content:space-between;margin-bottom:7px}.cardtitle{color:var(--ice);font-size:14px;font-weight:900}.state{border:1px solid rgba(143,231,255,.25);border-radius:999px;padding:5px 9px;color:#a9c5d8;font-size:9px;font-weight:800}
+.transcript{min-height:86px;max-height:112px;overflow:auto;border:1px solid rgba(255,255,255,.08);border-radius:15px;background:rgba(0,0,0,.28);padding:11px;text-align:left;color:#edf1f5;font-size:14px;line-height:1.5;word-break:break-word}.placeholder{color:#697583}.interim{color:#91a0ae}.final{color:#f2f5f8}
+.actions{display:grid;grid-template-columns:.72fr 1.55fr;gap:7px;margin-top:7px}.action{min-height:50px;border-radius:15px;border:1px solid rgba(220,197,150,.25);background:rgba(255,255,255,.025);color:#f1f4f7;font-weight:900;font-size:13px;cursor:pointer}.action small{display:block;margin-top:2px;color:#7f8995;font-size:8px;font-weight:500}.send{border-color:rgba(84,185,255,.35);background:linear-gradient(110deg,#157b91,#357fb2 48%,#7866a9);box-shadow:0 7px 20px rgba(62,135,183,.13)}.action:disabled{opacity:.38;cursor:not-allowed}
+.features{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-top:7px}.feature{min-height:56px;border:1px solid rgba(143,231,255,.10);border-radius:14px;background:rgba(0,0,0,.14);display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:5px 2px}.fi{font-size:13px;color:var(--ice)}.feature:nth-child(3) .fi{color:var(--violet)}.ft{margin-top:3px;color:#c9e9f3;font-size:8px;font-weight:900}.feature small{color:#6e7a88;font-size:7px;margin-top:1px}.note{margin:6px auto 0;text-align:center;color:#687582;font-size:8px;line-height:1.3;max-width:490px}.errorBox{display:none;margin-top:7px;padding:8px 10px;border-radius:12px;border:1px solid rgba(255,130,152,.22);background:rgba(255,130,152,.06);color:#ffb0bd;text-align:left;font-size:10px;line-height:1.4}.errorBox.show{display:block}
+@media(max-width:430px){.content{padding:8px}.badge{height:32px;font-size:9px}.symbol{font-size:21px}.name{font-size:16px}.helper{font-size:8px}h1{font-size:40px;margin:5px 0 3px}.sub{font-size:10px}.langs{margin:8px 0 1px}.lang{min-height:43px}.lang strong{font-size:11px}.visualizer{height:136px}.mic-wrap{width:105px;height:105px}.mic{width:66px;height:66px;font-size:28px}.wave{bottom:23px}.status{font-size:14px}.card{padding:8px}.cardtitle{font-size:13px}.transcript{min-height:78px;max-height:105px;font-size:13px;padding:10px}.action{min-height:48px;font-size:12px}.features{gap:4px}.feature{min-height:52px}.ft{font-size:7px}.feature small{font-size:6px}.note{font-size:7px}}
 </style>
 </head>
 <body>
 <div class="app"><div class="content">
-
-<div class="top">
-  <div class="badge">◇ &nbsp; Secure &amp; Private</div>
-  <div class="badge">⌁ &nbsp; Gemini Powered</div>
-</div>
-
-<header class="brand">
-  <div class="symbol">♧</div>
-  <div class="name">MEGHA’S MEHENDI</div>
-  <div class="helper">✦ VOICE ASSISTANT HELPER ✦</div>
-  <h1>Voice Booking</h1>
-  <p class="sub">Speak naturally. Choose a language or use Auto Detect, then send the transcript back to your booking assistant.</p>
-</header>
-
-<div class="langs">
-  <button class="lang active" data-lang="auto"><strong>✦ Auto Detect</strong><small>Smart Detection</small></button>
-  <button class="lang" data-lang="bn-IN"><strong>বাংলা</strong><small>Bengali</small></button>
-  <button class="lang" data-lang="hi-IN"><strong>हिन्दी</strong><small>Hindi</small></button>
-</div>
-
-<section class="voice">
-  <div id="visualizer" class="visualizer">
-    <div id="wave" class="wave"></div>
-    <div id="micWrap" class="mic-wrap"><button id="mic" class="mic" aria-label="Start recording">🎙️</button></div>
-  </div>
-  <div id="status" class="status"><span class="dot"></span>Ready to listen</div>
-  <div id="timer" class="timer">Tap the microphone to start</div>
-  <button id="cancelRecord" class="cancel-record" type="button" hidden>Cancel recording</button>
-</section>
-
-<section class="card">
-  <div class="head">
-    <div class="cardtitle">〽 Your Spoken Booking Details</div>
-    <div id="state" class="state">READY</div>
-  </div>
-  <div id="transcript" class="transcript"><span class="placeholder">Your spoken booking details will appear here…</span></div>
-  <div class="actions">
-    <button id="clear" class="action">⌫ &nbsp; Clear<small>Reset transcript</small></button>
-    <button id="send" class="action send" disabled>✓ &nbsp; Use in Booking<small>Send transcript to assistant</small></button>
-  </div>
-</section>
-
-<section class="features">
-  <div class="feature"><div class="fi">◎</div><div class="ft">High Accuracy</div><small>AI transcription</small></div>
-  <div class="feature"><div class="fi">◎</div><div class="ft">Multi Language</div><small>BN / HI / EN</small></div>
-  <div class="feature"><div class="fi">✦</div><div class="ft">Smart Filter</div><small>No repetition</small></div>
-  <div class="feature"><div class="fi">◇</div><div class="ft">Secure</div><small>Protected</small></div>
-</section>
-
-<div class="note">🔒 Microphone access is requested by this HTTPS page. Your Gemini API key remains safely inside Apps Script.</div>
-
+<div class="top"><div class="badge">◇ &nbsp; Secure &amp; Private</div><div class="badge">⌁ &nbsp; Live AI</div></div>
+<header class="brand"><div class="symbol">♧</div><div class="name">MEGHA’S MEHENDI</div><div class="helper">✦ VOICE ASSISTANT HELPER ✦</div><h1>Voice Booking</h1><p class="sub">Speak naturally. Your booking details appear live as you talk.</p></header>
+<div class="langs"><button class="lang active" data-lang="auto"><strong>✦ Auto Detect</strong><small>Smart Detection</small></button><button class="lang" data-lang="bn-IN"><strong>বাংলা</strong><small>Bengali</small></button><button class="lang" data-lang="hi-IN"><strong>हिन्दी</strong><small>Hindi</small></button></div>
+<section class="voice"><div id="visualizer" class="visualizer"><div id="wave" class="wave"></div><div id="micWrap" class="mic-wrap"><button id="mic" class="mic" aria-label="Start live transcription">🎙️</button></div></div><div id="status" class="status"><span class="dot"></span>Ready to listen</div><div id="timer" class="timer">Tap the microphone to start</div><button id="cancel" class="cancel" type="button">✕ Cancel recording</button></section>
+<section class="card"><div class="head"><div class="cardtitle">〽 Your Spoken Booking Details</div><div id="state" class="state">READY</div></div><div id="transcript" class="transcript"><span class="placeholder">Your spoken booking details will appear here live…</span></div><div class="actions"><button id="clear" class="action">⌫ &nbsp; Clear<small>Reset transcript</small></button><button id="send" class="action send" disabled>✓ &nbsp; Use in Booking<small>Use final transcript</small></button></div><div id="errorBox" class="errorBox"></div></section>
+<section class="features"><div class="feature"><div class="fi">◎</div><div class="ft">Live Accuracy</div><small>Realtime AI</small></div><div class="feature"><div class="fi">◎</div><div class="ft">Multi Language</div><small>BN / HI / EN</small></div><div class="feature"><div class="fi">✦</div><div class="ft">Smart Filter</div><small>Clean speech</small></div><div class="feature"><div class="fi">◇</div><div class="ft">Secure</div><small>Short-lived token</small></div></section>
+<div class="note">🔒 Your permanent Gemini API key stays inside Apps Script. The browser receives only a short-lived Live API token.</div>
 </div></div>
 
 <script>
 (function(){
-  const APPS_SCRIPT_URL='https://script.google.com/macros/s/AKfycbzeL5qodNLayTYXtmWqa8xxDv06Om30K7VUs25JXsRrQBtzD-E4rAKg1P-KFf4_DCDS/exec';
-  const params=new URLSearchParams(location.search);
-  const session=params.get('session')||('voice_'+Date.now()+'_'+Math.random().toString(36).slice(2,9));
+const APPS_SCRIPT_URL='https://script.google.com/macros/s/AKfycbzeL5qodNLayTYXtmWqa8xxDv06Om30K7VUs25JXsRrQBtzD-E4rAKg1P-KFf4_DCDS/exec';
+const MODEL='gemini-3.5-transcribe-live';
+const mic=document.getElementById('mic'),micWrap=document.getElementById('micWrap'),visualizer=document.getElementById('visualizer'),status=document.getElementById('status'),timer=document.getElementById('timer'),cancelBtn=document.getElementById('cancel'),transcript=document.getElementById('transcript'),state=document.getElementById('state'),clearBtn=document.getElementById('clear'),sendBtn=document.getElementById('send'),wave=document.getElementById('wave'),errorBox=document.getElementById('errorBox');
+let selectedLanguage='auto',ws=null,mediaStream=null,audioContext=null,sourceNode=null,processorNode=null,zeroGain=null,live=false,stopping=false,finalText='',interimText='',seconds=0,timerInterval=null,tokenLoading=false;
+for(let i=0;i<44;i++){const b=document.createElement('div');b.className='bar';b.style.height=(12+Math.round(Math.random()*40))+'px';wave.appendChild(b)}
+document.querySelectorAll('.lang').forEach(btn=>btn.addEventListener('click',function(){if(live)return;document.querySelectorAll('.lang').forEach(x=>x.classList.remove('active'));btn.classList.add('active');selectedLanguage=btn.dataset.lang}));
+function setStatus(t,s,st){status.innerHTML='<span class="dot"></span>'+t;timer.textContent=s||'';state.textContent=st||'READY'}
+function showError(m){errorBox.textContent=String(m||'Unknown error');errorBox.classList.add('show')}
+function hideError(){errorBox.textContent='';errorBox.classList.remove('show')}
+function startTimer(){seconds=0;timer.textContent='00:00';timerInterval=setInterval(()=>{seconds++;timer.textContent=String(Math.floor(seconds/60)).padStart(2,'0')+':'+String(seconds%60).padStart(2,'0')},1000)}
+function stopTimer(){if(timerInterval){clearInterval(timerInterval);timerInterval=null}}
+function renderTranscript(){if(!finalText&&!interimText){transcript.innerHTML='<span class="placeholder">Your spoken booking details will appear here live…</span>';return}transcript.innerHTML='<span class="final">'+esc(finalText)+'</span>'+(interimText?'<span class="interim">'+(finalText?' ':'')+esc(interimText)+'</span>':'');transcript.scrollTop=transcript.scrollHeight}
+function esc(v){return String(v||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;')}
+function langCodes(){return selectedLanguage==='bn-IN'?['bn-IN']:selectedLanguage==='hi-IN'?['hi-IN']:[]}
 
-  const mic=document.getElementById('mic'),micWrap=document.getElementById('micWrap'),visualizer=document.getElementById('visualizer');
-  const status=document.getElementById('status'),timer=document.getElementById('timer'),cancelRecord=document.getElementById('cancelRecord'),transcript=document.getElementById('transcript');
-  const state=document.getElementById('state'),clear=document.getElementById('clear'),send=document.getElementById('send'),wave=document.getElementById('wave');
+function getToken(){
+return new Promise(function(resolve,reject){
+ if(tokenLoading){reject(new Error('Another token request is already running.'));return}
+ tokenLoading=true;
+ const cb='tokenCallback_'+Date.now()+'_'+Math.random().toString(36).slice(2,8),script=document.createElement('script');
+ const url=APPS_SCRIPT_URL+'?action=liveToken&callback='+encodeURIComponent(cb)+'&_='+Date.now();let done=false;
+ function clean(){if(script.parentNode)script.parentNode.removeChild(script);try{delete window[cb]}catch(e){}tokenLoading=false}
+ window[cb]=function(r){if(done)return;done=true;try{if(!r||r.status!=='ok'||!r.token){reject(new Error(r&&r.message?r.message:'Could not obtain Live API token.'));return}resolve(r.token)}finally{clean()}};
+ script.onerror=function(){if(done)return;done=true;clean();reject(new Error('Could not reach the Apps Script token service.'))};
+ script.src=url;document.body.appendChild(script);
+})
+}
 
-  let selectedLanguage='auto',mediaStream=null,recorder=null,chunks=[],recording=false,seconds=0,timerInterval=null;
-  let finalTranscript='',polling=false,pollTimer=null;
+function connect(token){
+return new Promise(function(resolve,reject){
+ const url='wss://generativelanguage.googleapis.com/ws/google.ai.generativelanguage.v1beta.GenerativeService.BidiGenerateContent?access_token='+encodeURIComponent(token);
+ ws=new WebSocket(url);let opened=false;
+ ws.onopen=function(){opened=true;ws.send(JSON.stringify({setup:{model:'models/'+MODEL,generationConfig:{responseModalities:['TEXT']},inputAudioTranscription:{languageCodes:langCodes(),mode:'SMART'}}}));resolve()};
+ ws.onmessage=function(e){try{handleMessage(JSON.parse(e.data))}catch(err){console.warn(err)}};
+ ws.onerror=function(){if(!opened)reject(new Error('Gemini Live WebSocket connection failed.'));else showError('Gemini Live connection error.')};
+ ws.onclose=function(e){if(live&&!stopping){live=false;cleanupAudio();resetVisual();setStatus('Live connection closed',e.reason||'Tap the microphone to start again','ERROR')}}
+})
+}
 
-  for(let i=0;i<44;i++){
-    const b=document.createElement('div'); b.className='bar';
-    b.style.height=(12+Math.round(Math.random()*40))+'px'; wave.appendChild(b);
-  }
+function handleMessage(d){
+ const c=d&&d.serverContent;if(!c)return;
+ if(c.interimInputTranscription){interimText=String(c.interimInputTranscription.text||'');renderTranscript()}
+ if(c.inputTranscription){const p=String(c.inputTranscription.text||'').trim();if(p){finalText=appendClean(finalText,p);interimText='';renderTranscript();sendBtn.disabled=!finalText}}
+}
+function appendClean(a,b){
+ a=String(a||'').trim();b=String(b||'').trim();if(!a)return b;if(!b)return a;if(a===b||a.endsWith(b))return a;
+ const max=Math.min(a.length,b.length,120);for(let n=max;n>=12;n--){if(b.slice(0,n)===a.slice(-n))return (a+b.slice(n)).replace(/\s{2,}/g,' ').trim()}
+ return (a+' '+b).replace(/\s{2,}/g,' ').trim()
+}
+function down16(x,r){if(r===16000)return x;const ratio=r/16000,n=Math.round(x.length/ratio),o=new Float32Array(n);let off=0;for(let i=0;i<n;i++){const end=Math.round((i+1)*ratio);let sum=0,count=0;for(let j=off;j<end&&j<x.length;j++){sum+=x[j];count++}o[i]=count?sum/count:0;off=end}return o}
+function pcm16(x){const o=new Int16Array(x.length);for(let i=0;i<x.length;i++){const s=Math.max(-1,Math.min(1,x[i]));o[i]=s<0?s*0x8000:s*0x7fff}return o}
+function b64(buf){const a=new Uint8Array(buf);let s='',n=0x8000;for(let i=0;i<a.length;i+=n)s+=String.fromCharCode.apply(null,a.subarray(i,Math.min(i+n,a.length)));return btoa(s)}
 
-  document.querySelectorAll('.lang').forEach(function(btn){
-    btn.addEventListener('click',function(){
-      document.querySelectorAll('.lang').forEach(x=>x.classList.remove('active'));
-      btn.classList.add('active'); selectedLanguage=btn.dataset.lang;
-    });
-  });
+function startAudio(){
+ const AC=window.AudioContext||window.webkitAudioContext;if(!AC)throw new Error('Web Audio is not supported by this browser.');
+ audioContext=new AC();sourceNode=audioContext.createMediaStreamSource(mediaStream);processorNode=audioContext.createScriptProcessor(4096,1,1);zeroGain=audioContext.createGain();zeroGain.gain.value=0;
+ processorNode.onaudioprocess=function(e){if(!live||!ws||ws.readyState!==WebSocket.OPEN)return;const x=down16(e.inputBuffer.getChannelData(0),audioContext.sampleRate),p=pcm16(x);if(!p.length)return;ws.send(JSON.stringify({realtimeInput:{audio:{data:b64(p.buffer),mimeType:'audio/pcm;rate=16000'}}}))};
+ sourceNode.connect(processorNode);processorNode.connect(zeroGain);zeroGain.connect(audioContext.destination)
+}
 
-  function setStatus(title,sub,stateText){
-    status.innerHTML='<span class="dot"></span>'+title;
-    timer.textContent=sub||''; state.textContent=stateText||'READY';
-  }
+async function startLive(){
+ if(live)return;hideError();
+ if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){setStatus('Microphone unavailable','Use Chrome on an HTTPS page.','ERROR');return}
+ try{
+  mic.disabled=true;setStatus('Connecting…','Preparing secure Live AI session','CONNECT');
+  mediaStream=await navigator.mediaDevices.getUserMedia({audio:{channelCount:1,echoCancellation:true,noiseSuppression:true,autoGainControl:true}});
+  setStatus('Starting Live AI…','Almost ready','CONNECT');
+  const token=await getToken();await connect(token);startAudio();
+  live=true;stopping=false;finalText='';interimText='';renderTranscript();mic.disabled=false;
+  mic.classList.add('live');micWrap.classList.add('live');visualizer.classList.add('live');cancelBtn.classList.add('show');
+  setStatus('Listening live…','Speak naturally — text appears as you talk','LIVE');startTimer()
+ }catch(e){console.error(e);cleanupAll();resetVisual();setStatus('Could not start Live AI','Please check microphone permission and try again.','ERROR');showError(e&&e.message?e.message:e)}
+}
+function stopLive(){
+ if(!live)return;stopping=true;live=false;stopTimer();setStatus('Finishing transcript…','Waiting for the final speech segment','FINALIZING');
+ if(ws&&ws.readyState===WebSocket.OPEN){try{ws.send(JSON.stringify({realtimeInput:{audioStreamEnd:true}}))}catch(e){}setTimeout(finishStop,700)}else finishStop()
+}
+function finishStop(){cleanupAudio();if(ws){try{ws.close()}catch(e){}ws=null}stopping=false;resetVisual();if(finalText){sendBtn.disabled=false;setStatus('Voice captured ✓','Transcript ready — review it before booking','READY')}else setStatus('No speech captured','Tap the microphone and try again','READY')}
+function cancelLive(){
+ if(!live&&!stopping)return;stopping=true;live=false;stopTimer();cleanupAll();finalText='';interimText='';transcript.innerHTML='<span class="placeholder">Recording cancelled — nothing was saved.</span>';sendBtn.disabled=true;resetVisual();setStatus('Recording cancelled','Nothing was sent to the booking assistant','READY');setTimeout(()=>setStatus('Ready to listen','Tap the microphone to start','READY'),900)
+}
+function cleanupAudio(){if(processorNode)try{processorNode.disconnect()}catch(e){}if(sourceNode)try{sourceNode.disconnect()}catch(e){}if(zeroGain)try{zeroGain.disconnect()}catch(e){}processorNode=sourceNode=zeroGain=null;if(audioContext)try{audioContext.close()}catch(e){}audioContext=null;if(mediaStream){mediaStream.getTracks().forEach(t=>{try{t.stop()}catch(e){}});mediaStream=null}}
+function cleanupAll(){cleanupAudio();if(ws){try{ws.close()}catch(e){}ws=null}}
+function resetVisual(){mic.disabled=false;mic.classList.remove('live');micWrap.classList.remove('live');visualizer.classList.remove('live');cancelBtn.classList.remove('show');mic.textContent='🎙️'}
 
-  function startTimer(){
-    seconds=0; timer.textContent='00:00';
-    timerInterval=setInterval(function(){
-      seconds++;
-      timer.textContent=String(Math.floor(seconds/60)).padStart(2,'0')+':'+String(seconds%60).padStart(2,'0');
-    },1000);
-  }
-  function stopTimer(){if(timerInterval){clearInterval(timerInterval);timerInterval=null}}
-
-  function getMimeType(){
-    const types=['audio/webm;codecs=opus','audio/webm','audio/mp4','audio/ogg;codecs=opus'];
-    for(let i=0;i<types.length;i++){
-      if(window.MediaRecorder&&MediaRecorder.isTypeSupported(types[i])) return types[i];
-    }
-    return '';
-  }
-
-  async function startRecording(){
-    if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){
-      setStatus('Microphone unavailable','This browser does not support microphone recording.','ERROR'); return;
-    }
-    try{
-      mediaStream=await navigator.mediaDevices.getUserMedia({
-        audio:{echoCancellation:true,noiseSuppression:true,autoGainControl:true,channelCount:1}
-      });
-
-      const mimeType=getMimeType();
-      recorder=mimeType?new MediaRecorder(mediaStream,{mimeType:mimeType}):new MediaRecorder(mediaStream);
-      chunks=[];
-
-      recorder.ondataavailable=function(e){if(e.data&&e.data.size>0)chunks.push(e.data)};
-
-      recorder.onstop=async function(){
-        stopTimer();
-        if(mediaStream)mediaStream.getTracks().forEach(t=>t.stop());
-        mediaStream=null;
-
-        const actualMime=recorder.mimeType||mimeType||'audio/webm';
-        const blob=new Blob(chunks,{type:actualMime});
-        chunks=[];
-
-        if(blob.size<1000){
-          setStatus('No speech captured','Tap the microphone and try again.','READY'); resetMic(); return;
-        }
-
-        await sendAudioToGemini(blob, actualMime.split(';')[0]);
-      };
-
-      recorder.start(250);
-      recording=true; mic.disabled=false;
-      micWrap.classList.add('live'); mic.classList.add('live'); visualizer.classList.add('live');
-      mic.textContent='■';
-      setStatus('Listening…','Speak naturally — keep talking','LIVE');
-      cancelRecord.hidden=false;
-      startTimer();
-    }catch(error){
-      console.error(error);
-      setStatus('Microphone permission needed','Allow microphone access and try again.','ERROR'); resetMic();
-    }
-  }
-
-  function stopRecording(){
-    if(recorder&&recorder.state!=='inactive') recorder.stop();
-    recording=false; stopTimer(); mic.textContent='⏳'; mic.disabled=true;
-    visualizer.classList.remove('live');
-    cancelRecord.hidden=true;
-    setStatus('Preparing transcript…','Sending your recording to Gemini AI','PROCESSING');
-  }
-
-  function resetMic(){
-    recording=false; mic.disabled=false; mic.classList.remove('live'); micWrap.classList.remove('live');
-    visualizer.classList.remove('live'); mic.textContent='🎙️'; cancelRecord.hidden=true;
-  }
-
-  function cancelRecording(){
-    if(!recording) return;
-    recording=false;
-    stopTimer();
-
-    if(recorder && recorder.state!=='inactive'){
-      recorder.onstop=null;
-      try{recorder.stop()}catch(e){}
-    }
-    recorder=null;
-    chunks=[];
-
-    if(mediaStream){
-      mediaStream.getTracks().forEach(function(t){try{t.stop()}catch(e){}});
-    }
-    mediaStream=null;
-
-    cancelRecord.hidden=true;
-    mic.disabled=false;
-    mic.classList.remove('live');
-    micWrap.classList.remove('live');
-    visualizer.classList.remove('live');
-    mic.textContent='🎙️';
-
-    setStatus('Recording cancelled','Nothing was sent to Gemini — tap the microphone to try again','READY');
-  }
-
-  mic.addEventListener('click',function(){if(recording)stopRecording();else startRecording()});
-  cancelRecord.addEventListener('click',cancelRecording);
-
-  /*
-   * Keep the browser's native recording format.
-   * Gemini multimodal models support WebM/Opus and other audio formats.
-   * This avoids slow client-side WAV conversion on Android.
-   */
-
-  function blobToBase64(blob){
-    return new Promise(function(resolve,reject){
-      const reader=new FileReader();
-      reader.onload=function(){
-        const result=String(reader.result||''),comma=result.indexOf(',');
-        resolve(result.slice(comma+1));
-      };
-      reader.onerror=reject; reader.readAsDataURL(blob);
-    });
-  }
-
-  async function prepareAndSendAudio(originalBlob){
-    try{
-      setStatus('Optimizing audio…','One moment — preparing a clean voice signal','PROCESSING');
-      const wav=await convertToWav(originalBlob);
-      await sendAudioToGemini(wav,'audio/wav');
-    }catch(error){
-      console.error(error);
-      setStatus('Audio conversion failed','Please try again. If it repeats, update Chrome and retry.','ERROR'); resetMic();
-    }
-  }
-
-  async function sendAudioToGemini(blob,mimeType){
-    try{
-      const base64=await blobToBase64(blob);
-      const body=new URLSearchParams();
-      body.append('session',session);
-      body.append('language',selectedLanguage);
-      body.append('mimeType',mimeType);
-      body.append('audio',base64);
-
-      setStatus('Gemini is processing…','Transcribing your complete recording','AI');
-
-      /*
-       * Start POST and immediately poll.
-       * We intentionally do NOT await fetch(), otherwise the UI would
-       * wait for the Apps Script request before checking the saved state.
-       */
-      fetch(APPS_SCRIPT_URL,{method:'POST',mode:'no-cors',body:body}).catch(function(e){console.warn(e)});
-      startPolling();
-    }catch(error){
-      console.error(error); setStatus('Upload failed','Please try recording again.','ERROR'); resetMic();
-    }
-  }
-
-  function startPolling(){
-    if(polling)return; polling=true;
-    let attempts=0;
-
-    function check(){
-      attempts++;
-      const cb='voiceCallback_'+Date.now()+'_'+Math.random().toString(36).slice(2,7);
-      const script=document.createElement('script');
-
-      window[cb]=function(result){try{handleResult(result)}finally{cleanup()}};
-      script.src=APPS_SCRIPT_URL+'?session='+encodeURIComponent(session)+'&callback='+encodeURIComponent(cb)+'&_='+Date.now();
-
-      script.onerror=function(){
-        cleanup();
-        if(attempts<120){pollTimer=setTimeout(check,500)}
-        else{polling=false;setStatus('Connection timeout','Please try the recording again.','ERROR');resetMic()}
-      };
-
-      function cleanup(){
-        if(script.parentNode)script.parentNode.removeChild(script);
-        try{delete window[cb]}catch(e){}
-      }
-      document.body.appendChild(script);
-    }
-    check();
-  }
-
-  function handleResult(result){
-    if(!result)return;
-
-    if(result.status==='processing'||result.status==='waiting'){
-      setStatus('Gemini is processing…',result.message||'Preparing your transcript','AI');
-      pollAgain(); return;
-    }
-
-    if(result.status==='done'){
-      finalTranscript=String(result.text||'').trim();
-      transcript.textContent=finalTranscript||'No transcript returned.';
-      transcript.classList.remove('placeholder');
-      send.disabled=!finalTranscript; polling=false;
-      setStatus('Voice captured ✓','Transcript ready — review it before booking','READY');
-      resetMic(); return;
-    }
-
-    if(result.status==='error'){
-      polling=false; setStatus('Transcription error',result.message||'Gemini could not process the audio.','ERROR'); resetMic();
-    }
-  }
-
-  function pollAgain(){
-    if(pollTimer)clearTimeout(pollTimer);
-    pollTimer=setTimeout(function(){polling=false;startPolling()},500);
-  }
-
-  clear.addEventListener('click',function(){
-    if(recording){stopRecording();return}
-    finalTranscript='';
-    transcript.innerHTML='<span class="placeholder">Your spoken booking details will appear here…</span>';
-    send.disabled=true; setStatus('Ready to listen','Tap the microphone to start','READY'); resetMic();
-  });
-
-  send.addEventListener('click',function(){
-    if(!finalTranscript){setStatus('Nothing to send','Record your booking details first.','READY');return}
-
-    try{
-      localStorage.setItem('VOICE_BOOKING_'+session,JSON.stringify({status:'done',text:finalTranscript}));
-    }catch(e){}
-
-    try{
-      if(window.opener){
-        window.opener.postMessage({type:'MEGHA_VOICE_BOOKING',session:session,text:finalTranscript},'*');
-      }
-    }catch(e){}
-
-    setStatus('Sent ✓','Returning to booking assistant…','DONE');
-    setTimeout(function(){try{window.close()}catch(e){}},500);
-  });
-
-  setStatus('Ready to listen','Tap the microphone to start','READY');
+mic.addEventListener('click',()=>live?stopLive():startLive());
+cancelBtn.addEventListener('click',cancelLive);
+clearBtn.addEventListener('click',function(){if(live){cancelLive();return}finalText='';interimText='';transcript.innerHTML='<span class="placeholder">Your spoken booking details will appear here live…</span>';sendBtn.disabled=true;hideError();setStatus('Ready to listen','Tap the microphone to start','READY');resetVisual()});
+sendBtn.addEventListener('click',function(){if(!finalText){setStatus('Nothing to send','Record your booking details first.','READY');return}try{localStorage.setItem('VOICE_BOOKING_LIVE',JSON.stringify({status:'done',text:finalText,savedAt:new Date().toISOString()}))}catch(e){}try{if(window.opener)window.opener.postMessage({type:'MEGHA_VOICE_BOOKING',text:finalText},'*')}catch(e){}setStatus('Transcript ready ✓','This standalone version is ready for main-app integration','DONE')});
+window.addEventListener('beforeunload',cleanupAll);
+setStatus('Ready to listen','Tap the microphone to start','READY');
 })();
 </script>
 </body>
