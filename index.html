@@ -67,6 +67,11 @@ h1{
 .status{color:var(--ice);font-size:15px;font-weight:900;min-height:20px}
 .dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--ok);margin-right:6px;box-shadow:0 0 10px var(--ok)}
 .timer{margin-top:2px;color:#7e8a98;font-size:10px;min-height:14px}
+.cancel-record{
+  margin-top:4px;padding:5px 12px;border-radius:999px;
+  border:1px solid rgba(230,138,168,.30);background:rgba(230,138,168,.06);
+  color:#e9a0b5;font-size:9px;font-weight:800
+}
 .card{margin-top:7px;border:1px solid rgba(143,231,255,.16);border-radius:21px;background:rgba(2,8,14,.48);padding:9px}
 .head{display:flex;align-items:center;justify-content:space-between;margin-bottom:7px}
 .cardtitle{color:var(--ice);font-size:14px;font-weight:900}
@@ -123,6 +128,7 @@ h1{
   </div>
   <div id="status" class="status"><span class="dot"></span>Ready to listen</div>
   <div id="timer" class="timer">Tap the microphone to start</div>
+  <button id="cancelRecord" class="cancel-record" type="button" hidden>Cancel recording</button>
 </section>
 
 <section class="card">
@@ -155,7 +161,7 @@ h1{
   const session=params.get('session')||('voice_'+Date.now()+'_'+Math.random().toString(36).slice(2,9));
 
   const mic=document.getElementById('mic'),micWrap=document.getElementById('micWrap'),visualizer=document.getElementById('visualizer');
-  const status=document.getElementById('status'),timer=document.getElementById('timer'),transcript=document.getElementById('transcript');
+  const status=document.getElementById('status'),timer=document.getElementById('timer'),cancelRecord=document.getElementById('cancelRecord'),transcript=document.getElementById('transcript');
   const state=document.getElementById('state'),clear=document.getElementById('clear'),send=document.getElementById('send'),wave=document.getElementById('wave');
 
   let selectedLanguage='auto',mediaStream=null,recorder=null,chunks=[],recording=false,seconds=0,timerInterval=null;
@@ -223,7 +229,7 @@ h1{
           setStatus('No speech captured','Tap the microphone and try again.','READY'); resetMic(); return;
         }
 
-        await prepareAndSendAudio(blob);
+        await sendAudioToGemini(blob, actualMime.split(';')[0]);
       };
 
       recorder.start(250);
@@ -231,6 +237,7 @@ h1{
       micWrap.classList.add('live'); mic.classList.add('live'); visualizer.classList.add('live');
       mic.textContent='■';
       setStatus('Listening…','Speak naturally — keep talking','LIVE');
+      cancelRecord.hidden=false;
       startTimer();
     }catch(error){
       console.error(error);
@@ -242,51 +249,50 @@ h1{
     if(recorder&&recorder.state!=='inactive') recorder.stop();
     recording=false; stopTimer(); mic.textContent='⏳'; mic.disabled=true;
     visualizer.classList.remove('live');
-    setStatus('Preparing transcript…','Converting your recording for Gemini AI','PROCESSING');
+    cancelRecord.hidden=true;
+    setStatus('Preparing transcript…','Sending your recording to Gemini AI','PROCESSING');
   }
 
   function resetMic(){
     recording=false; mic.disabled=false; mic.classList.remove('live'); micWrap.classList.remove('live');
-    visualizer.classList.remove('live'); mic.textContent='🎙️';
+    visualizer.classList.remove('live'); mic.textContent='🎙️'; cancelRecord.hidden=true;
+  }
+
+  function cancelRecording(){
+    if(!recording) return;
+    recording=false;
+    stopTimer();
+
+    if(recorder && recorder.state!=='inactive'){
+      recorder.onstop=null;
+      try{recorder.stop()}catch(e){}
+    }
+    recorder=null;
+    chunks=[];
+
+    if(mediaStream){
+      mediaStream.getTracks().forEach(function(t){try{t.stop()}catch(e){}});
+    }
+    mediaStream=null;
+
+    cancelRecord.hidden=true;
+    mic.disabled=false;
+    mic.classList.remove('live');
+    micWrap.classList.remove('live');
+    visualizer.classList.remove('live');
+    mic.textContent='🎙️';
+
+    setStatus('Recording cancelled','Nothing was sent to Gemini — tap the microphone to try again','READY');
   }
 
   mic.addEventListener('click',function(){if(recording)stopRecording();else startRecording()});
+  cancelRecord.addEventListener('click',cancelRecording);
 
   /*
-   * Convert the browser's WebM/MP4 recording into a real PCM WAV.
-   * Gemini receives audio/wav, so there is no WebM/WAV MIME mismatch.
+   * Keep the browser's native recording format.
+   * Gemini multimodal models support WebM/Opus and other audio formats.
+   * This avoids slow client-side WAV conversion on Android.
    */
-  async function convertToWav(blob){
-    const AudioCtx=window.AudioContext||window.webkitAudioContext;
-    if(!AudioCtx) throw new Error('Audio conversion is not supported on this browser.');
-
-    const ctx=new AudioCtx();
-    try{
-      const buffer=await ctx.decodeAudioData(await blob.arrayBuffer());
-      const sampleRate=buffer.sampleRate;
-      const channels=Math.min(buffer.numberOfChannels,1);
-      const frames=buffer.length;
-      const wav=new ArrayBuffer(44+frames*2);
-      const view=new DataView(wav);
-
-      function str(offset,s){for(let i=0;i<s.length;i++)view.setUint8(offset+i,s.charCodeAt(i))}
-      str(0,'RIFF'); view.setUint32(4,36+frames*2,true); str(8,'WAVE');
-      str(12,'fmt '); view.setUint32(16,16,true); view.setUint16(20,1,true);
-      view.setUint16(22,channels,true); view.setUint32(24,sampleRate,true);
-      view.setUint32(28,sampleRate*2,true); view.setUint16(32,2,true); view.setUint16(34,16,true);
-      str(36,'data'); view.setUint32(40,frames*2,true);
-
-      const data=buffer.getChannelData(0);
-      let offset=44;
-      for(let i=0;i<frames;i++){
-        const sample=Math.max(-1,Math.min(1,data[i]));
-        view.setInt16(offset,sample<0?sample*0x8000:sample*0x7fff,true); offset+=2;
-      }
-      return new Blob([wav],{type:'audio/wav'});
-    }finally{
-      try{await ctx.close()}catch(e){}
-    }
-  }
 
   function blobToBase64(blob){
     return new Promise(function(resolve,reject){
