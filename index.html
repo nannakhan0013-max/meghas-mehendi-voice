@@ -1,44 +1,37 @@
 <!doctype html>
 <html lang="en">
-
 <head>
-
 <meta charset="utf-8">
 
 <meta name="viewport"
-      content="width=device-width,
-               initial-scale=1,
-               maximum-scale=1,
-               viewport-fit=cover">
+      content="width=device-width,initial-scale=1,viewport-fit=cover">
 
-<title>Megha's Mehendi — Voice Assistant</title>
+<title>Megha's Mehendi — Voice Booking</title>
 
 <style>
 
 :root{
+  --bg:#070b14;
+  --bg2:#0c1423;
+  --card:rgba(13,22,37,.82);
+  --card2:rgba(7,14,25,.88);
 
-  --bg:#07101c;
-  --bg2:#0b1626;
+  --cyan:#73e6ff;
+  --cyan2:#28c9ee;
 
-  --card:rgba(11,22,38,.78);
+  --lav:#c7a9ff;
+  --lav2:#9272e8;
 
-  --line:rgba(120,190,220,.20);
-
-  --cyan:#73e1f4;
-  --cyan2:#39b9d4;
-
-  --gold:#dfc07b;
-
-  --violet:#b69aff;
-
-  --rose:#d98cae;
+  --gold:#e6c77d;
+  --rose:#e98aa9;
 
   --text:#f4f5f7;
+  --muted:#8994a5;
 
-  --muted:#91a0af;
+  --line:rgba(115,230,255,.18);
+  --line2:rgba(230,199,125,.25);
 
-  --danger:#ef8ca7;
-
+  --danger:#ff829f;
 }
 
 *{
@@ -48,13 +41,9 @@
 
 html,
 body{
-
   margin:0;
-
   width:100%;
-
   min-height:100%;
-
 }
 
 body{
@@ -62,20 +51,17 @@ body{
   min-height:100vh;
 
   background:
-
     radial-gradient(
-      circle at 20% 8%,
-      rgba(57,120,160,.24),
+      circle at 20% 5%,
+      rgba(73,127,176,.18),
       transparent 35%
     ),
-
     radial-gradient(
-      circle at 90% 88%,
-      rgba(130,80,170,.18),
+      circle at 85% 85%,
+      rgba(126,83,190,.13),
       transparent 32%
     ),
-
-    #07101c;
+    #070b14;
 
   color:var(--text);
 
@@ -88,47 +74,40 @@ body{
     sans-serif;
 
   display:flex;
-
   justify-content:center;
 
   padding:
-    max(5px,env(safe-area-inset-top))
-    5px
-    max(5px,env(safe-area-inset-bottom));
-
+    max(6px,env(safe-area-inset-top))
+    6px
+    max(6px,env(safe-area-inset-bottom));
 }
 
 .app{
 
-  width:min(680px,100%);
+  width:min(620px,100%);
 
-  min-height:calc(100vh - 10px);
+  min-height:
+    calc(100vh - 12px);
 
   position:relative;
 
   overflow:hidden;
 
   border:
-    1px solid rgba(223,192,123,.30);
+    1px solid rgba(230,199,125,.24);
 
   border-radius:28px;
 
   background:
-
     linear-gradient(
       145deg,
-      rgba(15,31,49,.97),
-      rgba(5,13,24,.98)
+      rgba(15,28,46,.97),
+      rgba(5,11,21,.98)
     );
 
   box-shadow:
-
-    0 25px 80px
-    rgba(0,0,0,.48),
-
-    inset 0 0 60px
-    rgba(115,225,244,.035);
-
+    0 20px 70px rgba(0,0,0,.48),
+    inset 0 0 60px rgba(115,230,255,.025);
 }
 
 .app:before{
@@ -137,29 +116,22 @@ body{
 
   position:absolute;
 
-  width:360px;
-
-  height:360px;
+  width:380px;
+  height:380px;
 
   border-radius:50%;
 
-  left:-230px;
-
-  top:-130px;
+  left:-235px;
+  top:-150px;
 
   border:
-    1px solid rgba(115,225,244,.09);
+    1px solid rgba(115,230,255,.08);
 
   box-shadow:
-
-    0 0 0 45px
-    rgba(115,225,244,.025),
-
-    0 0 0 90px
-    rgba(223,192,123,.018);
+    0 0 0 40px rgba(115,230,255,.025),
+    0 0 0 90px rgba(230,199,125,.018);
 
   pointer-events:none;
-
 }
 
 .app:after{
@@ -169,34 +141,31 @@ body{
   position:absolute;
 
   width:280px;
-
   height:280px;
-
-  right:-190px;
-
-  bottom:-150px;
 
   border-radius:50%;
 
+  right:-190px;
+  bottom:-170px;
+
   border:
-    1px solid rgba(182,154,255,.13);
+    1px solid rgba(199,169,255,.10);
 
   pointer-events:none;
-
 }
 
 .content{
 
   position:relative;
-
   z-index:2;
 
   padding:10px;
-
 }
 
 
-/* TOP BADGES */
+/* =========================================================
+   TOP BADGES
+========================================================= */
 
 .top-badges{
 
@@ -204,65 +173,64 @@ body{
 
   grid-template-columns:1fr 1fr;
 
-  gap:7px;
+  gap:8px;
 
+  margin-bottom:5px;
 }
 
 .badge{
 
   height:36px;
 
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  gap:7px;
+
   border:
-    1px solid rgba(120,190,220,.20);
+    1px solid var(--line);
 
   border-radius:999px;
 
-  display:flex;
-
-  align-items:center;
-
-  justify-content:center;
-
-  gap:6px;
-
   background:
-    rgba(2,9,18,.48);
+    rgba(3,8,17,.45);
 
-  color:#dbe6ee;
+  color:#dbe3ed;
 
-  font-size:10px;
-
+  font-size:11px;
   font-weight:800;
-
 }
 
-.badge:last-child{
+.badge:nth-child(2){
 
-  color:#d1bdfc;
+  color:var(--lav);
 
+  border-color:
+    rgba(199,169,255,.17);
 }
 
 
-/* BRAND */
+/* =========================================================
+   BRAND
+========================================================= */
 
 .brand{
 
   text-align:center;
 
-  padding-top:4px;
-
+  padding-top:1px;
 }
 
 .brand-symbol{
 
   color:var(--gold);
 
-  font-size:25px;
+  font-size:27px;
 
   line-height:1;
 
   margin:2px 0 5px;
-
 }
 
 .brand-name{
@@ -271,114 +239,111 @@ body{
 
   font-family:Georgia,serif;
 
-  font-size:18px;
+  font-size:21px;
 
   letter-spacing:4px;
-
 }
 
 .helper{
 
+  margin-top:5px;
+
   color:var(--cyan);
 
-  font-size:10px;
+  font-size:11px;
 
   font-weight:900;
 
   letter-spacing:2px;
-
-  margin-top:5px;
-
 }
 
 .title{
 
-  margin:7px 0 3px;
+  margin:7px 0 4px;
 
   font-family:Georgia,serif;
 
-  font-size:clamp(42px,11vw,60px);
+  font-size:
+    clamp(42px,10vw,60px);
 
-  line-height:.96;
+  line-height:.95;
 
   background:
-
     linear-gradient(
       100deg,
       var(--cyan),
-      #f6f3ef 48%,
-      var(--violet)
+      #f5f3ee 48%,
+      var(--lav)
     );
 
   -webkit-background-clip:text;
-
   background-clip:text;
 
   color:transparent;
-
 }
 
 .subtitle{
 
-  max-width:590px;
+  max-width:530px;
 
   margin:0 auto;
 
-  color:#aab6c2;
+  color:#aeb8c6;
 
-  font-size:11px;
+  font-size:12px;
 
   line-height:1.38;
-
 }
 
 
-/* LANGUAGE */
+/* =========================================================
+   LANGUAGE
+========================================================= */
 
 .languages{
 
-  margin:10px 0 5px;
-
   display:grid;
 
-  grid-template-columns:1.3fr 1fr 1fr;
+  grid-template-columns:
+    1.35fr
+    1fr
+    1fr;
 
-  border:
-    1px solid rgba(120,190,220,.20);
-
-  border-radius:20px;
+  margin:10px 0 3px;
 
   padding:4px;
 
-  background:
-    rgba(1,8,16,.55);
+  border:
+    1px solid var(--line);
 
+  border-radius:20px;
+
+  background:
+    rgba(2,8,16,.50);
 }
 
 .lang{
+
+  min-height:52px;
 
   border:0;
 
   border-radius:16px;
 
-  min-height:50px;
-
   background:transparent;
 
-  color:#e8edf1;
-
-  font-weight:800;
+  color:#e8edf3;
 
   cursor:pointer;
 
+  font-weight:800;
 }
 
 .lang strong{
 
   display:block;
 
-  font-size:13px;
-
+  font-size:14px;
 }
 
 .lang small{
@@ -387,10 +352,9 @@ body{
 
   margin-top:2px;
 
-  color:#7f8c99;
+  color:#7e8998;
 
   font-size:9px;
-
 }
 
 .lang.active{
@@ -398,33 +362,34 @@ body{
   color:var(--cyan);
 
   background:
-
     linear-gradient(
       135deg,
-      rgba(73,175,210,.14),
-      rgba(105,87,170,.10)
+      rgba(66,201,238,.12),
+      rgba(97,70,170,.10)
     );
 
   box-shadow:
     inset 0 0 0 1px
-    rgba(115,225,244,.48);
-
+    rgba(115,230,255,.45);
 }
 
 
-/* VOICE */
+/* =========================================================
+   VOICE AREA
+========================================================= */
 
 .voice-area{
 
   text-align:center;
 
+  padding-top:0;
 }
 
 .visualizer{
 
   position:relative;
 
-  height:175px;
+  height:160px;
 
   display:flex;
 
@@ -433,7 +398,6 @@ body{
   justify-content:center;
 
   overflow:hidden;
-
 }
 
 .wave{
@@ -444,7 +408,7 @@ body{
 
   height:70px;
 
-  bottom:35px;
+  bottom:34px;
 
   display:flex;
 
@@ -454,58 +418,52 @@ body{
 
   gap:3px;
 
-  opacity:.80;
-
+  opacity:.78;
 }
 
 .bar{
 
   width:3px;
 
-  height:22px;
+  height:20px;
 
   border-radius:10px;
 
   background:
     linear-gradient(
       to top,
-      var(--cyan2),
-      var(--cyan)
+      #42c9ee,
+      #71e5ff
     );
-
 }
 
-.bar:nth-child(n+28){
+.bar:nth-child(n+23){
 
   background:
     linear-gradient(
       to top,
-      var(--rose),
-      var(--violet)
+      #9a76e7,
+      #d39de9
     );
-
 }
 
 .visualizer.live .bar{
 
   animation:
-    wave 520ms
+    wave 550ms
     ease-in-out
     infinite
     alternate;
-
 }
 
 .visualizer.live .bar:nth-child(2n){
 
-  animation-delay:.10s;
-
+  animation-delay:.08s;
 }
 
 .visualizer.live .bar:nth-child(3n){
 
-  animation-delay:.18s;
-
+  animation-delay:.17s;
 }
 
 @keyframes wave{
@@ -515,9 +473,8 @@ body{
   }
 
   to{
-    transform:scaleY(1.75);
+    transform:scaleY(1.8);
   }
-
 }
 
 
@@ -525,67 +482,64 @@ body{
 
 .mic-wrap{
 
-  width:130px;
-
-  height:130px;
+  width:132px;
+  height:132px;
 
   border-radius:50%;
-
-  position:relative;
-
-  z-index:2;
 
   display:grid;
 
   place-items:center;
 
-  background:
+  position:relative;
 
+  z-index:3;
+
+  background:
     radial-gradient(
       circle,
-      rgba(13,28,43,.98) 52%,
-      rgba(24,55,75,.58) 64%,
-      transparent 66%
+      rgba(15,34,47,.96) 50%,
+      rgba(29,45,60,.80) 52%,
+      rgba(25,46,65,.25) 66%,
+      transparent 67%
     );
 
   border:
     1px solid
-    rgba(223,192,123,.62);
+    rgba(230,199,125,.65);
 
   box-shadow:
 
     0 0 0 11px
-    rgba(115,225,244,.045),
+    rgba(115,230,255,.035),
 
     0 0 0 23px
-    rgba(182,154,255,.025),
+    rgba(115,230,255,.025),
 
     0 0 38px
-    rgba(115,225,244,.13);
-
+    rgba(115,230,255,.12);
 }
 
 .mic-wrap.live{
 
-  border-color:var(--cyan);
+  border-color:
+    var(--cyan);
 
   box-shadow:
 
     0 0 0 10px
-    rgba(115,225,244,.08),
+    rgba(115,230,255,.07),
 
     0 0 0 22px
-    rgba(182,154,255,.06),
+    rgba(199,169,255,.06),
 
     0 0 48px
-    rgba(115,225,244,.25);
-
+    rgba(115,230,255,.24);
 }
 
 .mic{
 
   width:78px;
-
   height:78px;
 
   border:0;
@@ -597,138 +551,134 @@ body{
   place-items:center;
 
   background:
-
     radial-gradient(
       circle at 35% 30%,
-      rgba(115,225,244,.20),
-      rgba(0,0,0,.48)
+      rgba(115,230,255,.16),
+      rgba(0,0,0,.45)
     );
 
-  color:#fff;
+  color:white;
 
-  font-size:30px;
+  font-size:32px;
 
   cursor:pointer;
-
 }
 
 .mic:active{
 
   transform:scale(.95);
-
 }
 
 .mic.live{
 
   animation:
-    micPulse 1.15s infinite;
-
+    micPulse 1.15s
+    infinite;
 }
 
 @keyframes micPulse{
 
   50%{
-    transform:scale(1.045);
+    transform:scale(1.04);
   }
-
 }
 
 
-/* STATUS */
+/* =========================================================
+   STATUS
+========================================================= */
 
 .status{
+
+  min-height:21px;
 
   color:var(--cyan);
 
   font-size:15px;
 
   font-weight:900;
-
-  min-height:21px;
-
 }
 
 .status-dot{
 
   display:inline-block;
 
-  width:9px;
-
-  height:9px;
+  width:10px;
+  height:10px;
 
   border-radius:50%;
 
-  background:var(--cyan);
-
   margin-right:7px;
 
-  box-shadow:
-    0 0 12px var(--cyan);
+  background:var(--cyan);
 
+  box-shadow:
+    0 0 12px
+    var(--cyan);
 }
 
 .timer{
 
   margin-top:2px;
 
-  color:#7f8b97;
+  color:#7f8998;
 
   font-size:10px;
-
 }
 
 
 /* CANCEL */
 
-.cancel-recording{
+.cancel{
 
   display:none;
 
   margin:5px auto 0;
 
+  padding:5px 13px;
+
   border:
     1px solid
-    rgba(239,140,167,.35);
-
-  background:
-    rgba(100,20,45,.18);
-
-  color:#efadc0;
+    rgba(255,130,159,.35);
 
   border-radius:999px;
 
-  padding:7px 16px;
+  background:
+    rgba(255,90,120,.06);
+
+  color:#ff9bb2;
 
   font-size:10px;
 
   font-weight:800;
 
+  cursor:pointer;
 }
 
-.cancel-recording.visible{
+.cancel.show{
 
   display:inline-block;
-
 }
 
 
-/* TRANSCRIPT */
+/* =========================================================
+   TRANSCRIPT
+========================================================= */
 
 .transcript-card{
 
-  margin-top:6px;
+  margin-top:7px;
+
+  padding:10px;
 
   border:
     1px solid
-    rgba(115,225,244,.18);
+    rgba(115,230,255,.17);
 
   border-radius:22px;
 
   background:
-    rgba(1,10,18,.54);
-
-  padding:10px;
-
+    rgba(2,9,17,.52);
 }
 
 .transcript-head{
@@ -739,36 +689,37 @@ body{
 
   justify-content:space-between;
 
-  margin-bottom:7px;
+  gap:8px;
 
+  margin-bottom:8px;
 }
 
 .transcript-title{
 
   color:var(--cyan);
 
-  font-size:14px;
+  font-size:15px;
 
   font-weight:900;
-
 }
 
 .state{
 
-  border:
-    1px solid
-    rgba(115,225,244,.28);
-
-  border-radius:999px;
+  flex-shrink:0;
 
   padding:5px 10px;
 
-  color:#a7d5df;
+  border:
+    1px solid
+    rgba(115,230,255,.24);
+
+  border-radius:999px;
+
+  color:#a9c6d0;
 
   font-size:9px;
 
-  font-weight:800;
-
+  font-weight:900;
 }
 
 .transcript{
@@ -781,6 +732,8 @@ body{
 
   overflow:auto;
 
+  padding:12px;
+
   border:
     1px solid
     rgba(255,255,255,.08);
@@ -790,45 +743,41 @@ body{
   background:
     rgba(0,0,0,.28);
 
-  padding:12px;
-
   text-align:left;
 
-  color:#eef2f4;
+  color:#f0f2f5;
 
-  font-size:14px;
+  font-size:15px;
 
-  line-height:1.55;
+  line-height:1.5;
 
   word-break:break-word;
-
-}
-
-.transcript.interim{
-
-  color:#8fd9e9;
-
 }
 
 .placeholder{
 
-  color:#64727e;
+  color:#657180;
+}
 
+.interim{
+
+  color:#8ca4b7;
 }
 
 
-/* ACTIONS */
+/* =========================================================
+   ACTIONS
+========================================================= */
 
 .actions{
 
   display:grid;
 
-  grid-template-columns:.75fr 1.7fr;
+  grid-template-columns:.75fr 1.65fr;
 
   gap:8px;
 
   margin-top:8px;
-
 }
 
 .action{
@@ -839,19 +788,18 @@ body{
 
   border:
     1px solid
-    rgba(223,192,123,.25);
+    rgba(230,199,125,.23);
+
+  background:
+    rgba(255,255,255,.025);
 
   color:white;
 
-  background:
-    rgba(255,255,255,.035);
+  font-size:14px;
 
   font-weight:900;
 
-  font-size:13px;
-
   cursor:pointer;
-
 }
 
 .action small{
@@ -860,40 +808,42 @@ body{
 
   margin-top:2px;
 
-  color:#8996a1;
+  color:#7e8997;
 
   font-size:8px;
 
   font-weight:500;
-
 }
 
 .send{
 
   border-color:
-    rgba(115,225,244,.35);
+    rgba(115,230,255,.35);
 
   background:
-
     linear-gradient(
-      110deg,
-      #167e94,
-      #269fba 45%,
-      #8069bb
+      105deg,
+      #167f99,
+      #278fa5 45%,
+      #7659a9
     );
 
+  box-shadow:
+    0 7px 22px
+    rgba(70,170,210,.13);
 }
 
 .action:disabled{
 
-  opacity:.40;
+  opacity:.38;
 
   cursor:not-allowed;
-
 }
 
 
-/* FEATURES */
+/* =========================================================
+   FEATURES
+========================================================= */
 
 .features{
 
@@ -904,22 +854,12 @@ body{
 
   gap:6px;
 
-  margin-top:7px;
-
+  margin-top:8px;
 }
 
 .feature{
 
-  min-height:62px;
-
-  border:
-    1px solid
-    rgba(120,190,220,.11);
-
-  border-radius:15px;
-
-  background:
-    rgba(0,0,0,.15);
+  min-height:59px;
 
   display:flex;
 
@@ -933,47 +873,53 @@ body{
 
   padding:5px 2px;
 
+  border:
+    1px solid
+    rgba(115,230,255,.10);
+
+  border-radius:15px;
+
+  background:
+    rgba(0,0,0,.14);
 }
 
 .feature-icon{
 
-  font-size:13px;
-
   color:var(--cyan);
 
+  font-size:13px;
 }
 
 .feature:nth-child(3)
 .feature-icon{
 
-  color:var(--violet);
-
+  color:var(--lav);
 }
 
 .feature-title{
 
   margin-top:3px;
 
-  color:#cdeaf0;
+  color:#dce9ee;
 
   font-size:9px;
 
   font-weight:900;
-
 }
 
 .feature small{
 
-  color:#687682;
+  margin-top:1px;
+
+  color:#697687;
 
   font-size:7px;
-
-  margin-top:2px;
-
 }
 
 
-/* ERROR */
+/* =========================================================
+   ERROR
+========================================================= */
 
 .error-box{
 
@@ -985,27 +931,25 @@ body{
 
   border:
     1px solid
-    rgba(239,140,167,.30);
+    rgba(255,130,159,.22);
 
-  border-radius:13px;
+  border-radius:14px;
 
   background:
-    rgba(80,15,35,.18);
+    rgba(255,80,110,.045);
 
-  color:#efadc0;
+  color:#e9a0b3;
 
   font-size:9px;
 
-  line-height:1.4;
+  line-height:1.35;
 
   text-align:left;
-
 }
 
-.error-box.visible{
+.error-box.show{
 
   display:block;
-
 }
 
 
@@ -1015,155 +959,208 @@ body{
 
   margin:7px auto 0;
 
-  max-width:600px;
+  max-width:520px;
+
+  color:#687484;
 
   text-align:center;
-
-  color:#66737e;
 
   font-size:8px;
 
   line-height:1.3;
-
 }
 
 
-/* MOBILE */
+/* =========================================================
+   MOBILE
+========================================================= */
 
 @media(max-width:430px){
 
+  body{
+
+    padding:
+      max(4px,env(safe-area-inset-top))
+      4px
+      max(4px,env(safe-area-inset-bottom));
+  }
+
+  .app{
+
+    min-height:
+      calc(100vh - 8px);
+
+    border-radius:25px;
+  }
+
   .content{
+
     padding:8px;
   }
 
+  .top-badges{
+
+    gap:6px;
+  }
+
   .badge{
+
     height:34px;
+
     font-size:9px;
   }
 
   .brand-symbol{
-    font-size:22px;
+
+    font-size:23px;
+
+    margin:1px 0 4px;
   }
 
   .brand-name{
-    font-size:16px;
+
+    font-size:17px;
+
     letter-spacing:3px;
   }
 
   .helper{
+
     font-size:9px;
+
+    letter-spacing:1.8px;
   }
 
   .title{
-    font-size:42px;
+
+    font-size:43px;
+
+    margin:6px 0 4px;
   }
 
   .subtitle{
-    font-size:10px;
+
+    font-size:10.5px;
+
+    line-height:1.3;
   }
 
   .languages{
+
     margin-top:8px;
   }
 
   .lang{
-    min-height:47px;
+
+    min-height:48px;
   }
 
   .lang strong{
+
     font-size:12px;
   }
 
+  .lang small{
+
+    font-size:8px;
+  }
+
   .visualizer{
-    height:155px;
+
+    height:145px;
   }
 
   .mic-wrap{
+
     width:120px;
     height:120px;
   }
 
   .mic{
+
     width:72px;
     height:72px;
-    font-size:28px;
+
+    font-size:29px;
   }
 
   .wave{
+
     bottom:30px;
   }
 
   .status{
+
     font-size:14px;
   }
 
   .transcript-card{
+
+    margin-top:6px;
+
     padding:8px;
+
+    border-radius:20px;
   }
 
-  .transcript{
-    min-height:86px;
-    max-height:110px;
+  .transcript-title{
+
     font-size:13px;
   }
 
+  .transcript{
+
+    min-height:82px;
+
+    max-height:104px;
+
+    font-size:13px;
+
+    padding:10px;
+  }
+
   .action{
+
     min-height:50px;
+
     font-size:12px;
   }
 
   .features{
-    gap:4px;
+
+    gap:5px;
   }
 
   .feature{
-    min-height:57px;
+
+    min-height:55px;
   }
 
-}
+  .feature-title{
 
-
-/* EXTRA SMALL */
-
-@media(max-height:720px){
-
-  .visualizer{
-    height:130px;
+    font-size:8px;
   }
 
-  .mic-wrap{
-    width:105px;
-    height:105px;
+  .feature small{
+
+    font-size:6.5px;
   }
 
-  .mic{
-    width:66px;
-    height:66px;
-    font-size:25px;
-  }
+  .note{
 
-  .wave{
-    bottom:24px;
-  }
-
-  .transcript{
-    min-height:76px;
-    max-height:95px;
+    font-size:7px;
   }
 
 }
 
 </style>
-
 </head>
-
 
 <body>
 
 <div class="app">
 
 <div class="content">
-
 
   <div class="top-badges">
 
@@ -1271,7 +1268,7 @@ body{
         <button
           id="mic"
           class="mic"
-          aria-label="Start live transcription">
+          aria-label="Start voice booking">
 
           🎙️
 
@@ -1305,10 +1302,10 @@ body{
 
 
     <button
-      id="cancelRecording"
-      class="cancel-recording">
+      id="cancel"
+      class="cancel">
 
-      ✕ Cancel recording
+      ✕ Cancel
 
     </button>
 
@@ -1320,9 +1317,7 @@ body{
     <div class="transcript-head">
 
       <div class="transcript-title">
-
         〽 Your Spoken Booking Details
-
       </div>
 
       <div
@@ -1460,11 +1455,10 @@ body{
 
   <div class="note">
 
-    🔒 Gemini API key remains inside Apps Script.
+    🔒 Gemini API key remains safely inside Apps Script.
     The browser receives only a short-lived Live token.
 
   </div>
-
 
 </div>
 
@@ -1475,210 +1469,230 @@ body{
 
 (function(){
 
+'use strict';
 
-/* -----------------------------------------------------------
+
+/* ==========================================================
    CONFIG
------------------------------------------------------------ */
+========================================================== */
 
 const APPS_SCRIPT_URL =
-  'https://script.google.com/macros/s/AKfycbzeL5qodNLayTYXtmWqa8xxDv06Om30K7VUs25JXsRrQBtzD-E4rAKg1P-KFf4_DCDS/exec';
+'https://script.google.com/macros/s/AKfycbzeL5qodNLayTYXtmWqa8xxDv06Om30K7VUs25JXsRrQBtzD-E4rAKg1P-KFf4_DCDS/exec';
 
 
 const LIVE_MODEL =
-  'gemini-3.5-transcribe-live';
+'gemini-3.5-transcribe-live';
 
 
-const LIVE_WS_BASE =
-  'wss://generativelanguage.googleapis.com/ws/google.ai.generativelanguage.v1alpha.GenerativeService.BidiGenerateContentConstrained';
+const WS_BASE =
+'wss://generativelanguage.googleapis.com/ws/google.ai.generativelanguage.v1beta.GenerativeService.BidiGenerateContent';
 
 
-/* -----------------------------------------------------------
+/* ==========================================================
    SESSION
------------------------------------------------------------ */
+========================================================== */
 
 const params =
-  new URLSearchParams(
-    location.search
-  );
+new URLSearchParams(
+  location.search
+);
 
 
 const session =
-  params.get('session') ||
-  (
-    'voice_' +
-    Date.now() +
-    '_' +
-    Math.random()
-      .toString(36)
-      .slice(2,9)
-  );
+params.get('session') ||
+(
+  'voice_' +
+  Date.now() +
+  '_' +
+  Math.random()
+    .toString(36)
+    .slice(2,9)
+);
 
 
-/* -----------------------------------------------------------
-   ELEMENTS
------------------------------------------------------------ */
+/* ==========================================================
+   DOM
+========================================================== */
 
 const mic =
-  document.getElementById('mic');
+document.getElementById('mic');
 
 const micWrap =
-  document.getElementById('micWrap');
+document.getElementById('micWrap');
 
 const visualizer =
-  document.getElementById('visualizer');
+document.getElementById('visualizer');
 
 const status =
-  document.getElementById('status');
+document.getElementById('status');
 
 const timer =
-  document.getElementById('timer');
+document.getElementById('timer');
 
 const transcript =
-  document.getElementById('transcript');
+document.getElementById('transcript');
 
 const state =
-  document.getElementById('state');
+document.getElementById('state');
 
 const clear =
-  document.getElementById('clear');
+document.getElementById('clear');
 
 const send =
-  document.getElementById('send');
+document.getElementById('send');
+
+const cancel =
+document.getElementById('cancel');
 
 const wave =
-  document.getElementById('wave');
-
-const cancelButton =
-  document.getElementById(
-    'cancelRecording'
-  );
+document.getElementById('wave');
 
 const errorBox =
-  document.getElementById(
-    'errorBox'
-  );
+document.getElementById('errorBox');
 
 
-/* -----------------------------------------------------------
+/* ==========================================================
    STATE
------------------------------------------------------------ */
+========================================================== */
 
 let selectedLanguage =
-  'auto';
+'auto';
 
 let websocket =
-  null;
-
-let audioContext =
-  null;
+null;
 
 let mediaStream =
-  null;
+null;
+
+let audioContext =
+null;
 
 let sourceNode =
-  null;
+null;
 
 let processorNode =
-  null;
+null;
 
-let silentGain =
-  null;
+let muteNode =
+null;
 
 let recording =
-  false;
+false;
 
 let connecting =
-  false;
+false;
+
+let stopping =
+false;
 
 let cancelled =
-  false;
+false;
 
-let seconds =
-  0;
+let setupComplete =
+false;
 
-let timerInterval =
-  null;
+let audioReady =
+false;
+
+let finalParts = [];
+
+let interimText =
+'';
 
 let finalTranscript =
-  '';
+'';
 
-let interimTranscript =
-  '';
+let seconds =
+0;
 
-let lastFinalText =
-  '';
+let timerInterval =
+null;
 
-let audioQueue =
-  0;
+let stopTimeout =
+null;
 
 
-/* -----------------------------------------------------------
+/* ==========================================================
    WAVEFORM
------------------------------------------------------------ */
+========================================================== */
 
-for(let i=0;i<44;i++){
+for(
+  let i=0;
+  i<42;
+  i++
+){
 
   const bar =
-    document.createElement('div');
+  document.createElement(
+    'div'
+  );
 
   bar.className =
-    'bar';
-
-  const h =
-    12 +
-    Math.round(
-      Math.random() * 40
-    );
+  'bar';
 
   bar.style.height =
-    h + 'px';
+    (
+      12 +
+      Math.round(
+        Math.random() * 40
+      )
+    ) +
+    'px';
 
-  wave.appendChild(bar);
+  wave.appendChild(
+    bar
+  );
+
 }
 
 
-/* -----------------------------------------------------------
+/* ==========================================================
    LANGUAGE
------------------------------------------------------------ */
+========================================================== */
 
 document
-  .querySelectorAll('.lang')
-  .forEach(function(button){
+.querySelectorAll('.lang')
+.forEach(function(button){
 
-    button.addEventListener(
-      'click',
-      function(){
+  button.addEventListener(
+    'click',
+    function(){
 
-        if(recording){
-          return;
-        }
+      if(
+        recording ||
+        connecting
+      ){
 
-        document
-          .querySelectorAll('.lang')
-          .forEach(function(x){
+        return;
 
-            x.classList.remove(
-              'active'
-            );
+      }
 
-          });
+      document
+      .querySelectorAll('.lang')
+      .forEach(function(x){
 
-        button.classList.add(
+        x.classList.remove(
           'active'
         );
 
-        selectedLanguage =
-          button.dataset.lang;
+      });
 
-      }
-    );
+      button.classList.add(
+        'active'
+      );
 
-  });
+      selectedLanguage =
+        button.dataset.lang;
+
+    }
+  );
+
+});
 
 
-/* -----------------------------------------------------------
-   STATUS
------------------------------------------------------------ */
+/* ==========================================================
+   UI HELPERS
+========================================================== */
 
 function setStatus(
   title,
@@ -1699,41 +1713,38 @@ function setStatus(
 }
 
 
-/* -----------------------------------------------------------
-   ERROR
------------------------------------------------------------ */
-
-function showError(message){
+function showError(
+  message
+){
 
   errorBox.textContent =
     message || 'Unknown error.';
 
   errorBox.classList.add(
-    'visible'
+    'show'
   );
 
 }
 
 
-function clearError(){
+function hideError(){
 
   errorBox.textContent =
     '';
 
   errorBox.classList.remove(
-    'visible'
+    'show'
   );
 
 }
 
 
-/* -----------------------------------------------------------
-   TIMER
------------------------------------------------------------ */
-
 function startTimer(){
 
-  seconds = 0;
+  stopTimer();
+
+  seconds =
+    0;
 
   timer.textContent =
     '00:00';
@@ -1749,12 +1760,14 @@ function startTimer(){
             Math.floor(
               seconds / 60
             )
-          ).padStart(2,'0');
+          )
+          .padStart(2,'0');
 
         const s =
           String(
             seconds % 60
-          ).padStart(2,'0');
+          )
+          .padStart(2,'0');
 
         timer.textContent =
           m + ':' + s;
@@ -1768,7 +1781,9 @@ function startTimer(){
 
 function stopTimer(){
 
-  if(timerInterval){
+  if(
+    timerInterval
+  ){
 
     clearInterval(
       timerInterval
@@ -1782,20 +1797,7 @@ function stopTimer(){
 }
 
 
-/* -----------------------------------------------------------
-   UI RECORDING STATE
------------------------------------------------------------ */
-
-function setLiveUI(){
-
-  recording =
-    true;
-
-  connecting =
-    false;
-
-  mic.disabled =
-    false;
+function setActiveUI(){
 
   micWrap.classList.add(
     'live'
@@ -1812,8 +1814,8 @@ function setLiveUI(){
   mic.textContent =
     '■';
 
-  cancelButton.classList.add(
-    'visible'
+  cancel.classList.add(
+    'show'
   );
 
 }
@@ -1825,6 +1827,15 @@ function resetUI(){
     false;
 
   connecting =
+    false;
+
+  stopping =
+    false;
+
+  setupComplete =
+    false;
+
+  audioReady =
     false;
 
   mic.disabled =
@@ -1845,8 +1856,8 @@ function resetUI(){
   mic.textContent =
     '🎙️';
 
-  cancelButton.classList.remove(
-    'visible'
+  cancel.classList.remove(
+    'show'
   );
 
   stopTimer();
@@ -1854,63 +1865,918 @@ function resetUI(){
 }
 
 
-/* -----------------------------------------------------------
-   BASE64
------------------------------------------------------------ */
+/* ==========================================================
+   TOKEN
+========================================================== */
 
-function arrayBufferToBase64(buffer){
+function getLiveToken(){
 
-  const bytes =
-    new Uint8Array(buffer);
+  return new Promise(
+    function(resolve,reject){
 
-  let binary =
-    '';
+      const callbackName =
+        'geminiToken_' +
+        Date.now() +
+        '_' +
+        Math.random()
+          .toString(36)
+          .slice(2,8);
 
-  const chunkSize =
-    0x8000;
 
-  for(
-    let i=0;
-    i<bytes.length;
-    i+=chunkSize
-  ){
+      let script =
+        document.createElement(
+          'script'
+        );
 
-    binary += String.fromCharCode.apply(
-      null,
-      bytes.subarray(
-        i,
-        Math.min(
-          i + chunkSize,
-          bytes.length
-        )
-      )
-    );
 
-  }
+      let finished =
+        false;
 
-  return btoa(binary);
+
+      function cleanup(){
+
+        if(
+          script &&
+          script.parentNode
+        ){
+
+          script.parentNode
+            .removeChild(
+              script
+            );
+
+        }
+
+        try{
+
+          delete window[
+            callbackName
+          ];
+
+        }catch(e){}
+
+      }
+
+
+      function done(
+        fn,
+        value
+      ){
+
+        if(
+          finished
+        ){
+
+          return;
+
+        }
+
+        finished =
+          true;
+
+        cleanup();
+
+        fn(value);
+
+      }
+
+
+      window[
+        callbackName
+      ] =
+      function(data){
+
+        if(
+          data &&
+          data.ok &&
+          data.token
+        ){
+
+          done(
+            resolve,
+            data.token
+          );
+
+        }else{
+
+          done(
+            reject,
+            new Error(
+              data &&
+              data.error
+                ? data.error
+                : 'Could not obtain Live API token.'
+            )
+          );
+
+        }
+
+      };
+
+
+      script.onerror =
+      function(){
+
+        done(
+          reject,
+          new Error(
+            'Apps Script token endpoint could not be reached.'
+          )
+        );
+
+      };
+
+
+      const url =
+        APPS_SCRIPT_URL +
+        '?action=token' +
+        '&language=' +
+        encodeURIComponent(
+          selectedLanguage
+        ) +
+        '&callback=' +
+        encodeURIComponent(
+          callbackName
+        ) +
+        '&_=' +
+        Date.now();
+
+
+      script.src =
+        url;
+
+
+      document.body.appendChild(
+        script
+      );
+
+    }
+  );
 
 }
 
 
-/* -----------------------------------------------------------
-   RESAMPLE FLOAT32 -> 16K PCM
------------------------------------------------------------ */
+/* ==========================================================
+   START
+========================================================== */
+
+async function startRecording(){
+
+  if(
+    recording ||
+    connecting
+  ){
+
+    return;
+
+  }
+
+  hideError();
+
+  finalParts =
+    [];
+
+  interimText =
+    '';
+
+  finalTranscript =
+    '';
+
+  transcript.innerHTML =
+    '<span class="placeholder">' +
+    'Connecting to Live AI…' +
+    '</span>';
+
+  send.disabled =
+    true;
+
+  connecting =
+    true;
+
+  setStatus(
+    'Connecting to Live AI…',
+    'Preparing secure voice session',
+    'CONNECTING'
+  );
+
+
+  try{
+
+    /*
+     * 1. Microphone first.
+     */
+
+    if(
+      !navigator.mediaDevices ||
+      !navigator.mediaDevices.getUserMedia
+    ){
+
+      throw new Error(
+        'This browser does not support microphone access.'
+      );
+
+    }
+
+
+    mediaStream =
+      await navigator
+        .mediaDevices
+        .getUserMedia({
+
+          audio:{
+            channelCount:1,
+            echoCancellation:true,
+            noiseSuppression:true,
+            autoGainControl:true
+          }
+
+        });
+
+
+    /*
+     * 2. Get short-lived token.
+     */
+
+    const token =
+      await getLiveToken();
+
+
+    if(
+      cancelled
+    ){
+
+      cleanupAudio();
+
+      return;
+
+    }
+
+
+    /*
+     * 3. Open constrained Live WebSocket.
+     */
+
+    const wsUrl =
+      WS_BASE +
+      '?access_token=' +
+      encodeURIComponent(
+        token
+      );
+
+
+    websocket =
+      new WebSocket(
+        wsUrl
+      );
+
+
+    websocket.binaryType =
+      'arraybuffer';
+
+
+    websocket.onopen =
+    function(){
+
+      if(
+        cancelled
+      ){
+
+        closeSocket();
+
+        return;
+
+      }
+
+
+      /*
+       * Live transcription setup.
+       */
+
+      const setup = {
+
+        setup:{
+
+          model:
+            'models/' +
+            LIVE_MODEL,
+
+          generationConfig:{
+
+            responseModalities:[
+              'TEXT'
+            ]
+
+          },
+
+          inputAudioTranscription:{
+
+            languageCodes:
+              getLanguageCodes(),
+
+            mode:
+              'SMART',
+
+            customVocabulary:[
+
+              "Megha's Mehendi",
+              "Meghas Mehendi",
+              "Megha Mehendi",
+
+              "voice booking",
+              "booking",
+
+              "bridal mehendi",
+              "bridal mehndi",
+
+              "mehendi",
+              "mehndi",
+
+              "Kharagpur",
+              "Khargapur",
+
+              "Midnapore",
+              "Medinipur",
+
+              "West Bengal",
+
+              "advance",
+              "total amount",
+              "due amount",
+
+              "rupees",
+
+              "টাকা",
+              "অ্যাডভান্স",
+              "বুকিং",
+              "মেহেদি",
+              "মেহেন্দি",
+              "খড়গপুর",
+              "মেদিনীপুর"
+
+            ]
+
+          }
+
+        }
+
+      };
+
+
+      websocket.send(
+        JSON.stringify(
+          setup
+        )
+      );
+
+
+      setStatus(
+        'Starting microphone…',
+        'Secure Live connection established',
+        'READY'
+      );
+
+    };
+
+
+    websocket.onmessage =
+    function(event){
+
+      handleGeminiMessage(
+        event.data
+      );
+
+    };
+
+
+    websocket.onerror =
+    function(){
+
+      if(
+        cancelled
+      ){
+
+        return;
+
+      }
+
+      showError(
+        'Gemini Live connection failed. Please try again.'
+      );
+
+      setStatus(
+        'Live AI connection error',
+        'Please tap the microphone again.',
+        'ERROR'
+      );
+
+      cleanupEverything();
+
+    };
+
+
+    websocket.onclose =
+    function(event){
+
+      if(
+        cancelled
+      ){
+
+        return;
+
+      }
+
+
+      if(
+        recording &&
+        !stopping
+      ){
+
+        showError(
+          'Live connection closed unexpectedly.'
+        );
+
+        setStatus(
+          'Live connection closed',
+          'Please try again.',
+          'ERROR'
+        );
+
+      }
+
+
+      if(
+        !stopping
+      ){
+
+        resetUI();
+
+      }
+
+    };
+
+
+  }catch(error){
+
+    console.error(
+      error
+    );
+
+    showError(
+      error &&
+      error.message
+        ? error.message
+        : String(error)
+    );
+
+    setStatus(
+      'Could not start Live AI',
+      'Please check microphone permission and try again.',
+      'ERROR'
+    );
+
+    cleanupEverything();
+
+  }
+
+}
+
+
+/* ==========================================================
+   LANGUAGE
+========================================================== */
+
+function getLanguageCodes(){
+
+  if(
+    selectedLanguage ===
+    'bn-IN'
+  ){
+
+    return [
+      'bn-IN'
+    ];
+
+  }
+
+  if(
+    selectedLanguage ===
+    'hi-IN'
+  ){
+
+    return [
+      'hi-IN'
+    ];
+
+  }
+
+  return [];
+
+}
+
+
+/* ==========================================================
+   GEMINI MESSAGE
+========================================================== */
+
+function handleGeminiMessage(
+  raw
+){
+
+  let message;
+
+
+  try{
+
+    message =
+      JSON.parse(
+        raw
+      );
+
+  }catch(error){
+
+    return;
+
+  }
+
+
+  /*
+   * Setup completed.
+   */
+
+  if(
+    message.setupComplete
+  ){
+
+    setupComplete =
+      true;
+
+    connecting =
+      false;
+
+    recording =
+      true;
+
+    setActiveUI();
+
+    setStatus(
+      'Listening…',
+      'Speak naturally — keep talking',
+      'LIVE'
+    );
+
+    startTimer();
+
+    startAudioStreaming();
+
+    return;
+
+  }
+
+
+  const content =
+    message.serverContent;
+
+
+  if(!content){
+
+    return;
+
+  }
+
+
+  /*
+   * Interim transcription.
+   */
+
+  if(
+    content.interimInputTranscription &&
+    content.interimInputTranscription.text
+  ){
+
+    interimText =
+      String(
+        content
+          .interimInputTranscription
+          .text
+      );
+
+    renderTranscript();
+
+  }
+
+
+  /*
+   * Final transcription.
+   */
+
+  if(
+    content.inputTranscription &&
+    content.inputTranscription.text
+  ){
+
+    const text =
+      String(
+        content
+          .inputTranscription
+          .text
+      ).trim();
+
+
+    if(text){
+
+      finalParts.push(
+        text
+      );
+
+      interimText =
+        '';
+
+      renderTranscript();
+
+    }
+
+  }
+
+
+  /*
+   * Turn completed.
+   */
+
+  if(
+    content.turnComplete &&
+    stopping
+  ){
+
+    finishStoppedSession();
+
+  }
+
+}
+
+
+/* ==========================================================
+   TRANSCRIPT DISPLAY
+========================================================== */
+
+function renderTranscript(){
+
+  const finalText =
+    finalParts
+      .join(' ')
+      .trim();
+
+
+  const combined =
+    (
+      finalText +
+      (
+        interimText
+          ? (
+            finalText
+              ? ' '
+              : ''
+          ) +
+          interimText
+          : ''
+      )
+    ).trim();
+
+
+  if(!combined){
+
+    transcript.innerHTML =
+      '<span class="placeholder">' +
+      'Listening… your booking details will appear here.' +
+      '</span>';
+
+    return;
+
+  }
+
+
+  transcript.innerHTML =
+    escapeHtml(
+      finalText
+    ) +
+    (
+      interimText
+        ? (
+          finalText
+            ? ' '
+            : ''
+        ) +
+        '<span class="interim">' +
+        escapeHtml(
+          interimText
+        ) +
+        '</span>'
+        : ''
+    );
+
+}
+
+
+/* ==========================================================
+   AUDIO STREAMING
+========================================================== */
+
+async function startAudioStreaming(){
+
+  if(
+    audioReady
+  ){
+
+    return;
+
+  }
+
+
+  if(
+    !mediaStream ||
+    !websocket ||
+    websocket.readyState !==
+      WebSocket.OPEN
+  ){
+
+    throw new Error(
+      'Audio connection is not ready.'
+    );
+
+  }
+
+
+  /*
+   * AudioContext captures microphone audio.
+   *
+   * Gemini Live requires:
+   * raw PCM
+   * 16-bit
+   * 16kHz
+   * mono
+   */
+
+  audioContext =
+    new (
+      window.AudioContext ||
+      window.webkitAudioContext
+    )();
+
+
+  if(
+    audioContext.state ===
+    'suspended'
+  ){
+
+    await audioContext.resume();
+
+  }
+
+
+  sourceNode =
+    audioContext
+      .createMediaStreamSource(
+        mediaStream
+      );
+
+
+  /*
+   * ScriptProcessor is intentionally used
+   * for maximum compatibility with Android
+   * browsers and GitHub Pages.
+   */
+
+  processorNode =
+    audioContext.createScriptProcessor(
+      4096,
+      1,
+      1
+    );
+
+
+  /*
+   * Silent output so microphone audio
+   * does not play back through speaker.
+   */
+
+  muteNode =
+    audioContext.createGain();
+
+  muteNode.gain.value =
+    0;
+
+
+  sourceNode.connect(
+    processorNode
+  );
+
+  processorNode.connect(
+    muteNode
+  );
+
+  muteNode.connect(
+    audioContext.destination
+  );
+
+
+  processorNode.onaudioprocess =
+  function(event){
+
+    if(
+      !recording ||
+      stopping ||
+      !setupComplete ||
+      !websocket ||
+      websocket.readyState !==
+        WebSocket.OPEN
+    ){
+
+      return;
+
+    }
+
+
+    const input =
+      event
+        .inputBuffer
+        .getChannelData(0);
+
+
+    const pcm16 =
+      downsampleTo16k(
+        input,
+        audioContext.sampleRate
+      );
+
+
+    if(
+      !pcm16.length
+    ){
+
+      return;
+
+    }
+
+
+    const base64 =
+      pcm16ToBase64(
+        pcm16
+      );
+
+
+    try{
+
+      websocket.send(
+        JSON.stringify({
+
+          realtimeInput:{
+
+            audio:{
+
+              data:
+                base64,
+
+              mimeType:
+                'audio/pcm;rate=16000'
+
+            }
+
+          }
+
+        })
+      );
+
+    }catch(error){
+
+      console.error(
+        error
+      );
+
+    }
+
+  };
+
+
+  audioReady =
+    true;
+
+}
+
+
+/* ==========================================================
+   DOWNSAMPLE TO 16K
+========================================================== */
 
 function downsampleTo16k(
   input,
   inputSampleRate
 ){
 
-  const targetRate =
-    16000;
-
   if(
     inputSampleRate ===
-    targetRate
+    16000
   ){
 
-    const output =
+    const result =
       new Int16Array(
         input.length
       );
@@ -1930,21 +2796,22 @@ function downsampleTo16k(
           )
         );
 
-      output[i] =
+      result[i] =
         sample < 0
           ? sample * 0x8000
           : sample * 0x7fff;
 
     }
 
-    return output;
+    return result;
 
   }
 
 
   const ratio =
     inputSampleRate /
-    targetRate;
+    16000;
+
 
   const newLength =
     Math.round(
@@ -1952,13 +2819,16 @@ function downsampleTo16k(
       ratio
     );
 
-  const output =
+
+  const result =
     new Int16Array(
       newLength
     );
 
+
   let offset =
     0;
+
 
   for(
     let i=0;
@@ -1966,38 +2836,41 @@ function downsampleTo16k(
     i++
   ){
 
-    const nextOffset =
+    const next =
       Math.round(
         (i + 1) *
         ratio
       );
 
-    let accum =
+    let sum =
       0;
 
     let count =
       0;
 
+
     for(
       let j=offset;
-      j<nextOffset &&
+      j<next &&
       j<input.length;
       j++
     ){
 
-      accum +=
+      sum +=
         input[j];
 
       count++;
 
     }
 
+
     const sample =
       count
-        ? accum / count
+        ? sum / count
         : 0;
 
-    const clipped =
+
+    const clamped =
       Math.max(
         -1,
         Math.min(
@@ -2006,766 +2879,177 @@ function downsampleTo16k(
         )
       );
 
-    output[i] =
-      clipped < 0
-        ? clipped * 0x8000
-        : clipped * 0x7fff;
+
+    result[i] =
+      clamped < 0
+        ? clamped * 0x8000
+        : clamped * 0x7fff;
+
 
     offset =
-      nextOffset;
+      next;
 
   }
 
-  return output;
+
+  return result;
 
 }
 
 
-/* -----------------------------------------------------------
-   CREATE GEMINI TOKEN
------------------------------------------------------------ */
+/* ==========================================================
+   PCM -> BASE64
+========================================================== */
 
-async function getLiveToken(){
+function pcm16ToBase64(
+  pcm
+){
 
-  let url =
-    APPS_SCRIPT_URL +
-    '?action=token' +
-    '&language=' +
-    encodeURIComponent(
-      selectedLanguage
-    ) +
-    '&_=' +
-    Date.now();
-
-  const response =
-    await fetch(
-      url,
-      {
-        method:'GET',
-        cache:'no-store'
-      }
+  const bytes =
+    new Uint8Array(
+      pcm.buffer
     );
 
-  const data =
-    await response.json();
 
-  if(
-    !data ||
-    !data.ok ||
-    !data.token
+  let binary =
+    '';
+
+
+  const chunkSize =
+    0x8000;
+
+
+  for(
+    let i=0;
+    i<bytes.length;
+    i+=chunkSize
   ){
 
-    throw new Error(
-      data &&
-      data.error
-        ? data.error
-        : 'Could not obtain Live API token.'
-    );
-
-  }
-
-  return data.token;
-
-}
-
-
-/* -----------------------------------------------------------
-   START AUDIO
------------------------------------------------------------ */
-
-async function startAudio(){
-
-  if(
-    !navigator.mediaDevices ||
-    !navigator.mediaDevices.getUserMedia
-  ){
-
-    throw new Error(
-      'This browser does not support microphone access.'
-    );
-
-  }
-
-
-  mediaStream =
-    await navigator.mediaDevices
-      .getUserMedia({
-
-        audio:{
-          channelCount:1,
-          echoCancellation:true,
-          noiseSuppression:true,
-          autoGainControl:true
-        }
-
-      });
-
-
-  const AudioCtx =
-    window.AudioContext ||
-    window.webkitAudioContext;
-
-
-  if(!AudioCtx){
-
-    throw new Error(
-      'Web Audio is not supported by this browser.'
-    );
-
-  }
-
-
-  audioContext =
-    new AudioCtx();
-
-
-  if(
-    audioContext.state ===
-    'suspended'
-  ){
-
-    await audioContext.resume();
-
-  }
-
-
-  sourceNode =
-    audioContext.createMediaStreamSource(
-      mediaStream
-    );
-
-
-  /*
-   * ScriptProcessor is intentionally used here
-   * for maximum Android browser compatibility.
-   */
-
-  processorNode =
-    audioContext.createScriptProcessor(
-      4096,
-      1,
-      1
-    );
-
-
-  silentGain =
-    audioContext.createGain();
-
-  silentGain.gain.value =
-    0;
-
-
-  processorNode.onaudioprocess =
-    function(event){
-
-      if(
-        !recording ||
-        !websocket ||
-        websocket.readyState !==
-        WebSocket.OPEN
-      ){
-
-        return;
-
-      }
-
-
-      const input =
-        event.inputBuffer
-          .getChannelData(0);
-
-
-      const pcm =
-        downsampleTo16k(
-          input,
-          audioContext.sampleRate
-        );
-
-
-      if(!pcm.length){
-        return;
-      }
-
-
-      const base64 =
-        arrayBufferToBase64(
-          pcm.buffer
-        );
-
-
-      try{
-
-        websocket.send(
-          JSON.stringify({
-
-            realtimeInput:{
-
-              audio:{
-
-                data:base64,
-
-                mimeType:
-                  'audio/pcm;rate=16000'
-
-              }
-
-            }
-
-          })
-        );
-
-      }catch(err){
-
-        console.error(
-          'Audio send error:',
-          err
-        );
-
-      }
-
-    };
-
-
-  sourceNode.connect(
-    processorNode
-  );
-
-  processorNode.connect(
-    silentGain
-  );
-
-  silentGain.connect(
-    audioContext.destination
-  );
-
-}
-
-
-/* -----------------------------------------------------------
-   STOP AUDIO
------------------------------------------------------------ */
-
-function stopAudio(){
-
-  try{
-
-    if(processorNode){
-      processorNode.disconnect();
-    }
-
-    if(sourceNode){
-      sourceNode.disconnect();
-    }
-
-    if(silentGain){
-      silentGain.disconnect();
-    }
-
-  }catch(e){}
-
-
-  if(mediaStream){
-
-    mediaStream
-      .getTracks()
-      .forEach(
-        function(track){
-
-          track.stop();
-
-        }
+    binary +=
+      String.fromCharCode.apply(
+        null,
+        bytes.subarray(
+          i,
+          Math.min(
+            i + chunkSize,
+            bytes.length
+          )
+        )
       );
 
   }
 
 
-  mediaStream =
-    null;
-
-  sourceNode =
-    null;
-
-  processorNode =
-    null;
-
-  silentGain =
-    null;
-
-
-  if(audioContext){
-
-    try{
-      audioContext.close();
-    }catch(e){}
-
-  }
-
-  audioContext =
-    null;
-
-}
-
-
-/* -----------------------------------------------------------
-   OPEN LIVE SOCKET
------------------------------------------------------------ */
-
-async function connectLive(){
-
-  const token =
-    await getLiveToken();
-
-
-  /*
-   * Browser-friendly constrained Live endpoint.
-   * The token is short-lived and restricted server-side.
-   */
-
-  const wsUrl =
-    LIVE_WS_BASE +
-    '?access_token=' +
-    token;
-
-
-  return new Promise(
-    function(resolve,reject){
-
-      let opened =
-        false;
-
-      websocket =
-        new WebSocket(
-          wsUrl
-        );
-
-
-      websocket.onopen =
-        function(){
-
-          opened =
-            true;
-
-          /*
-           * Keep setup identical to
-           * the token constraints.
-           */
-
-          const setup = {
-
-            setup:{
-
-              model:
-                'models/' +
-                LIVE_MODEL,
-
-              generationConfig:{
-
-                responseModalities:[
-                  'TEXT'
-                ]
-
-              },
-
-              inputAudioTranscription:{
-
-                languageCodes:
-                  selectedLanguage === 'auto'
-                    ? []
-                    : [selectedLanguage],
-
-                mode:
-                  'SMART',
-
-                customVocabulary:[
-
-                  "Megha's Mehendi",
-                  "Meghas Mehendi",
-                  "Megha Mehendi",
-                  "voice booking",
-                  "booking",
-                  "bridal mehendi",
-                  "bridal mehndi",
-                  "mehendi",
-                  "mehndi",
-                  "Kharagpur",
-                  "Khargapur",
-                  "Midnapore",
-                  "Medinipur",
-                  "West Bengal",
-                  "advance",
-                  "total amount",
-                  "due amount",
-                  "rupees",
-                  "টাকা",
-                  "অ্যাডভান্স",
-                  "বুকিং",
-                  "মেহেদি",
-                  "মেহেন্দি",
-                  "খড়গপুর",
-                  "মেদিনীপুর"
-
-                ]
-
-              }
-
-            }
-
-          };
-
-
-          websocket.send(
-            JSON.stringify(
-              setup
-            )
-          );
-
-        };
-
-
-      websocket.onmessage =
-        function(event){
-
-          let message;
-
-          try{
-
-            message =
-              JSON.parse(
-                event.data
-              );
-
-          }catch(err){
-
-            return;
-
-          }
-
-
-          if(
-            message.setupComplete
-          ){
-
-            setStatus(
-              'Listening…',
-              'Speak naturally — keep talking',
-              'LIVE'
-            );
-
-            resolve();
-
-            return;
-
-          }
-
-
-          const content =
-            message.serverContent;
-
-          if(!content){
-            return;
-          }
-
-
-          /*
-           * Low latency interim transcript.
-           */
-
-          if(
-            content.interimInputTranscription
-          ){
-
-            interimTranscript =
-              String(
-                content
-                  .interimInputTranscription
-                  .text || ''
-              );
-
-            renderTranscript();
-
-          }
-
-
-          /*
-           * Final authoritative transcript.
-           */
-
-          if(
-            content.inputTranscription
-          ){
-
-            const text =
-              String(
-                content
-                  .inputTranscription
-                  .text || ''
-              ).trim();
-
-
-            if(text){
-
-              /*
-               * Prevent accidental duplicate
-               * final segments.
-               */
-
-              if(
-                text !==
-                lastFinalText
-              ){
-
-                finalTranscript =
-                  [
-                    finalTranscript,
-                    text
-                  ]
-                  .filter(Boolean)
-                  .join(' ')
-                  .trim();
-
-                lastFinalText =
-                  text;
-
-              }
-
-              interimTranscript =
-                '';
-
-              renderTranscript();
-
-              send.disabled =
-                !finalTranscript;
-
-            }
-
-          }
-
-
-          if(
-            content.turnComplete
-          ){
-
-            if(finalTranscript){
-
-              setStatus(
-                'Voice captured ✓',
-                'Transcript ready — review before booking',
-                'READY'
-              );
-
-            }
-
-          }
-
-        };
-
-
-      websocket.onerror =
-        function(event){
-
-          console.error(
-            'Gemini Live WebSocket error:',
-            event
-          );
-
-          if(!opened){
-
-            reject(
-              new Error(
-                'Gemini Live connection failed. Check the API key, Live API access and token configuration.'
-              )
-            );
-
-          }else{
-
-            showError(
-              'Gemini Live connection error. Please try again.'
-            );
-
-          }
-
-        };
-
-
-      websocket.onclose =
-        function(event){
-
-          console.log(
-            'Gemini Live closed:',
-            event.code,
-            event.reason
-          );
-
-
-          if(
-            !opened
-          ){
-
-            reject(
-              new Error(
-                'Gemini Live closed before setup completed. ' +
-                (event.reason || 'No reason returned.')
-              )
-            );
-
-          }
-
-        };
-
-    }
+  return btoa(
+    binary
   );
 
 }
 
 
-/* -----------------------------------------------------------
-   START LIVE
------------------------------------------------------------ */
+/* ==========================================================
+   STOP
+========================================================== */
 
-async function startLive(){
+function stopRecording(){
 
-  if(recording || connecting){
+  if(
+    !recording ||
+    stopping
+  ){
+
     return;
+
   }
 
 
-  clearError();
+  stopping =
+    true;
 
-  cancelled =
+  recording =
     false;
 
-  finalTranscript =
-    '';
-
-  interimTranscript =
-    '';
-
-  lastFinalText =
-    '';
-
-  transcript.innerHTML =
-    '<span class="placeholder">' +
-    'Listening… your booking details will appear here.' +
-    '</span>';
-
-  send.disabled =
-    true;
-
-
-  connecting =
-    true;
+  stopTimer();
 
   mic.disabled =
     true;
 
+  cancel.classList.remove(
+    'show'
+  );
+
+  visualizer.classList.remove(
+    'live'
+  );
+
+  mic.classList.remove(
+    'live'
+  );
+
+  mic.textContent =
+    '⏳';
+
 
   setStatus(
-    'Connecting to Gemini…',
-    'Starting secure live transcription',
-    'CONNECT'
+    'Finishing transcript…',
+    'Please wait for the last words',
+    'FINALIZING'
   );
 
 
+  /*
+   * Tell Gemini that microphone stream
+   * has ended.
+   */
+
   try{
-
-    /*
-     * Ask microphone permission first.
-     */
-
-    await startAudio();
-
-
-    if(cancelled){
-
-      stopAudio();
-
-      resetUI();
-
-      return;
-
-    }
-
-
-    /*
-     * Obtain short-lived token and
-     * establish Live WebSocket.
-     */
-
-    await connectLive();
-
-
-    if(cancelled){
-
-      stopLive();
-
-      return;
-
-    }
-
-
-    setLiveUI();
-
-    startTimer();
-
-    setStatus(
-      'Listening…',
-      'Speak naturally — keep talking',
-      'LIVE'
-    );
-
-
-  }catch(error){
-
-    console.error(
-      'Live start error:',
-      error
-    );
-
-    stopAudio();
 
     if(
       websocket &&
       websocket.readyState ===
-      WebSocket.OPEN
+        WebSocket.OPEN
     ){
 
-      websocket.close();
+      websocket.send(
+        JSON.stringify({
+
+          realtimeInput:{
+
+            audioStreamEnd:
+              true
+
+          }
+
+        })
+      );
 
     }
 
-    websocket =
-      null;
+  }catch(error){}
 
-    resetUI();
 
-    setStatus(
-      'Could not start Live AI',
-      'Please check microphone permission and try again.',
-      'ERROR'
+  /*
+   * Give Gemini a short window to send
+   * final transcription events.
+   */
+
+  stopTimeout =
+    setTimeout(
+      finishStoppedSession,
+      1800
     );
-
-    showError(
-      error &&
-      error.message
-        ? error.message
-        : 'Unknown Live API error.'
-    );
-
-  }
 
 }
 
 
-/* -----------------------------------------------------------
-   STOP LIVE
------------------------------------------------------------ */
+/* ==========================================================
+   CANCEL
+========================================================== */
 
-function stopLive(){
+function cancelRecording(){
 
-  if(!recording && !connecting){
-    return;
-  }
-
+  cancelled =
+    true;
 
   recording =
     false;
@@ -2773,86 +3057,134 @@ function stopLive(){
   connecting =
     false;
 
-  stopAudio();
+  stopping =
+    false;
 
   stopTimer();
 
+  hideError();
+
+  finalParts =
+    [];
+
+  interimText =
+    '';
+
+  finalTranscript =
+    '';
+
+  send.disabled =
+    true;
+
 
   /*
-   * Tell Gemini that the current audio
-   * stream has ended before closing.
+   * Cancel means:
+   * do NOT keep any current transcript.
    */
 
+  transcript.innerHTML =
+    '<span class="placeholder">' +
+    'Your spoken booking details will appear here live…' +
+    '</span>';
+
+
+  closeSocket();
+
+  cleanupAudio();
+
+  resetUI();
+
+
+  setStatus(
+    'Ready to listen',
+    'Cancelled — tap the microphone to try again',
+    'READY'
+  );
+
+
+  cancelled =
+    false;
+
+}
+
+
+/* ==========================================================
+   FINISH
+========================================================== */
+
+function finishStoppedSession(){
+
   if(
-    websocket &&
-    websocket.readyState ===
-    WebSocket.OPEN
+    !stopping
   ){
 
-    try{
-
-      websocket.send(
-        JSON.stringify({
-
-          realtimeInput:{
-            audioStreamEnd:true
-          }
-
-        })
-      );
-
-    }catch(e){}
+    return;
 
   }
 
 
-  setTimeout(
-    function(){
+  if(
+    stopTimeout
+  ){
 
-      if(
-        websocket &&
-        websocket.readyState !==
-        WebSocket.CLOSED
-      ){
+    clearTimeout(
+      stopTimeout
+    );
 
-        try{
-          websocket.close();
-        }catch(e){}
+    stopTimeout =
+      null;
 
-      }
-
-      websocket =
-        null;
-
-    },
-    250
-  );
+  }
 
 
-  mic.disabled =
-    false;
-
-  mic.classList.remove(
-    'live'
-  );
-
-  micWrap.classList.remove(
-    'live'
-  );
-
-  visualizer.classList.remove(
-    'live'
-  );
-
-  mic.textContent =
-    '🎙️';
-
-  cancelButton.classList.remove(
-    'visible'
-  );
+  finalTranscript =
+    finalParts
+      .join(' ')
+      .replace(
+        /\s+/g,
+        ' '
+      )
+      .trim();
 
 
-  if(finalTranscript){
+  /*
+   * If there is still interim text,
+   * include it rather than losing speech.
+   */
+
+  if(
+    interimText
+  ){
+
+    finalTranscript =
+      (
+        finalTranscript
+          ? finalTranscript + ' '
+          : ''
+      ) +
+      interimText.trim();
+
+  }
+
+
+  interimText =
+    '';
+
+
+  if(
+    finalTranscript
+  ){
+
+    transcript.textContent =
+      finalTranscript;
+
+    transcript.classList.remove(
+      'placeholder'
+    );
+
+    send.disabled =
+      false;
+
 
     setStatus(
       'Voice captured ✓',
@@ -2862,45 +3194,150 @@ function stopLive(){
 
   }else{
 
+    transcript.innerHTML =
+      '<span class="placeholder">' +
+      'No speech was captured. Tap the microphone and try again.' +
+      '</span>';
+
+    send.disabled =
+      true;
+
+
     setStatus(
-      'Ready to listen',
-      'Tap the microphone to start',
+      'No speech captured',
+      'Tap the microphone and try again',
       'READY'
     );
 
   }
 
+
+  cleanupAudio();
+
+  closeSocket();
+
+  resetUI();
+
 }
 
 
-/* -----------------------------------------------------------
-   CANCEL
------------------------------------------------------------ */
+/* ==========================================================
+   CLEANUP AUDIO
+========================================================== */
 
-function cancelLive(){
+function cleanupAudio(){
 
-  cancelled =
-    true;
+  try{
 
-  recording =
+    if(
+      processorNode
+    ){
+
+      processorNode.disconnect();
+
+      processorNode.onaudioprocess =
+        null;
+
+    }
+
+  }catch(e){}
+
+
+  try{
+
+    if(
+      sourceNode
+    ){
+
+      sourceNode.disconnect();
+
+    }
+
+  }catch(e){}
+
+
+  try{
+
+    if(
+      muteNode
+    ){
+
+      muteNode.disconnect();
+
+    }
+
+  }catch(e){}
+
+
+  try{
+
+    if(
+      audioContext
+    ){
+
+      audioContext.close();
+
+    }
+
+  }catch(e){}
+
+
+  processorNode =
+    null;
+
+  sourceNode =
+    null;
+
+  muteNode =
+    null;
+
+  audioContext =
+    null;
+
+  audioReady =
     false;
-
-  connecting =
-    false;
-
-  stopAudio();
-
-  stopTimer();
 
 
   if(
-    websocket &&
-    websocket.readyState !==
-    WebSocket.CLOSED
+    mediaStream
+  ){
+
+    mediaStream
+      .getTracks()
+      .forEach(
+        function(track){
+
+          try{
+
+            track.stop();
+
+          }catch(e){}
+
+        }
+      );
+
+  }
+
+  mediaStream =
+    null;
+
+}
+
+
+/* ==========================================================
+   CLOSE SOCKET
+========================================================== */
+
+function closeSocket(){
+
+  if(
+    websocket
   ){
 
     try{
+
       websocket.close();
+
     }catch(e){}
 
   }
@@ -2908,187 +3345,70 @@ function cancelLive(){
   websocket =
     null;
 
+}
 
-  finalTranscript =
-    '';
 
-  interimTranscript =
-    '';
+/* ==========================================================
+   EVERYTHING
+========================================================== */
 
-  lastFinalText =
-    '';
+function cleanupEverything(){
 
-  transcript.innerHTML =
-    '<span class="placeholder">' +
-    'Recording cancelled. Tap the microphone to try again…' +
-    '</span>';
+  try{
 
-  send.disabled =
-    true;
+    closeSocket();
 
-  clearError();
+  }catch(e){}
+
+  try{
+
+    cleanupAudio();
+
+  }catch(e){}
 
   resetUI();
 
-  setStatus(
-    'Recording cancelled',
-    'Tap the microphone when you are ready',
-    'READY'
-  );
-
 }
 
 
-/* -----------------------------------------------------------
-   RENDER TRANSCRIPT
------------------------------------------------------------ */
-
-function renderTranscript(){
-
-  const combined =
-    [
-      finalTranscript,
-      interimTranscript
-    ]
-    .filter(Boolean)
-    .join(
-      finalTranscript &&
-      interimTranscript
-        ? ' '
-        : ''
-    )
-    .trim();
-
-
-  if(!combined){
-
-    transcript.innerHTML =
-      '<span class="placeholder">' +
-      'Listening… your booking details will appear here.' +
-      '</span>';
-
-    return;
-
-  }
-
-
-  transcript.textContent =
-    combined;
-
-
-  if(interimTranscript){
-
-    transcript.classList.add(
-      'interim'
-    );
-
-  }else{
-
-    transcript.classList.remove(
-      'interim'
-    );
-
-  }
-
-
-  transcript.scrollTop =
-    transcript.scrollHeight;
-
-}
-
-
-/* -----------------------------------------------------------
-   MIC BUTTON
------------------------------------------------------------ */
-
-mic.addEventListener(
-  'click',
-  function(){
-
-    clearError();
-
-
-    if(recording){
-
-      stopLive();
-
-      return;
-
-    }
-
-
-    if(connecting){
-
-      cancelLive();
-
-      return;
-
-    }
-
-
-    startLive();
-
-  }
-);
-
-
-/* -----------------------------------------------------------
-   CANCEL BUTTON
------------------------------------------------------------ */
-
-cancelButton.addEventListener(
-  'click',
-  function(){
-
-    cancelLive();
-
-  }
-);
-
-
-/* -----------------------------------------------------------
+/* ==========================================================
    CLEAR
------------------------------------------------------------ */
+========================================================== */
 
 clear.addEventListener(
   'click',
   function(){
 
-    if(recording || connecting){
+    if(
+      recording ||
+      connecting
+    ){
 
-      cancelLive();
+      cancelRecording();
 
       return;
 
     }
 
 
+    finalParts =
+      [];
+
+    interimText =
+      '';
+
     finalTranscript =
       '';
 
-    interimTranscript =
-      '';
+    send.disabled =
+      true;
 
-    lastFinalText =
-      '';
-
+    hideError();
 
     transcript.innerHTML =
       '<span class="placeholder">' +
       'Your spoken booking details will appear here live…' +
       '</span>';
-
-
-    transcript.classList.remove(
-      'interim'
-    );
-
-
-    send.disabled =
-      true;
-
-
-    clearError();
 
 
     setStatus(
@@ -3104,110 +3424,85 @@ clear.addEventListener(
 );
 
 
-/* -----------------------------------------------------------
-   SAVE TRANSCRIPT
------------------------------------------------------------ */
+/* ==========================================================
+   MIC BUTTON
+========================================================== */
 
-async function saveTranscript(){
-
-  if(!finalTranscript){
-    return false;
-  }
-
-
-  try{
-
-    const body =
-      new URLSearchParams();
-
-    body.append(
-      'action',
-      'saveTranscript'
-    );
-
-    body.append(
-      'session',
-      session
-    );
-
-    body.append(
-      'text',
-      finalTranscript
-    );
-
-
-    /*
-     * no-cors is intentional for Apps Script.
-     */
-
-    await fetch(
-      APPS_SCRIPT_URL,
-      {
-        method:'POST',
-        mode:'no-cors',
-        body:body
-      }
-    );
-
-
-    return true;
-
-  }catch(error){
-
-    console.error(
-      'Transcript save error:',
-      error
-    );
-
-    return false;
-
-  }
-
-}
-
-
-/* -----------------------------------------------------------
-   USE IN BOOKING
------------------------------------------------------------ */
-
-send.addEventListener(
+mic.addEventListener(
   'click',
-  async function(){
+  function(){
 
-    if(!finalTranscript){
-
-      setStatus(
-        'Nothing to send',
-        'Record your booking details first.',
-        'READY'
-      );
+    if(
+      stopping
+    ){
 
       return;
 
     }
 
 
-    send.disabled =
-      true;
+    if(
+      recording
+    ){
+
+      stopRecording();
+
+      return;
+
+    }
 
 
-    setStatus(
-      'Sending to booking…',
-      'Preparing your transcript',
-      'SENDING'
-    );
+    if(
+      connecting
+    ){
+
+      cancelRecording();
+
+      return;
+
+    }
+
+
+    startRecording();
+
+  }
+);
+
+
+/* ==========================================================
+   CANCEL BUTTON
+========================================================== */
+
+cancel.addEventListener(
+  'click',
+  function(){
+
+    cancelRecording();
+
+  }
+);
+
+
+/* ==========================================================
+   USE IN BOOKING
+========================================================== */
+
+send.addEventListener(
+  'click',
+  function(){
+
+    if(
+      !finalTranscript
+    ){
+
+      return;
+
+    }
 
 
     /*
-     * Save transcript to Apps Script session.
-     */
-
-    await saveTranscript();
-
-
-    /*
-     * Also keep a local copy for
-     * future direct booking integration.
+     * Save locally for the next integration
+     * with the main booking app.
      */
 
     try{
@@ -3219,13 +3514,14 @@ send.addEventListener(
 
         JSON.stringify({
 
-          status:'done',
+          status:
+            'done',
 
           text:
             finalTranscript,
 
-          createdAt:
-            new Date().toISOString()
+          timestamp:
+            Date.now()
 
         })
 
@@ -3234,38 +3530,98 @@ send.addEventListener(
     }catch(e){}
 
 
-    setStatus(
-      'Sent ✓',
-      'Transcript is ready for the booking assistant',
-      'DONE'
-    );
-
-
     /*
-     * Give the opener time to read the
-     * session/local result.
+     * Save to Apps Script as well.
+     * We don't wait for its response.
      */
 
-    setTimeout(
-      function(){
+    try{
 
-        try{
+      const body =
+        new URLSearchParams();
 
-          window.close();
+      body.append(
+        'action',
+        'saveTranscript'
+      );
 
-        }catch(e){}
+      body.append(
+        'session',
+        session
+      );
 
-      },
-      700
+      body.append(
+        'text',
+        finalTranscript
+      );
+
+
+      fetch(
+        APPS_SCRIPT_URL,
+        {
+
+          method:'POST',
+
+          mode:'no-cors',
+
+          body:body
+
+        }
+      ).catch(
+        function(){}
+      );
+
+    }catch(e){}
+
+
+    setStatus(
+      'Transcript ready ✓',
+      'Saved — ready for booking integration',
+      'DONE'
     );
 
   }
 );
 
 
-/* -----------------------------------------------------------
-   INITIAL STATE
------------------------------------------------------------ */
+/* ==========================================================
+   ESCAPE HTML
+========================================================== */
+
+function escapeHtml(
+  value
+){
+
+  return String(
+    value
+  )
+  .replace(
+    /&/g,
+    '&amp;'
+  )
+  .replace(
+    /</g,
+    '&lt;'
+  )
+  .replace(
+    />/g,
+    '&gt;'
+  )
+  .replace(
+    /"/g,
+    '&quot;'
+  )
+  .replace(
+    /'/g,
+    '&#039;'
+  );
+
+}
+
+
+/* ==========================================================
+   INITIAL
+========================================================== */
 
 setStatus(
   'Ready to listen',
@@ -3273,11 +3629,11 @@ setStatus(
   'READY'
 );
 
+hideError();
 
 })();
 
 </script>
 
 </body>
-
 </html>
